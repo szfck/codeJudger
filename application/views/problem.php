@@ -24,15 +24,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <hr>
     <h3>Code:</h3>
     <form method="POST">
-    <textarea name="codetext" cols="100" rows="30"></textarea><br>
+    <textarea name="codetext" cols="100" rows="30">
+        #include<iostream>
+            using namespace std;
+            int main() {
+            int a, b;
+            cin >> a >> b;
+            cout << a + b << endl;
+            return 0;
+        }
+    </textarea><br>
     <input type="submit" value="submit code">
     </form>
-	</div>
+    </div>
+    <h2>Judging Result</h2>
     <?php 
         if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-            echo 'submitted:<br>';
             $code = $_POST['codetext'];
-            echo $code;
+            $filename = 'usercode.cpp';
+            $file = fopen($filename, 'w');
+            fwrite($file, $code);
+            fclose($file);
+            $input_path = PROPATH.'sum/sample-input.txt';
+            $output_path = PROPATH.'sum/sample-output.txt';
+
+            # compile and redirect stderr to stdout
+            $compile_cmd = 'g++ usercode.cpp -o usercode 2>&1';
+            shell_exec($compile_cmd);
+            $compile_result = shell_exec($compile_cmd);
+
+            if ($compile_result != '') {
+                echo 'compile failed:</br>';
+                echo $compile_result;
+            } else {
+                # run code
+                $cmd =  './usercode < '.$input_path.' > result.txt';
+                shell_exec($cmd);
+
+                # compare result
+                $diff_result = shell_exec('diff result.txt '.$output_path);
+                if ($diff_result == '') echo 'Accepted</br>';
+                else echo 'Wrong Answer</br>';
+            }
         }
     ?>
 
