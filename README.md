@@ -6,7 +6,13 @@ docker build -t judger:lastet .
 docker run -it -v $PWD:/var/www/html -p 8888:80 --name judger-container judger:lastet
 ```
 
+### Create database and tables
+```
+./create-tables.sh
+```
+
 This site is shown in [http://localhost:8888](http://localhost:8888). 
+
 
 ## Tables
 
