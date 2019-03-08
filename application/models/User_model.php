@@ -21,10 +21,10 @@ class User_model extends CI_model{
 
     }
 
-    public function name_check($name){
+    public function email_check($email){
         $this->db->select('*');
         $this->db->from('user');
-        $this->db->where('username',$name);
+        $this->db->where('useremail',$email);
         $query=$this->db->get();
 
         if($query->num_rows()>0){
