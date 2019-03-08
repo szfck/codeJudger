@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Registration-CI Login Registration</title>
+    <title>CodeJudger</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" title="no title">
 
@@ -27,17 +27,15 @@
                   }
                    ?>
 
-                      <form role="form" method="post" action="<?php echo base_url('user/register_user'); ?>">
+                      <form role="form" method="post" action="<?php echo base_url('register/register_user'); ?>">
                           <fieldset>
                               <div class="form-group">
-                                  <input class="form-control" placeholder="Name" name="user_name" type="text" autofocus>
+                                  <input class="form-control" placeholder="UserName" name="user_name" type="text" autofocus>
                               </div>
-
-                              <!-- <div class="form-group">
+                              <div class="form-group">
                                   <input class="form-control" placeholder="E-mail" name="user_email" type="email" autofocus>
                               </div>
-                              <div class="form-group"> -->
-
+                              <div class="form-group">
                                   <input class="form-control" placeholder="Password" name="user_password" type="password" value="">
                               </div>
 
@@ -53,7 +51,7 @@
 
                           </fieldset>
                       </form>
-                      <center><b>Already registered ?</b> <br></b><a href="<?php echo base_url('user/login_view'); ?>">Login here</a></center><!--for centered text-->
+                      <center><b>Already registered ?</b> <br></b><a href="<?php echo base_url('login'); ?>">Login here</a></center><!--for centered text-->
                   </div>
               </div>
           </div>

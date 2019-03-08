@@ -8,6 +8,9 @@
   <body>
     <div class="container">
         <h1>Welcome to Code Judger</h1>
+
+        <center><b>Not registered ?</b> <br></b><a href="<?php echo base_url('register'); ?>">Register here</a></center><!--for centered text-->
+        <center> <br></b><a href="<?php echo base_url('login'); ?>">Login here</a></center><!--for centered text-->
     </div>
   </body>
 </html>

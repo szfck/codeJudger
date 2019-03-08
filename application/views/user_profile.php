@@ -12,7 +12,7 @@ if(!$user_id){
 <html>
   <head>
     <meta charset="utf-8">
-    <title>User Profile Dashboard-CodeIgniter Login Registration</title>
+    <title><?php echo $this->session->userdata('user_name'); ?>'s Dashboard CodeJudger</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
