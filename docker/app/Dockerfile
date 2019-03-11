@@ -35,5 +35,6 @@ RUN apt-get install -yq --no-install-recommends \
 WORKDIR /usr/bin
 RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar
 RUN chmod +x phpunit
+RUN apt-get install -y php-xdebug
 
 WORKDIR /var/www/html
