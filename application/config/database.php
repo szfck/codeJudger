@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'judger-db',
 	'username' => 'root',
 	'password' => '123456',
 	'database' => 'judger',

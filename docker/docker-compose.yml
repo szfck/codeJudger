@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+      container_name: judger-db
+      build: ./db
+      expose:
+        - "3306"
+  app:
+    container_name: judger-app
+    build: ./app
+    command: bash -c "service apache2 restart && tail -f /dev/null"
+    volumes:
+      - ../:/var/www/html
+    ports: 
+      - 8888:80
+    depends_on:
+      - db
