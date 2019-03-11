@@ -8,4 +8,4 @@ CREATE TABLE user(`id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 );
 INSERT INTO `user` (`useremail`, `username`, `password`) VALUES 
-    ('kai@codejudger.com', 'kai', '123456');
+    ('hello@codejudger.com', 'kai', '123456');

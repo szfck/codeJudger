@@ -12,10 +12,13 @@ run: ## build and run the containers
 stop: ## stop running containers
 	cd docker; docker-compose down;
 
-judger-db: run ## enter the bash of judger-db container
+judger-db: ## enter the bash of judger-db container
 	docker exec -it judger-db bash
 
-judger-app: run ## enter the bash of judger-app container
+create-db: ## create database and tables using createDB.sql dump
+	cat createDB.sql | docker exec -i judger-db mysql -uroot -p123456
+
+judger-app: ## enter the bash of judger-app container
 	docker exec -it judger-app bash
 
 cp: ## commit all and push to github master
