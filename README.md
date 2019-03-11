@@ -1,60 +1,40 @@
 # CodeJudger-
 
-## Build and run docker container
+### Build and run docker containers
 ```
-docker build -t judger:lastet .
-docker run -it -v $PWD:/var/www/html -p 8888:80 --name judger-container judger:lastet
+make run
+```
+
+## Stop docker containers
+```
+make stop
 ```
 
 ### Create database and tables
 ```
-./create-tables.sh
+make create-db
+```
+
+### Enter bash of judger-db container
+```
+make judger-db
+```
+
+### Enter bash of judger-app container
+```
+make judger-app
 ```
 
 This site is shown in [http://localhost:8888](http://localhost:8888). 
 
-### Follow these steps to remove index.php from the base URL
-source - https://stackoverflow.com/questions/19183311/codeigniter-removing-index-php-from-url
-1. Add this in .htaccess file (outside the application folder if it doesn't exist create new)
-
-```
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
-```
-2. Remove index.php in codeigniter config
-
-```
-$config['index_page'] = '';
-```
-3. Allow overriding htaccess in Apache Configuration (Command)
-```
-sudo nano /etc/apache2/apache2.conf
-```
-and edit the file & change to
-```
-AllowOverride All
-```
-for www folder
-
-4. Enable apache mod rewrite (Command)
-```
-sudo a2enmod rewrite
-```
-5. Restart Apache (Command)
-```
-service apache2 restart
-```
-
 ## Tables
 
 ### User
-| userid    | username  | password  |
-| ----------|:---------:| ---------:|
-| 1         | kai       |  123456   |
-| 2         |           |           |
-| 3         |           |           |
+| userid    | useremail   | username  | password  |
+| ----------| -----------:| ---------:| ---------:|
+| 1         | kai@nyu.edu |    kai    |  123456   |
+| 2         |             |           |           |
+| 3         |             |           |           |
 
 ### Submission
 | subid     | time          | problemname | userid  | filename    | result             |
@@ -87,3 +67,37 @@ service apache2 restart
         - ...
       - 2
         - ...
+
+### Follow these steps to remove index.php from the base URL [Everything included in dockerfile and lastest project, no need to do it manually]
+source - https://stackoverflow.com/questions/19183311/codeigniter-removing-index-php-from-url
+1. Add this in .htaccess file (outside the application folder if it doesn't exist create new)
+
+```
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
+```
+2. Remove index.php in codeigniter config
+
+```
+$config['index_page'] = '';
+```
+3. Allow overriding htaccess in Apache Configuration (Command)
+```
+sudo nano /etc/apache2/apache2.conf
+```
+and edit the file & change to
+```
+AllowOverride All
+```
+for www folder
+
+4. Enable apache mod rewrite (Command)
+```
+sudo a2enmod rewrite
+```
+5. Restart Apache (Command)
+```
+service apache2 restart
+```
