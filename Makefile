@@ -28,4 +28,4 @@ lint: ## run php linter using nodejs
 	npm i -g phplint;  phplint '**/*.php'
 
 test: ## run unit tests
-	docker exec judger-app bash -c "cd application/tests; phpunit"
+	docker exec judger-app bash -c "cd application/tests; phpunit --debug"
