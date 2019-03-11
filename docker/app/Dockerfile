@@ -1,7 +1,7 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 RUN apt-get update
-RUN apt-get install -y g++ vim
+RUN apt-get install -y g++ vim wget
 
 # Apache2
 RUN apt-get install -y apache2
@@ -14,4 +14,26 @@ RUN a2enmod rewrite
 RUN apache2ctl configtest
 
 # PHP
-RUN apt-get install -y php-pear php-fpm php-dev php-zip php-curl php-xmlrpc php-gd php-mysql php-mbstring php-xml libapache2-mod-php
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get install -yq --no-install-recommends \
+    libapache2-mod-php7.2 \
+    php7.2-cli \
+    php7.2-json \
+    php7.2-curl \
+    php7.2-fpm \
+    php7.2-gd \
+    php7.2-ldap \
+    php7.2-mbstring \
+    php7.2-mysql \
+    php7.2-soap \
+    php7.2-sqlite3 \
+    php7.2-xml \
+    php7.2-zip \
+    php7.2-intl
+
+# PHP Unit 
+WORKDIR /usr/bin
+RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar
+RUN chmod +x phpunit
+
+WORKDIR /var/www/html
