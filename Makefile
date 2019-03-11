@@ -26,3 +26,6 @@ cp: ## commit all and push to github master
 
 lint: ## run php linter using nodejs
 	npm i -g phplint;  phplint '**/*.php'
+
+test: ## run unit tests
+	docker exec judger-app bash -c "cd application/tests; phpunit"
