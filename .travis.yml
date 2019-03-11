@@ -1,0 +1,12 @@
+services:
+  - docker
+
+env:
+  - CI_VERSION=3.1.10
+
+install:
+  - make run
+
+script:
+  - make lint
+  - make test
