@@ -5,14 +5,19 @@
 make run
 ```
 
-## Stop docker containers
+### Stop docker containers
 ```
 make stop
 ```
 
-### Create database and tables
+### Run linter
 ```
-make create-db
+make lint
+```
+
+### Run unit test
+```
+make test
 ```
 
 ### Enter bash of judger-db container
@@ -23,6 +28,11 @@ make judger-db
 ### Enter bash of judger-app container
 ```
 make judger-app
+```
+
+### Create database and tables
+```
+make create-db
 ```
 
 This site is shown in [http://localhost:8888](http://localhost:8888). 
