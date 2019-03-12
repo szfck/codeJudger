@@ -37,4 +37,11 @@ RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar
 RUN chmod +x phpunit
 RUN apt-get install -y php-xdebug
 
+# Nodejs
+RUN apt-get -y install curl gnupg
+RUN apt-get -y install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_11.x  | bash -
+RUN apt-get install -y nodejs
+RUN npm i -g phplint
+
 WORKDIR /var/www/html
