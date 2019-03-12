@@ -35,6 +35,11 @@ make judger-app
 make create-db
 ```
 
+### Rebuild images when Dockerfile change
+```
+make rebuild
+```
+
 This site is shown in [http://localhost:8888](http://localhost:8888). 
 
 ## Tables
