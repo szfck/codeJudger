@@ -1,15 +1,12 @@
 services:
-  - docker
-
+- docker
 env:
-  - CI_VERSION=3.1.10
-
+- CI_VERSION=3.1.10
 install:
-  - make run
-
+- make run
 script:
-  - make lint
-  - make test
-
+- make lint
+- make test
 notifications:
-  slack: the-devops-team:Ii4FX1S20QGOF1w1eVSFAQSy
+  slack:
+    secure: ZzkJjq+REQpV62VWbrSIGNMeDG3wxtckyQ1FCdc+vZKKN0Z5XvEv1OJ4XYlTJBPR6za1lbMB6wPKQLP53AREAK8nt/L3xUdiQFa1wo+vWIM4kEFQ1Zl4GKURtMhc5W5IjSITHMByDNIrALvNYRHMOmvGOwmRKY9RjdFMUIktM1xmc2mFJpdqB1ZEn84c0RT8qjnd7nOdogcB8xHA2Od5g/0YZ+5+BrJmGddgs5g7KIzKVqP5DrG76Yl0OUB8YUQqcO/DW/Zxl78JheKm5lf2J0I3fgErsaoNFFE/x/sqVZp4h7keNGHD6excUd5bH8kb9VlF0Iv2PXuZsxqyNCcMbg9tKc+sRm+QOR2s2ZfMxGDltIPqtkbFmZJy4BRbqN2LgqqRJmtOZm6fPCHIs+hKKDS8hFKEjSSI2AoIBCyzMO2u4EMNNgRaX1nabPQR3VCO3cWcAyRwON6Bot3ZKsSgH9mrsBG5FVl4Vo6arERIM5yt8vF/YG7+H3Qi2/kKvBx8Hgtbqrzs8dFyTh7FvDU/YBdr71NnQJjhY3c6TcuQxbAR+EsjMDXswZneClhLYaKu+3+HNRkbLt/Vqe3apdhbVMNGWyEECqCKpWiTYUO/VW6yuslbN0+cRb/zBaxl6aawH8XVW8+t2AgEUaACM5qw6ecQCfDFAGdb/4ctvhy+Rvs=
