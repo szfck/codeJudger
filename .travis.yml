@@ -10,3 +10,6 @@ install:
 script:
   - make lint
   - make test
+
+notifications:
+  slack: the-devops-team:Ii4FX1S20QGOF1w1eVSFAQSy
