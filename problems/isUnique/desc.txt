@@ -1,0 +1,19 @@
+Is Unique
+
+Implement an algorithm to determine if a string has all unique characters.
+
+What if you cannot use additional data structures?
+
+Example:
+
+Test Input 1
+'uniqe'
+
+Test Output 1
+True
+
+Test Input 2
+'notunique'
+
+Test Output 2
+False
