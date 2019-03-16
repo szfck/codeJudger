@@ -2,7 +2,7 @@
 <table class="table table-striped">
 <thead>
  <tr>
-  <th>Problems</th>
+  <button type="button" class="btn btn-info">Problems</button>
  </tr>
 </thead>
 <tbody>         

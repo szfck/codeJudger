@@ -12,28 +12,48 @@
         p.light {font-weight:lighter;}
         p.thick {font-weight:bold;}
         p.thicker {font-weight:900;}
+        
 
-        /* body {
-            background-image:url(<?=base_url("/images/coding.jpeg"); ?>);
-            background-repeat:no-repeat;
-            background-size:100% 100%;
-            background-attachment:fixed;
-        } */
+       
+        body {background-color:#e0ffff} 
+
+        .container {
+            position: relative;
+        }
+
+        .center {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+	        margin-top:-9px;
+        }
+        img { 
+            width: 100%;
+            height: auto;
+            opacity: 0.3;
+        }
+
     </style>
   </head>
   <body>
-    <div class="container" style="background:url(application/views/images/coding.jpeg) no-repeat top right">
+    <div class="container" >
         <div style="float: left; height: 80px; width: 70%;">
             <h1 style="width: 70%;">Welcome to Code Judger</h1>
+            <p class="thicker">A New Way to Learn</p>
+            
         </div>
         <div style="float: right; height: 80px; width: 30%; margin: auto;">
             <center><b>Not registered ?</b> </b><a href="<?php echo base_url('register'); ?>">Register here</a></center><!--for centered text-->
             <center> </b><a href="<?php echo base_url('login'); ?>">Login here</a></center><!--for centered text-->
         </div>
-
-        <div class="container" style="margin: auto;">
-            <p class="thicker"> A New Way to Learn </p>
-            <p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews </p> 
+        
+        <div class="container">
+            <img src="/images/coding.jpeg" alt="Norway" width="600" height="400">
+            <div class="center"><p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews <button type="button" class="btn btn-info">Problems</button></p> </div>
+            
         </div>
     </div>
 
