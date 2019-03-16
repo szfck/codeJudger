@@ -23,14 +23,23 @@
   </head>
   <body>
     <div class="container" style="background:url(application/views/images/coding.jpeg) no-repeat top right">
-        <h1>Welcome to Code Judger</h1>
-        <p class="thicker"> A New Way to Learn </p>
-        <p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews.</p> 
-        <center><b>Not registered ?</b> <br></b><a href="<?php echo base_url('register'); ?>">Register here</a></center><!--for centered text-->
-        <center> <br></b><a href="<?php echo base_url('login'); ?>">Login here</a></center><!--for centered text-->
+        <div style="float: left; height: 80px; width: 70%;">
+            <h1 style="width: 70%;">Welcome to Code Judger</h1>
+        </div>
+        <div style="float: right; height: 80px; width: 30%; margin: auto;">
+            <center><b>Not registered ?</b> </b><a href="<?php echo base_url('register'); ?>">Register here</a></center><!--for centered text-->
+            <center> </b><a href="<?php echo base_url('login'); ?>">Login here</a></center><!--for centered text-->
+        </div>
 
-        <?php include 'problem_list.php'; ?>
-
+        <div class="container" style="margin: auto;">
+            <p class="thicker"> A New Way to Learn </p>
+            <p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews </p> 
+        </div>
     </div>
+
+    <div class="container">
+        <?php include 'problem_list.php'; ?>
+    </div>
+
   </body>
 </html>

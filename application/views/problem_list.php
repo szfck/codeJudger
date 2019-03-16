@@ -2,7 +2,7 @@
 <table class="table table-striped">
 <thead>
  <tr>
-  <th>problem</th>
+  <th>Problems</th>
  </tr>
 </thead>
 <tbody>         
