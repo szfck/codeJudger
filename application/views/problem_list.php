@@ -2,7 +2,14 @@
 <table class="table table-striped">
 <thead>
  <tr>
-  <button type="button" class="btn btn-info">Problems</button>
+  <a href="#" class="badge badge-primary">Array</a>
+  <a href="#" class="badge badge-secondary">Sort</a>
+  <a href="#" class="badge badge-success">Tree</a>
+  <a href="#" class="badge badge-danger">Heap</a>
+  <a href="#" class="badge badge-warning">Stack</a>
+  <a href="#" class="badge badge-info">Queue</a>
+  <a href="#" class="badge badge-light">Graph</a>
+  <a href="#" class="badge badge-dark">Recursion</a>
  </tr>
 </thead>
 <tbody>         
