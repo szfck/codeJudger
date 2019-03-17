@@ -52,7 +52,7 @@
         
         <div class="container">
             <img src="/images/coding.jpeg" alt="Norway" width="600" height="400">
-            <div class="center"><p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews <button type="button" class="btn btn-info">Problems</button></p> </div>
+            <div class="center"><p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews </div>
             
         </div>
     </div>
