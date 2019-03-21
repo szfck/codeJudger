@@ -5,7 +5,7 @@ class Home_test extends TestCase
 	public function test_index()
 	{
 		$output = $this->request('GET', 'home/index');
-		$this->assertContains('<title>Welcome to Code Judger</title>', $output);
+		$this->assertContains('<title> CodeJudger </title>', $output);
 	}
 
 	public function test_method_404()

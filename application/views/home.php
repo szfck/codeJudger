@@ -28,6 +28,11 @@
         opacity: 0.3;
     }
 
+    .problem-list{
+        margin-top: 10px;
+        
+    }
+
 </style>
 <div style="float: left; height: 80px; width: 70%;">
     <h1 style="width: 70%;">Welcome to Code Judger</h1>
@@ -44,4 +49,6 @@
     <p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews </p>
 </div>
 
-<?php include 'problem_list.php'; ?>
+<div class="problem-list">
+    <?php include 'problem_list.php'; ?>
+</div>
