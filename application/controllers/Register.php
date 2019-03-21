@@ -13,7 +13,8 @@ class Register extends CI_Controller {
 	}
 
 	public function index(){
-        $this->load->view("register.php");
+        $data = array('content'=>'register');
+        $this->load->view('/templates/default_layout',$data);
     }
 
     public function register_user(){
