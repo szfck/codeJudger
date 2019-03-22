@@ -16,7 +16,7 @@
     <?php 
         $this->load->helper('problem_helper');
         foreach (get_problem_list() as $problem ) {
-            echo "<tr> <td>$problem</td> </tr>";
+            echo "<tr> <td>".anchor("problem/get_problem/".$problem, $problem, array('class' => 'problem'))."</td> </tr>";
         }
     ?>
 </tbody>
