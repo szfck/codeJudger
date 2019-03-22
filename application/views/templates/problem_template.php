@@ -11,6 +11,8 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js" type="text/javascript" charset="utf-8"></script>
+
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-sm bg-dark">
@@ -37,12 +39,31 @@
             <p>Sample Output</p>
             <p><?php echo $sample_output;?></p><br>
         </div>
+        <div class="container" style="padding-left: 0px;">
+        	<select onchange="change_session()" id="select_language" >
+        		<option value="javascript">javascript</option>
+				<option value="python">python</option>
+				<option value="java">java</option>
+				<option value="c">c</option>
+        	</select>	
+        </div>
+        
+        
+        <div id="editor" class="container" style="height: 300px; padding-right: 50px;"></div>
 
-        <!-- Create the toolbar container -->
-		<div id="toolbar" class="container">
-		  <button class="ql-bold">Bold</button>
-		  <button class="ql-italic">Italic</button>
-		</div>
+		<script>
+			var editor = ace.edit("editor");
+		    editor.setTheme("ace/theme/monokai");
+		    document.getElementById('editor').style.fontSize='17px';
+		    editor.insert("Hello World !!");
+			var language = 'javascript';
+			editor.session.setMode("ace/mode/"+language);
+			function change_session(){
+				var language = document.getElementById('select_language').value;
+				editor.session.setMode("ace/mode/"+language);
+			}
+			console.log(language);
+		</script>
 
         <div id="footer">
             Copy Right 2019 Hello World
