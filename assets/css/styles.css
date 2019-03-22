@@ -1,3 +1,5 @@
+/*Navigation Bar*/
+
 .topnav {
 overflow: hidden;
 background-color: #333;
@@ -24,4 +26,61 @@ color: white;
 
 .topnav-right {
 float: right;
+}
+
+/*Select tag for language selection*/
+.styled-select {
+   background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+   height: 29px;
+   overflow: hidden;
+   width: 240px;
+}
+
+.styled-select {
+   background: transparent;
+   border: none;
+   font-size: 14px;
+   height: 30px;
+   padding: 5px; /* If you add too much padding here, the options won't show in IE */
+   width: 150px;
+   border: 2px black;
+   float: right;
+}
+
+.semi-square {
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+}
+
+/* -------------------- Colors: Background */
+.gray    { background-color: #c4cfd6; }
+
+/* -------------------- Colors: Text */
+.gray select    { color: #fff; }
+
+.language-select{
+	height: 30px;
+}
+.problem{
+	margin: 0px;
+    border: 1px black solid;
+    border-radius: 5px;
+}
+
+.problem-name{
+	font-weight: bold;
+	border: 0px ;
+}
+
+.problem-desc{
+	font-family: Verdana;
+}
+
+.problem-sample_input{
+
+}
+
+.problem-sample_output{
+
 }

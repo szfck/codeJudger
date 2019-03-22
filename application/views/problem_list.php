@@ -15,8 +15,10 @@
 <tbody>         
     <?php 
         $this->load->helper('problem_helper');
+        $problem_number = 1;
         foreach (get_problem_list() as $problem ) {
-            echo "<tr> <td>".anchor("problem/get_problem/".$problem, $problem, array('class' => 'problem'))."</td> </tr>";
+            echo "<tr> <td>$problem_number."." ".anchor("problem/get_problem/".$problem."/".$problem_number, ucfirst($problem), array('class' => 'problems'))."</td> </tr>";
+            $problem_number++;
         }
     ?>
 </tbody>

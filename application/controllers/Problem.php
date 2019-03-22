@@ -8,14 +8,14 @@ class Problem extends CI_Controller {
 		$this->load->view('problem');
 	}
 
-	public function get_problem($problem){
+	public function get_problem($problem, $problem_number){
 		$this->load->helper('file');
 		$problem_name = ucfirst($problem);
 		$desc = read_file(FCPATH."/problems/".$problem."/desc.txt");
 		$sample_input = read_file(FCPATH."/problems/".$problem."/sample-input.txt");
 		$sample_output = read_file(FCPATH."/problems/".$problem."/sample-output.txt");
 
-		$data = array('problem_name'=>$problem_name, 'desc'=>$desc, 'sample_input'=>$sample_input, 'sample_output'=>$sample_output);
+		$data = array('problem_number'=>$problem_number, 'problem_name'=>$problem_name, 'desc'=>$desc, 'sample_input'=>$sample_input, 'sample_output'=>$sample_output);
 		$this->load->view('/templates/header');
 		$this->load->view('/templates/problem_template',$data);
 		$this->load->view('/templates/footer');
