@@ -14,7 +14,9 @@ class Home extends CI_Controller {
 	
 	public function index()
 	{
-		$data = array('content'=>'home');
+		$data = array('content'=> array(
+            'view' => 'home',
+        ));
 		$this->load->view('/templates/default_layout',$data);
 	}
 }

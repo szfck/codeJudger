@@ -15,10 +15,17 @@ class Problem extends CI_Controller {
 		$sample_input = read_file(FCPATH."/problems/".$problem."/sample-input.txt");
 		$sample_output = read_file(FCPATH."/problems/".$problem."/sample-output.txt");
 
-		$data = array('problem_number'=>$problem_number, 'problem_name'=>$problem_name, 'desc'=>$desc, 'sample_input'=>$sample_input, 'sample_output'=>$sample_output);
-		$this->load->view('/templates/header');
-		$this->load->view('/templates/problem_template',$data);
-		$this->load->view('/templates/footer');
+		$content = array('content'=> array(
+            'view' => 'templates/problem_template',
+            'data' => array(
+                'problem_number'=>$problem_number,
+                'problem_name'=>$problem_name,
+                'desc'=>$desc,
+                'sample_input'=>$sample_input,
+                'sample_output'=>$sample_output
+            )
+        ));
+        $this->load->view('/templates/default_layout', $content);
 	}
 
 }

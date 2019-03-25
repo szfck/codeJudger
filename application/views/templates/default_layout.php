@@ -33,7 +33,11 @@
 		<br>
 
 		<div id="main-content" class="container">
-            <?php $this->load->view($content); ?>
+            <?php if (isset($content['data'])) { ?>
+                <?php $this->load->view($content['view'], $content['data']); ?>
+            <?php } else { ?>
+                <?php $this->load->view($content['view']); ?>
+            <?php } ?>
         </div>
 
         <footer class="footer">
