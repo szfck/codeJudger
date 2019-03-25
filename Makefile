@@ -42,3 +42,4 @@ rebuild: move-images ## rebuild new images and run
 move-images: ## remove images
 	docker image rm docker_app
 	docker image rm docker_db
+	docker image rm docker_judge

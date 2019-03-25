@@ -9,3 +9,12 @@ CREATE TABLE user(`id` int NOT NULL AUTO_INCREMENT,
 );
 INSERT INTO `user` (`useremail`, `username`, `password`) VALUES 
     ('hello@codejudger.com', 'kai', '123456');
+
+CREATE TABLE submission(`id` int NOT NULL AUTO_INCREMENT,
+  `time` int NOT NULL,
+  `problem` varchar(100) NOT NULL,
+  `result` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+INSERT INTO `submission` (`time`, `problem`, `result`) VALUES 
+    ('1234567', 'sum', 'pending');
