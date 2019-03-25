@@ -12,11 +12,10 @@ app.config['MYSQL_DATABASE_DB'] = 'judger'
 app.config['MYSQL_DATABASE_HOST'] = 'judger-db'
 mysql.init_app(app)
 
-conn = mysql.connect()
-cursor =conn.cursor()
-
 @app.route('/')
 def hello():
+    conn = mysql.connect()
+    cursor =conn.cursor()
     cursor.execute("SELECT * from user")
     data = cursor.fetchone()
     print (data)
