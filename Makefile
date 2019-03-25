@@ -22,7 +22,7 @@ judger-db: ## enter the bash of judger-db container
 	docker exec -it judger-db bash
 
 create-db: ## create database and tables using createDB.sql dump
-	cat createDB.sql | docker exec -i judger-db mysql -uroot -p123456
+	cat docker/db/createDB.sql | docker exec -i judger-db mysql -uroot -p123456
 
 judger-app: ## enter the bash of judger-app container
 	docker exec -it judger-app bash
