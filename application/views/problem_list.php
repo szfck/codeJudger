@@ -1,6 +1,7 @@
 
 <table class="table table-striped">
 <thead>
+  <h1>Category <span class="badge badge-secondary"></span></h1>
  <tr>
   <a href="#" class="badge badge-primary">Array</a>
   <a href="#" class="badge badge-secondary">Sort</a>
