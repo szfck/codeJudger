@@ -15,3 +15,17 @@ services:
       - 8888:80
     depends_on:
       - db
+  judge:
+    container_name: judger-judge
+    build: ./judge
+    restart: always
+    volumes:
+      - ../:/judge
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    command: sh -c "cd docker/judge && FLASK_DEBUG=1 python app.py"
+    environment:
+      - PYTHONUNBUFFERED=1
+
