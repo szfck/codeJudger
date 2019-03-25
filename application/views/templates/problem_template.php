@@ -26,7 +26,8 @@
 	var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     document.getElementById('editor').style.fontSize='17px';
-    editor.insert("Hello World !!");
+    code = "#include<iostream>\nusing namespace std;\nint main() {\n\tint a, b;\n\tcin >> a >> b;\n\tcout << a + b << endl;\n\treturn 0;\n}\n"
+    editor.insert(code);
 	var language = 'c++';
 	editor.session.setMode("ace/mode/"+language);
 	function change_session(){
