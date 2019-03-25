@@ -19,26 +19,20 @@ class Login extends CI_Controller {
 
     function login_user(){
         $user_login=array(
-        'user_name'=>$this->input->post('user_name'),
-        'user_password'=>md5($this->input->post('user_password'))
+            'user_name'=>$this->input->post('user_name'),
+            'user_password'=>md5($this->input->post('user_password'))
+        );
         
-            );
+        $data=$this->user_model->login_user($user_login['user_name'],$user_login['user_password']);
+        if($data) {
+            $this->session->set_userdata('user_id',$data['id']);
+            $this->session->set_userdata('user_name',$data['username']);
+            redirect('home');
+        } else{
+            $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
+            $this->load->view("login.php");
+        }
         
-            $data=$this->user_model->login_user($user_login['user_name'],$user_login['user_password']);
-            if($data)
-            {
-                $this->session->set_userdata('user_id',$data['id']);
-                $this->session->set_userdata('user_name',$data['username']);
-                redirect('user');
-        
-            }
-            else{
-                $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
-                $this->load->view("login.php");
-        
-            }
-            
-            
     }
 
 }
