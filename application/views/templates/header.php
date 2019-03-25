@@ -19,11 +19,16 @@
 	<body>
 		<div class="topnav">
 			<a href="<?php echo base_url('home') ?>">CodeJudger</a>
-			<a href="#">Link 1</a>
-			<a href="#">Link 2</a>
-			<a href="#">Link 3</a>
+			<a href="#">Problems</a>
+			<a href="#">Articles</a>
+            <a href="#">Discuss</a>
+
 			<div class="topnav-right" style="float: right;">
-				<a href="<?php echo base_url('register'); ?>">Register here</a>
-	    		<a href="<?php echo base_url('login'); ?>">Login here</a>
+                <?php if (isset($_SESSION['user_name'])) { ?>
+                    <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
+                <?php } else { ?>
+                    <a href="<?=base_url('register')?>">Register here</a>
+                    <a href="<?=base_url('login')?>">Login here</a>
+                <?php } ?>
 			</div>
 		</div>
