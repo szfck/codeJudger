@@ -31,9 +31,9 @@
             <?php $this->load->view($content); ?>
         </div>
 
-        <div id="footer">
-            Copy Right 2019 Hello World
-        </div>
+        <footer class="footer">
+            <small>&copy; Copyright 2019 Code Judger</small>
+        </footer>
 
 	</body>
 </html>
