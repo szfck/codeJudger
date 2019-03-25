@@ -21,6 +21,8 @@ services:
     restart: always
     volumes:
       - ./judge:/judge
+    depends_on:
+      - db
     ports:
       - 3000:3000
     command: sh -c "FLASK_DEBUG=1 python app.py"
