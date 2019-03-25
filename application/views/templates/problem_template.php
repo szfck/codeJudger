@@ -12,6 +12,7 @@
 </div>
 <div class="container language-select">
 	<select onchange="change_session()" id="select_language" class="styled-select semi-square gray">
+		<option value="c++">c++</option>
 		<option value="javascript">javascript</option>
 		<option value="python">python</option>
 		<option value="java">java</option>
@@ -26,7 +27,7 @@
     editor.setTheme("ace/theme/monokai");
     document.getElementById('editor').style.fontSize='17px';
     editor.insert("Hello World !!");
-	var language = 'javascript';
+	var language = 'c++';
 	editor.session.setMode("ace/mode/"+language);
 	function change_session(){
 		var language = document.getElementById('select_language').value;
