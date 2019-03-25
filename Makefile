@@ -7,10 +7,16 @@ help: ## This help.
 
 # DOCKER TASKS
 run: ## build and run the containers
-	cd docker; docker-compose up -d;
+	cd docker; docker-compose up;
 
 stop: ## stop running containers
 	cd docker; docker-compose down;
+
+rebuild-judge: ## run judger container on port 3000
+	cd docker/judge; docker-compose up --build;
+
+judger-judge: ## enter the bash of judger container
+	docker exec -it judger-judge sh
 
 judger-db: ## enter the bash of judger-db container
 	docker exec -it judger-db bash
