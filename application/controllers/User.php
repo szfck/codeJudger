@@ -12,12 +12,14 @@ class User extends CI_Controller {
     }
 
     public function index(){
-        $this->load->view("user_profile.php");
+		$data = array('content'=>'user_profile');
+		$this->load->view('/templates/default_layout',$data);
     }
 
     function user_profile(){
-        $this->load->view('user_profile.php');
-        }
+		$data = array('content'=>'user_profile');
+		$this->load->view('/templates/default_layout',$data);
+    }
 
     public function user_logout(){
         $this->session->sess_destroy();
