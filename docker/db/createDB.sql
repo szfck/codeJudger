@@ -19,4 +19,4 @@ CREATE TABLE submission(`subid` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`subid`)
 );
 INSERT INTO `submission` (`time`, `problem`, `userid`, `type`, `result`) VALUES 
-    ('1234567', 'sum', 1, 'cpp', 'pending');
+    ('1234567', 'add', 0, 'cpp', 'pending');

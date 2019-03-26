@@ -26,6 +26,7 @@ class Submission extends CI_Controller {
         $type = $this->input->post('type');
         $user_id = $_SESSION['user_id'];
         $this->submission_model->create_submission($problem, $user_id, $code, $type);
+        
     }
 
 }
