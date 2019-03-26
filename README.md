@@ -1,46 +1,51 @@
-# CodeJudger-
+# CodeJudger
 
-### Build and run docker containers
+### Makefile commands 
 ```
+# Build and run docker containers in prod
 make run
-```
 
-### Stop docker containers
-```
+# Build and run docker containers in dev, showing debug info
+make run-dev
+
+# Stop docker containers
 make stop
-```
 
-### Run linter
-```
+#Run linter
 make lint
-```
 
-### Run unit test
-```
+#Run unit test
 make test
-```
 
-### Enter bash of judger-db container
-```
+#Enter bash of judger-db container
 make judger-db
-```
 
-### Enter bash of judger-app container
-```
+#Enter bash of judger-app container
 make judger-app
-```
 
-### Create database and tables
-```
+#Enter bash of judger-judge container
+make judger-judge
+
+# Create database and tables
+make create-db
+
+# Rebuild images when Dockerfile change
+make rebuild
+
+# recreate database using docker/db/CreateDB.sql file
 make create-db
 ```
 
-### Rebuild images when Dockerfile change
-```
-make rebuild
-```
+### Containers
 
-This site is shown in [http://localhost:8888](http://localhost:8888). 
+#### 1. Web container [PHP]
+CodeJudger web server is running in <strong>judger-app</strong>, link [http://localhost:8888](http://localhost:8888). 
+
+#### 2. Database container [Mysql]
+mysql is running in <strong>judger-db:3306</strong> inside docker container.
+
+#### 3. Judge container [Flask]
+judge server is running in <strong>judger-judge:3000</strong> inside docker container.
 
 ## Tables
 
@@ -52,18 +57,18 @@ This site is shown in [http://localhost:8888](http://localhost:8888).
 | 3         |             |           |           |
 
 ### Submission
-| subid     | time          | problemname | userid  | filename    | result             |
+| subid     | time          | problemname | userid  |  type    | result             |
 | ----------|:-------------:| -----------:| -------:| -----------:| ------------------:|
-| 1         | 2019/02/24    | sum         |1        | kai01.cpp   | accepted           |
-| 2         | 2019/02/25    | sum         |1        | kai02.java  | wrong answer       |
-| 3         | 2019/02/25    | sum         |1        | kai03.cpp   | compile error      |
-| 4         | 2019/02/26    | sum         |1        | kai04.cpp   | time limit exceed  |
-| 5         | 2019/02/26    | sum         |1        | kai05.java  | pending            |
+| 1         | 2019/02/24    | sum         |1        |  cpp   | accepted           |
+| 2         | 2019/02/25    | sum         |1        | java  | wrong answer       |
+| 3         | 2019/02/25    | sum         |1        | cpp   | compile error      |
+| 4         | 2019/02/26    | sum         |1        | cpp   | time limit exceed  |
+| 5         | 2019/02/26    | sum         |1        | java  | pending            |
 
 
-## Problems folder structure
+### Problems folder structure
 
-- Problems
+- problems
   - sum
     - describe.txt
     - sample-input.txt
@@ -75,44 +80,9 @@ This site is shown in [http://localhost:8888](http://localhost:8888).
       - out02.txt
       - ...
       
-    - users
-      - 1
-        - kai01.cpp
-        - kai02.java
-        - ...
-      - 2
-        - ...
-
-### Follow these steps to remove index.php from the base URL [Everything included in dockerfile and lastest project, no need to do it manually]
-source - https://stackoverflow.com/questions/19183311/codeigniter-removing-index-php-from-url
-1. Add this in .htaccess file (outside the application folder if it doesn't exist create new)
-
-```
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
-```
-2. Remove index.php in codeigniter config
-
-```
-$config['index_page'] = '';
-```
-3. Allow overriding htaccess in Apache Configuration (Command)
-```
-sudo nano /etc/apache2/apache2.conf
-```
-and edit the file & change to
-```
-AllowOverride All
-```
-for www folder
-
-4. Enable apache mod rewrite (Command)
-```
-sudo a2enmod rewrite
-```
-5. Restart Apache (Command)
-```
-service apache2 restart
-```
+### Submissions folder 
+- submissions
+  - 1.cpp
+  - 2.java
+  - 3.cpp
+  - [subid].[type]
