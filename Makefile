@@ -11,6 +11,11 @@ run: ## build and run the containers
 	cd docker; bash wait-for-mysql.sh;
 	cd docker; docker-compose up -d app judge;
 
+run-dev: ## run in dev mode without -d option
+	cd docker; docker-compose up -d db;
+	cd docker; bash wait-for-mysql.sh;
+	cd docker; docker-compose up app judge;
+
 stop: ## stop running containers
 	cd docker; docker-compose down;
 
