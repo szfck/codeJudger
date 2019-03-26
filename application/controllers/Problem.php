@@ -12,7 +12,7 @@ class Problem extends CI_Controller {
 		if (!$_SESSION['user_id']){
 			redirect('login');
 		}
-		
+
 		$this->load->helper('file');
 		$problem_name = $problem;
 		$desc = read_file(FCPATH."/problems/".$problem."/desc.txt");
