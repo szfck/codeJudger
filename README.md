@@ -26,9 +26,6 @@ make judger-app
 #Enter bash of judger-judge container
 make judger-judge
 
-# Create database and tables
-make create-db
-
 # Rebuild images when Dockerfile change
 make rebuild
 
