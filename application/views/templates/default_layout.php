@@ -19,7 +19,7 @@
 		<div class="topnav">
 			<a href="<?php echo base_url('home') ?>">CodeJudger</a>
 			<a href="#">Problems</a>
-			<a href="#">Articles</a>
+			<a href="<?=base_url('article')?>">Articles</a>
             <a href="#">Discuss</a>
 
 			<div class="topnav-right" style="float: right;">
