@@ -20,10 +20,17 @@ COMPILE_PATH = '/tmp'
 def judge_cpp(problem, file):
     import subprocess
     process = subprocess.run('bash judge_cpp.sh {} {}'.format(problem, file), shell=True)
-    if process.returncode == 0:
+    code = process.returncode
+    if code == 0:
         return 'Accepted'
-    else:
+    elif code == 1:
         return 'Wrong Answer'
+    elif code == 2:
+        return 'Compile Error'
+    elif code == 3:
+        return 'Time Limit Exceed'
+    else:
+        return 'Unknown Error'
 
 def get_result(problem, file):
     '''
