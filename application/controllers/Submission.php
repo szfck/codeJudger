@@ -18,7 +18,20 @@ class Submission extends CI_Controller {
             'view' => 'submission',
         ));
         $this->load->view('/templates/default_layout', $content);
-	}
+    }
+    
+    public function detail($sub) {
+        $path = FCPATH.'/submissions/'.$sub;
+        $code = htmlspecialchars(file_get_contents($path));
+
+		$content = array('content'=> array(
+            'view' => 'code',
+            'data' => array(
+                'code' => $code
+            )
+        ));
+        $this->load->view('/templates/default_layout', $content);
+    }
     
     public function submit() {
         $problem = $_POST['problem'];
