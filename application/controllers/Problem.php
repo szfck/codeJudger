@@ -9,10 +9,10 @@ class Problem extends CI_Controller {
 	}
 
 	public function get_problem($problem){
-		if (!$_SESSION['user_id']){
-			redirect('login');
-		}
-		
+		// if (!$_SESSION['user_id']){
+		// 	redirect('login');
+		// }
+
 		$this->load->helper('file');
 		$problem_name = $problem;
 		$desc = read_file(FCPATH."/problems/".$problem."/desc.txt");
