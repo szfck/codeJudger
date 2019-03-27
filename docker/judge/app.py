@@ -1,3 +1,4 @@
+from multiprocessing import Process
 from flask import Flask, request
 from flaskext.mysql import MySQL
 
@@ -12,17 +13,36 @@ app.config['MYSQL_DATABASE_DB'] = 'judger'
 app.config['MYSQL_DATABASE_HOST'] = 'judger-db'
 mysql.init_app(app)
 
-from multiprocessing import Process
+ROOT_PATH = '/judge'
+
+COMPILE_PATH = '/tmp'
+
+def judge_cpp(problem, file):
+    import subprocess
+    process = subprocess.run('bash judge_cpp.sh {} {}'.format(problem, file), shell=True)
+    code = process.returncode
+    if code == 0:
+        return 'Accepted'
+    elif code == 1:
+        return 'Wrong Answer'
+    elif code == 2:
+        return 'Compile Error'
+    elif code == 3:
+        return 'Time Limit Exceed'
+    else:
+        return 'Unknown Error'
 
 def get_result(problem, file):
     '''
     TODO: finish judging process
     '''
-    return "success"
+    file_type = file.split('.')[1]
+    if file_type == 'cpp':
+        return judge_cpp(problem, file)
+
+    return "Unsupport file type"
 
 def worker(subid, problem, file):
-    import time
-    time.sleep(3)
     conn = mysql.connect()
     cursor =conn.cursor()
     result = get_result(problem, file)

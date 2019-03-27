@@ -13,7 +13,7 @@
     foreach ($submissions as $sub) {
         echo 
         "<tr>".
-            "<td>".$sub->subid."</td>".
+            "<td>".anchor("submission/detail/".$sub->subid.".".$sub->type, $sub->subid)."</td>".
             "<td>".date("Y-m-d H:i:s", $sub->time)."</td>".
             "<td>".anchor("problem/get_problem/".$sub->problem, ucfirst($sub->problem))."</td>".
             "<td>".$sub->userid."</td>".

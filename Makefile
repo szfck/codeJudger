@@ -43,8 +43,8 @@ lint: ## run php linter using nodejs
 test: ## run unit tests
 	docker exec judger-app bash -c "cd application/tests; phpunit --debug"
 
-rebuild: move-images ## rebuild new images and run
-	make run
+rebuild: stop move-images ## rebuild new images and run
+	make run-dev
 
 move-images: ## remove images
 	docker image rm docker_app

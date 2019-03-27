@@ -51,6 +51,7 @@ class Submission_model extends CI_model{
         $this->db->select('*');
         $this->db->from('submission');
         $this->db->where('userid',$user_id);
+        $this->db->order_by('subid', 'desc');
         
         if($query=$this->db->get()) {
             return $query->result();
