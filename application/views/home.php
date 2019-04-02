@@ -6,9 +6,9 @@
 </div>
 
 <div>
-    <p class="thicker">A New Way to Learn</p>
+    <p class="thicker">The Best Way to Learn</p>
 
-    <p class="thick"> Code Judger is a platform to help you enhance your skills, expand your knowledge and prepare for technical interviews </p>
+    <p class="thick"> Code Judger is a powerful tool to help you improve your skills and prepare you for interviews </p>
 </div>
 
 <div class="problem-list">
