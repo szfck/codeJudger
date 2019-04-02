@@ -37,9 +37,9 @@
 		var language = document.getElementById('select_language').value;
 		editor.session.setMode("ace/mode/"+language);
 	}
-	console.log(language);
 
     function submit() {
+        var language = document.getElementById('select_language').value;
         var code = editor.getValue();
         $.ajax({
             type: "POST",
