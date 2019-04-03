@@ -38,7 +38,14 @@ cp: ## commit all and push to github master
 	git add .; git commit; git push
 
 lint: ## run php linter using nodejs
-	docker exec judger-app bash -c "phplint '**/*.php'"
+	docker exec judger-app bash -c "phplint 'application/controllers/*.php'"
+	docker exec judger-app bash -c "phplint 'application/helpers/*.php'"
+	docker exec judger-app bash -c "phplint 'application/views/**/*.php'"
+	docker exec judger-app bash -c "phplint 'application/models/*.php'"
+	docker exec judger-app bash -c "phplint 'application/tests/controllers/*.php'"
+	docker exec judger-app bash -c "phplint 'application/tests/models/*.php'"
+	docker exec judger-app bash -c "phplint 'application/tests/helpers/*.php'"
+	docker exec judger-app bash -c "phplint 'application/tests/mocks/*.php'"
 
 test: ## run unit tests
 	docker exec judger-app bash -c "cd application/tests; phpunit --debug"
