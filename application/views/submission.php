@@ -8,7 +8,6 @@
     <th>result</th>
 </tr>
 <?php 
-    $this->load->model('submission_model');
     $submissions = $this->submission_model->get_user_submission_list();
     foreach ($submissions as $sub) {
         echo 

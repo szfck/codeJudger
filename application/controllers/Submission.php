@@ -17,6 +17,7 @@ class Submission extends CI_Controller {
 		$content = array('content'=> array(
             'view' => 'submission',
         ));
+        $this->load->model('submission_model');
         $this->load->view('/templates/default_layout', $content);
     }
     

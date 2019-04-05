@@ -19,7 +19,8 @@ class User extends CI_Controller {
 		$content = array('content'=> array(
             'view' => 'user_profile',
         ));
-		$this->load->view('/templates/default_layout', $content);
+        $this->load->model('submission_model');
+        $this->load->view('/templates/default_layout', $content);
     }
 
     public function user_logout(){

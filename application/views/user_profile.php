@@ -23,4 +23,7 @@
   <a href="<?php echo base_url('user/user_logout');?>" >  
     <button type="button" class="btn-primary">Logout</button> 
   </a> 
+
+    <?php $this->load->view('submission') ?>
+
 </div>
