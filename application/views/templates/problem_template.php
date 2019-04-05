@@ -29,13 +29,20 @@
 	var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     document.getElementById('editor').style.fontSize='17px';
-    code = "#include<iostream>\nusing namespace std;\nint main() {\n\tint a, b;\n\tcin >> a >> b;\n\tcout << a + b << endl;\n\treturn 0;\n}\n"
+    code = "#include<iostream>\nusing namespace std;\nint main() {\n\tint a, b;\n\tcin >> a >> b;\n\tcout << a + b << endl;\n\treturn 0;\n}\n";  
     editor.insert(code);
 	var language = 'cpp';
 	editor.session.setMode("ace/mode/"+language);
 	function change_session(){
 		var language = document.getElementById('select_language').value;
 		editor.session.setMode("ace/mode/"+language);
+        if (language == 'cpp') {
+            code = "#include<iostream>\nusing namespace std;\nint main() {\n\tint a, b;\n\tcin >> a >> b;\n\tcout << a + b << endl;\n\treturn 0;\n}\n";
+        } else if(language == 'python'){
+            code = "def solution(a, b):\n\treturn a + b";
+        }
+        editor.setValue("");
+        editor.insert(code);
 	}
 
     function submit() {

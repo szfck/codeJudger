@@ -32,6 +32,21 @@ def judge_cpp(problem, file):
     else:
         return 'Unknown Error'
 
+def judge_py(problem, file):
+    import subprocess
+    process = subprocess.run('bash judge_py.sh {} {}'.format(problem, file), shell=True)
+    code = process.returncode
+    if code == 0:
+        return 'Accepted'
+    elif code == 1:
+        return 'Wrong Answer'
+    elif code == 2:
+        return 'Compile Error'
+    elif code == 3:
+        return 'Time Limit Exceed'
+    else:
+        return 'Unknown Error'
+
 def get_result(problem, file):
     '''
     TODO: finish judging process
@@ -39,6 +54,10 @@ def get_result(problem, file):
     file_type = file.split('.')[1]
     if file_type == 'cpp':
         return judge_cpp(problem, file)
+    elif file_type == 'python':
+        num = file.split('.')[0]
+        file = num+".py"
+        return judge_py(problem, file)
 
     return "Unsupport file type"
 

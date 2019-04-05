@@ -13,6 +13,8 @@ class Submission_model extends CI_model{
         );
         $this->db->insert('submission', $submission);
 
+        $type = ($type == 'python') ? 'py' : $type;
+        
         $path = FCPATH."/submissions/".$subid.".".$type;
         
         $this->load->helper('file');
