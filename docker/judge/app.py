@@ -17,10 +17,7 @@ ROOT_PATH = '/judge'
 
 COMPILE_PATH = '/tmp'
 
-def judge_cpp(problem, file):
-    import subprocess
-    process = subprocess.run('bash judge_cpp.sh {} {}'.format(problem, file), shell=True)
-    code = process.returncode
+def get_code_str(code):
     if code == 0:
         return 'Accepted'
     elif code == 1:
@@ -32,20 +29,20 @@ def judge_cpp(problem, file):
     else:
         return 'Unknown Error'
 
+import subprocess
+def judge_cpp(problem, file):
+    process = subprocess.run('bash judge_cpp.sh {} {}'.format(problem, file), shell=True)
+    return get_code_str(process.returncode)
+
 def judge_py(problem, file):
-    import subprocess
-    process = subprocess.run('bash judge_py.sh {} {}'.format(problem, file), shell=True)
+    process = subprocess.run('bash judge_java.sh {} {}'.format(problem, file), shell=True)
+    return get_code_str(process.returncode)
+
+def judge_java(problem, file):
+    process = subprocess.run('bash judge_java.sh {} {}'.format(problem, file), shell=True)
     code = process.returncode
-    if code == 0:
-        return 'Accepted'
-    elif code == 1:
-        return 'Wrong Answer'
-    elif code == 2:
-        return 'Compile Error'
-    elif code == 3:
-        return 'Time Limit Exceed'
-    else:
-        return 'Unknown Error'
+    print ('code: {}' .format(code))
+    return get_code_str(process.returncode)
 
 def get_result(problem, file):
     '''
@@ -58,6 +55,9 @@ def get_result(problem, file):
         num = file.split('.')[0]
         file = num+".py"
         return judge_py(problem, file)
+    elif file_type == 'java':
+        print ('file: {}'.format(file))
+        return judge_java(problem, file)
 
     return "Unsupport file type"
 

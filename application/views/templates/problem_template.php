@@ -36,10 +36,13 @@
 	function change_session(){
 		var language = document.getElementById('select_language').value;
 		editor.session.setMode("ace/mode/"+language);
+        console.log(language);
         if (language == 'cpp') {
             code = "#include<iostream>\nusing namespace std;\nint main() {\n\tint a, b;\n\tcin >> a >> b;\n\tcout << a + b << endl;\n\treturn 0;\n}\n";
-        } else if(language == 'python'){
+        } else if (language == 'python') {
             code = "def solution(a, b):\n\treturn a + b";
+        } else if (language == 'java') {
+            code = "import java.io.*;\nimport java.util.*;\n\npublic class Main {\n\tpublic static void main(String[] args) throws IOException {\n\t\tBufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n\t\tStringTokenizer st = new StringTokenizer(br.readLine());\n\t\tint a = Integer.parseInt(st.nextToken());\n\t\tint b = Integer.parseInt(st.nextToken());\n\t\t\n\t\tSystem.out.println(a+b);\n\t}\n}"
         }
         editor.setValue("");
         editor.insert(code);
