@@ -13,8 +13,6 @@
 <div class="container language-select">
 	<select onchange="change_session()" id="select_language" class="styled-select semi-square gray">
 		<option value="cpp">Cpp</option>
-		<option value="c">C</option>
-		<option value="javascript">Javascript</option>
 		<option value="python">Python</option>
 		<option value="java">Java</option>
 	</select>	
