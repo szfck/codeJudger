@@ -35,7 +35,7 @@ def judge_cpp(problem, file):
     return get_code_str(process.returncode)
 
 def judge_py(problem, file):
-    process = subprocess.run('bash judge_java.sh {} {}'.format(problem, file), shell=True)
+    process = subprocess.run('bash judge_py.sh {} {}'.format(problem, file), shell=True)
     return get_code_str(process.returncode)
 
 def judge_java(problem, file):
