@@ -1,4 +1,12 @@
-This is article page.
+
+<div class="welcome-banner">
+    <h1>Code Judger Articles</h1>   
+</div>
+
+<div>
+    <p class="thicker">Welcome to Code Judger Articles</p>
+</div>
+
 <div class="list-group">
   <a href="#" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
