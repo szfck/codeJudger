@@ -88,7 +88,6 @@ float: right;
 footer {
     width: 100%;
     background-color: #FFF;
-    position:fixed;
     bottom: 0px;
     text-align: center;
 }

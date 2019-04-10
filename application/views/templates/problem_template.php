@@ -1,6 +1,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js" type="text/javascript" charset="utf-8"></script>
 
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/loader.css">
+
 <div class="container"><br>
 	<p class="problem problem-name"><?php ucfirst($problem_name);?></p><br>
     <p ><strong>Problem Description</strong></p>
@@ -10,6 +12,7 @@
     <p ><strong>Sample Output</strong> </p>
     <p class="problem problem-sample_output"><?php echo $sample_output;?></p><br>
 </div>
+
 <div class="container language-select">
 	<select onchange="change_session()" id="select_language" class="styled-select semi-square gray">
 		<option value="cpp">Cpp</option>
@@ -18,7 +21,7 @@
 	</select>	
 </div><br>
 
-<div class="container">
+<div class="container" stlye="margin-bottom: 20px">
     <div id="editor" class="container" style="height: 300px; padding-right: 50px;"></div>
     <button type="button" class="btn btn-primary" style="margin-top: 20px;" onclick=submit()>Submit</button>
 </div>
@@ -49,22 +52,47 @@
     function submit() {
         var language = document.getElementById('select_language').value;
         var code = editor.getValue();
+        $("#loader").show();
         $.ajax({
             type: "POST",
-            url: "<?=base_url('submission/submit')?>",
+            url: "http://localhost:3000",
+            crossDomain: true,
             data: {
-                problem: "<?=$problem_name?>",
-                code: code,
-                type: language
+                // problem: "<?=$problem_name?>",
+                // code: code,
+                // type: language
             },
-            success: function(){  
-                window.location='/submission';
-                // $("form#updatejob").hide(function(){$("div.success").fadeIn();});  
+            success: function(res){  
+                $("#loader").hide();
+                $("#result").html(res.text)
             },
-            error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+            error: function(res) { 
+                $("#loader").hide();
+                // $("#result").html(responseData)
             } 
         });
     }
 </script>
 
+<div class="spinner" id="loader">
+  <div class="rect1"></div>
+  <div class="rect2"></div>
+  <div class="rect3"></div>
+  <div class="rect4"></div>
+  <div class="rect5"></div>
+</div>
+<div id="result"></div>
+
+<script>
+    // Show an element
+    var show = function (elem) {
+        elem.css.display = 'block';
+    };
+
+    // Hide an element
+    var hide = function (elem) {
+        elem.css.display = 'none';
+    };
+
+    $("#loader").hide();
+</script>

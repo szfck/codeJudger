@@ -1,8 +1,10 @@
 from multiprocessing import Process
 from flask import Flask, request
 from flaskext.mysql import MySQL
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 mysql = MySQL()
  
@@ -89,6 +91,15 @@ def judge():
     p = Process(target=worker, args=(subid, problem, file,))
     p.start()
     return '[OK] put in the judge queue'
+
+@app.route('/', methods=['POST, GET'])
+def index():
+    if request.method == 'POST':
+        return "Accepted"
+    elif request.method == 'GET':
+        return 'this is judge index'
+    else:
+        return 'unsupport method'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)

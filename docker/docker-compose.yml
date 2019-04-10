@@ -23,11 +23,8 @@ services:
       - ../:/judge
     depends_on:
       - db
-    expose:
-      - "3000"
     ports:
       - 3000:3000
     command: sh -c "chmod a+w /judge/submissions && cd docker/judge && FLASK_DEBUG=1 python app.py"
     environment:
       - PYTHONUNBUFFERED=1
-
