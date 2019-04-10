@@ -16,22 +16,21 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	</head>
 	<body>
-		<div class="topnav">
-			<a href="<?php echo base_url('home') ?>">CodeJudger</a>
-			<a href="<?=base_url('article')?>">Articles</a>
+        <div class="topnav">
+            <a href="<?php echo base_url('home') ?>">CodeJudger</a>
+            <a href="<?=base_url('article')?>">Articles</a>
 
-			<div class="topnav-right" style="float: right;">
+            <div class="topnav-right" style="float: right;">
                 <?php if (isset($_SESSION['user_name'])) { ?>
                     <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
                 <?php } else { ?>
                     <a href="<?=base_url('register')?>">Register here</a>
                     <a href="<?=base_url('login')?>">Login here</a>
                 <?php } ?>
-			</div>
-		</div>
-		<br>
+            </div>
+        </div>
 
-		<div id="main-content" class="container">
+        <div id="main">
             <?php if (isset($content['data'])) { ?>
                 <?php $this->load->view($content['view'], $content['data']); ?>
             <?php } else { ?>
