@@ -23,15 +23,21 @@
             </div>
             <div>
                 <div id="editor" style="height: 500px;"></div>
-                <button type="button" class="btn btn-primary" style="margin-top: 20px;"
-                    onclick=submit()>Submit</button>
+                <button type="button" class="btn btn-primary" style="margin-top: 20px;" onclick=submit()>Submit</button>
             </div>
+
+            <div class="spinner" id="loader">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+            <div class="mt-5" id="result"></div>
 
         </div>
     </div>
 </div>
-
-
 
 <script>
 var editor = ace.edit("editor");
@@ -67,33 +73,35 @@ function submit() {
     $("#loader").show();
     $.ajax({
         type: "POST",
-        url: "http://localhost:3000",
+        url: "<?=base_url('submission/submit')?>",
         crossDomain: true,
         data: {
-            // problem: "<?=$problem_name?>",
-            // code: code,
-            // type: language
+            problem: "<?=$problem_name?>",
+            code: code,
+            type: language
         },
-        success: function(res) {
+        success: function(data) {
             $("#loader").hide();
-            $("#result").html(res.text)
+
+            if (data == "Accepted") {
+                $("#result").html("<div class=\"alert alert-success\" role=\"alert\">" + data + "</div>")
+            } else if (data == "Compile Error") {
+                $("#result").html("<div class=\"alert alert-warning\" role=\"alert\">" + data + "</div>")
+            } else if (data == "Wrong Answer") {
+                $("#result").html("<div class=\"alert alert-danger\" role=\"alert\">" + data + "</div>")
+            } else if (data == "Time Limit Exceed") {
+                $("#result").html("<div class=\"alert alert-secondary\" role=\"alert\">" + data + "</div>")
+            } else {
+                $("#result").html("<div class=\"alert alert-light\" role=\"alert\">" + data + "</div>")
+            }
         },
-        error: function(res) {
+        error: function(data) {
             $("#loader").hide();
-            // $("#result").html(responseData)
+            console.log(data);
         }
     });
 }
 </script>
-
-<div class="spinner" id="loader">
-    <div class="rect1"></div>
-    <div class="rect2"></div>
-    <div class="rect3"></div>
-    <div class="rect4"></div>
-    <div class="rect5"></div>
-</div>
-<div id="result"></div>
 
 <script>
 // Show an element

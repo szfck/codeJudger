@@ -63,7 +63,7 @@ def get_result(problem, file):
 
     return "Unsupport file type"
 
-def worker(subid, problem, file):
+def update(subid, problem, file, result):
     conn = mysql.connect()
     cursor =conn.cursor()
     result = get_result(problem, file)
@@ -73,11 +73,11 @@ def worker(subid, problem, file):
     conn.commit();
     print ("sql: {} executed, result is: {}".format(sql_update, result))
 
-@app.route('/judge', methods=['POST'])
+@app.route('/judge', methods=['GET'])
 def judge():
     conn = mysql.connect()
     cursor =conn.cursor()
-    subid = request.form['submission_id']
+    subid = request.args.get('submission_id')
     sql_query = 'SELECT * FROM submission WHERE subid={}'.format(subid)
     cursor.execute(sql_query)
     data = cursor.fetchone()
@@ -88,18 +88,11 @@ def judge():
     file_type = data[4]
     file = '{}.{}'.format(subid, file_type)
 
-    p = Process(target=worker, args=(subid, problem, file,))
-    p.start()
-    return '[OK] put in the judge queue'
+    result = get_result(problem, file)
+    update(subid, problem, file, result)
 
-@app.route('/', methods=['POST, GET'])
-def index():
-    if request.method == 'POST':
-        return "Accepted"
-    elif request.method == 'GET':
-        return 'this is judge index'
-    else:
-        return 'unsupport method'
+    print ('result: {}'.format(result))
+    return result
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)
