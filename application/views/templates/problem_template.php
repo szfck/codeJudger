@@ -1,5 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js" type="text/javascript" charset="utf-8"></script>
-
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/loader.css">
 
 <div class="container-fluid">
@@ -22,7 +20,38 @@
                 </select>
             </div>
             <div>
-                <div id="editor" style="height: 500px;"></div>
+                <pre id="code" class="ace_editor" style="min-height:500px"><textarea class="ace_text-input">
+#include<iostream>
+using namespace std;
+int main() {
+    int a, b;
+    cin >> a >> b;
+    cout << a + b << endl;
+    return 0;
+}
+                </textarea></pre>
+
+                <script>
+                editor = ace.edit("code");
+
+                theme = "monokai";
+                language = "c_cpp";
+                editor.setTheme("ace/theme/" + theme);
+                editor.session.setMode("ace/mode/" + language);
+
+                editor.setFontSize(18);
+
+                editor.setReadOnly(false);
+
+                editor.setOption("wrap", "free")
+
+                ace.require("ace/ext/language_tools");
+                editor.setOptions({
+                    enableBasicAutocompletion: true,
+                    enableSnippets: true,
+                    enableLiveAutocompletion: true
+                });
+                </script>
                 <button type="button" class="btn btn-primary" style="margin-top: 20px;" onclick=submit()>Submit</button>
             </div>
 
@@ -40,18 +69,14 @@
 </div>
 
 <script>
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
-document.getElementById('editor').style.fontSize = '17px';
-code =
-    "#include<iostream>\nusing namespace std;\nint main() {\n\tint a, b;\n\tcin >> a >> b;\n\tcout << a + b << endl;\n\treturn 0;\n}\n";
-editor.insert(code);
-var language = 'cpp';
-editor.session.setMode("ace/mode/" + language);
 
 function change_session() {
     var language = document.getElementById('select_language').value;
-    editor.session.setMode("ace/mode/" + language);
+    var lan_mode = language;
+
+    if (language == 'cpp') lan_mode = 'c_cpp';
+
+    editor.session.setMode("ace/mode/" + lan_mode);
     console.log(language);
     if (language == 'cpp') {
         code =
