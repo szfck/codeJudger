@@ -8,8 +8,6 @@ class Problem_test extends TestCase
         $this->CI->load->helper('problem_helper');
         $this->CI->load->library('session');
         $this->CI->load->helper('file');
-		
-
     }
 
 	public function test_index()
@@ -18,8 +16,17 @@ class Problem_test extends TestCase
 		$this->assertContains('<title> CodeJudger </title>', $output);
 	}
 
-	public function test_get_problem()
-	{	
+	public function test_get_problem(){	
+		
+		$this->request->setCallable(
+			function ($CI) {
+				$CI->session->user_id = NULL;
+			}
+		);
+		
+        $output = $this->request('GET', 'login/index');
+		$this->assertContains('<title> CodeJudger </title>', $output);
+		
 		$this->request->setCallable(
 			function ($CI) {
 				$CI->session->user_id = 1;
@@ -30,26 +37,11 @@ class Problem_test extends TestCase
         	$problem_name = $problem;
 			$desc = read_file(FCPATH."/problems/".$problem."/desc.txt");
 			$sample_input = read_file(FCPATH."/problems/".$problem."/sample-input.txt");
-			$sample_output = read_file(FCPATH."/problems/".$problem."/sample-output.txt");
-       
+			$sample_output = read_file(FCPATH."/problems/".$problem."/sample-output.txt");       
 	        $output = $this->request('GET', 'problem/get_problem/'.$problem_name);
 			$this->assertContains('<title> CodeJudger </title>', $output);
 			$this->assertContains('<p class="problem problem-desc">'.$desc.'</p>', $output);
-        }
-		
-	}
-
-	public function test_get_problem_userid_not_set()
-	{	
-		$this->request->setCallable(
-			function ($CI) {
-				$CI->session->user_id = NULL;
-			}
-		);
-		
-        $output = $this->request('GET', 'login/index');
-		$this->assertContains('<title> CodeJudger </title>', $output);
-		
+		}
 	}
 
 	public function test_method_404()
