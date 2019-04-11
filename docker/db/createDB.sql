@@ -9,6 +9,8 @@ CREATE TABLE user(`id` int NOT NULL AUTO_INCREMENT,
 );
 INSERT INTO `user` (`useremail`, `username`, `password`) VALUES 
     ('hello@codejudger.com', 'kai', '123456');
+INSERT INTO `user` (`useremail`, `username`, `password`) VALUES 
+    ('rj1234@nyu.edu', 'rajeev', 'e10adc3949ba59abbe56e057f20f883e');
 
 CREATE TABLE submission(`subid` int NOT NULL AUTO_INCREMENT,
   `time` int NOT NULL,
