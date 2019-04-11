@@ -39,6 +39,19 @@ class Problem_test extends TestCase
 		
 	}
 
+	public function test_get_problem_userid_not_set()
+	{	
+		$this->request->setCallable(
+			function ($CI) {
+				$CI->session->user_id = NULL;
+			}
+		);
+		
+        $output = $this->request('GET', 'login/index');
+		$this->assertContains('<title> CodeJudger </title>', $output);
+		
+	}
+
 	public function test_method_404()
 	{
 		$this->request('GET', 'welcome/method_not_exist');
