@@ -6,7 +6,6 @@ class Login_test extends TestCase
     {
 		$this->resetInstance();
 		$this->CI->load->model('User_model');
-        $this->CI->load->library('session');		
 		$this->obj = $this->CI->User_model;
 	}
 	
