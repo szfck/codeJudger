@@ -6,7 +6,7 @@ class Submission extends CI_Controller {
     public function __construct(){
     
         parent::__construct();
-        $this->load->helper('url');
+        $this->load->helper('url', 'file');
         $this->load->model('submission_model');
         $this->load->library('session');
     
@@ -39,11 +39,17 @@ class Submission extends CI_Controller {
         $code = $this->input->post('code');
         $type = $this->input->post('type');
         $user_id = $_SESSION['user_id'];
-
+        $error_file = FCPATH."submissions/".$user_id."/error";
         $sub_id = $this->submission_model->create_submission($problem, $user_id, $code, $type);
 
         $res = file_get_contents("http://judger-judge:3000/judge?submission_id=".$sub_id);
-        echo $res;
+        $error = read_file($error_file);
+        if ($error){
+            echo $res.'-'.$error;
+        }
+        else{
+            echo $res;
+        }
     }
 
 }

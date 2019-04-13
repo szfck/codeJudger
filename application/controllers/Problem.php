@@ -3,11 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Problem extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('problem');
-	}
-
 	public function get_problem($problem){
 		if (!$_SESSION['user_id']){
 			redirect('login');

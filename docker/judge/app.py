@@ -36,8 +36,9 @@ def judge_cpp(problem, file):
     process = subprocess.run('bash judge_cpp.sh {} {}'.format(problem, file), shell=True)
     return get_code_str(process.returncode)
 
-def judge_py(problem, file):
-    process = subprocess.run('bash judge_py.sh {} {}'.format(problem, file), shell=True)
+def judge_py(problem, file, user_id):
+    print(problem, file, user_id)
+    process = subprocess.run('bash judge_py.sh {} {} {}'.format(problem, file, user_id), shell=True)
     return get_code_str(process.returncode)
 
 def judge_java(problem, file):
@@ -46,7 +47,7 @@ def judge_java(problem, file):
     print ('code: {}' .format(code))
     return get_code_str(process.returncode)
 
-def get_result(problem, file):
+def get_result(problem, file, user_id):
     '''
     TODO: finish judging process
     '''
@@ -56,17 +57,17 @@ def get_result(problem, file):
     elif file_type == 'python':
         num = file.split('.')[0]
         file = num+".py"
-        return judge_py(problem, file)
+        return judge_py(problem, file, user_id)
     elif file_type == 'java':
         print ('file: {}'.format(file))
         return judge_java(problem, file)
 
     return "Unsupport file type"
 
-def update(subid, problem, file, result):
+def update(subid, problem, file, result, user_id):
     conn = mysql.connect()
     cursor =conn.cursor()
-    result = get_result(problem, file)
+    result = get_result(problem, file, user_id)
     sql_update = 'UPDATE submission SET result=\'{}\' WHERE subid={}'.format(result, subid)
     print (sql_update)
     cursor.execute(sql_update)
@@ -85,11 +86,11 @@ def judge():
         return '[Fail] sql: {}'.format(sql_query)
     
     problem = data[2]
+    user_id = str(data[3])
     file_type = data[4]
     file = '{}.{}'.format(subid, file_type)
-
-    result = get_result(problem, file)
-    update(subid, problem, file, result)
+    result = get_result(problem, file, user_id)
+    update(subid, problem, file, result, user_id)
 
     print ('result: {}'.format(result))
     return result

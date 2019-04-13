@@ -14,10 +14,14 @@ class Submission_model extends CI_model{
         $this->db->insert('submission', $submission);
 
         $type = ($type == 'python') ? 'py' : $type;
+        $this->load->helper('file');        
+        $dir = FCPATH."/submissions/".$user_id."/";
+        if(!is_dir($dir)){
+            mkdir($dir, 0777, true);
+            chmod($dir, 0777);
+        }
+        $path = $dir.$subid.".".$type;
         
-        $path = FCPATH."/submissions/".$subid.".".$type;
-        
-        $this->load->helper('file');
         if (!write_file($path, $code)) {
             die('Unable to write the file');
         }

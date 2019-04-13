@@ -105,13 +105,17 @@ function submit() {
             code: code,
             type: language
         },
-        success: function(data) {
+        success: function(data) {                 
             $("#loader").hide();
 
             if (data == "Accepted") {
                 $("#result").html("<div class=\"alert alert-success\" role=\"alert\">" + data + "</div>")
-            } else if (data == "Compile Error") {
-                $("#result").html("<div class=\"alert alert-warning\" role=\"alert\">" + data + "</div>")
+            } else if (data.slice(0, 13) == "Compile Error") {
+                $("#result").html("<div class=\"alert alert-warning\"  role=\"alert\">\
+                    <p >"+data.slice(0, 13)+"<p>\
+                    <pre>"+data.slice(15, -1)+"</pre>\
+                    </div>\
+                    ")
             } else if (data == "Wrong Answer") {
                 $("#result").html("<div class=\"alert alert-danger\" role=\"alert\">" + data + "</div>")
             } else if (data == "Time Limit Exceed") {

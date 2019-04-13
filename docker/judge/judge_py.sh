@@ -1,11 +1,12 @@
 problem=$1
 submission=$2
+user_id=$3
 echo $submission
 
 filename=${submission%%.py}
 echo $filename
 problems_path=/judge/problems
-submissions_path=/judge/submissions
+submissions_path=/judge/submissions/$user_id
 
 TIME_LIMIT=5
 TIMEOUT_CODE=124
@@ -15,10 +16,9 @@ for input in $problems_path/$problem/secret/*.in; do
 
     echo run $num
     echo begin testing
-    timeout $TIME_LIMIT python $submissions_path/$submission < $input 2> /tmp/err.txt 1> /tmp/$num.out
-
-    #cat /tmp/err.txt
-    if [ "$(cat /tmp/err.txt)" ]; then
+    timeout $TIME_LIMIT python $submissions_path/$submission < $input 2> $submissions_path/error 1> /tmp/$num.out
+    
+    if [ "$(cat $submissions_path/error)" ]; then
         exit 2
     fi
 
