@@ -40,7 +40,7 @@ class Problem_test extends TestCase
 			$sample_output = read_file(FCPATH."/problems/".$problem."/sample-output.txt");       
 	        $output = $this->request('GET', 'problem/get_problem/'.$problem_name);
 			$this->assertContains('<title> CodeJudger </title>', $output);
-			$this->assertContains('<p class="problem problem-desc">'.$desc.'</p>', $output);
+			$this->assertContains('<div class="p-2 justify-content-start d-md-inline-flex problem problem-desc">'.$desc.'</div><br>', $output);
 		}
 	}
 
