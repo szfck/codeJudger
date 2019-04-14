@@ -1,5 +1,8 @@
 /*Navigation Bar*/
-
+th {
+   cursor: pointer;
+ }
+ 
 .topnav {
 overflow: hidden;
 background-color: #333;
