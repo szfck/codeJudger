@@ -20,7 +20,7 @@
             <div class="language-select" style="margin: 10px">
                 <select onchange="change_session()" id="select_language" class="styled-select semi-square gray">
                     <option value="cpp">Cpp</option>
-                    <option value="python">Python</option>
+                    <option value="py">Python</option>
                     <option value="java">Java</option>
                 </select>
             </div>

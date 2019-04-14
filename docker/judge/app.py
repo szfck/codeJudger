@@ -2,6 +2,7 @@ from multiprocessing import Process
 from flask import Flask, request
 from flaskext.mysql import MySQL
 from flask_cors import CORS
+import subprocess
 
 app = Flask(__name__)
 CORS(app)
@@ -19,67 +20,72 @@ ROOT_PATH = '/judge'
 
 COMPILE_PATH = '/tmp'
 
-def get_code_str(code):
-    if code == 0:
-        return 'Accepted'
-    elif code == 1:
-        return 'Wrong Answer'
-    elif code == 2:
-        return 'Compile Error'
-    elif code == 3:
-        return 'Time Limit Exceed'
+supported_file_types = ['cpp', 'py', 'java']
+code_dict = {
+    0: 'Accepted',
+    1: 'Wrong Answer',
+    2: 'Compile Error',
+    3: 'Time Limit Exceed',
+    4: 'Runtime Error' # not implement yet
+}
+
+def judge(problem, file, user_id):
+    ''' Judge submission file
+    Args:
+        problem: problem name
+        file: filename [submission_id].[file_type]
+        user_id: user id
+    Return:
+        Judging result
+    '''
+
+    file_type = file.split('.')[1]
+
+    if file_type not in supported_file_types:
+        return "Unsupport file type"
+
+    print('judging problem: {}, file: {}, user_id: {}, file_tpye: {}'.format(problem, file, user_id, file_type))
+
+    bash_file = 'judge_{}.sh'.format(file_type)
+    process = subprocess.run('bash {} {} {} {}'.format(bash_file, problem, file, user_id), shell=True)
+
+    code = process.returncode
+
+    print ('return code: {}' .format(code))
+
+    if code in code_dict:
+        return code_dict[code]
     else:
         return 'Unknown Error'
 
-import subprocess
-def judge_cpp(problem, file, user_id):
-    process = subprocess.run('bash judge_cpp.sh {} {} {}'.format(problem, file, user_id), shell=True)
-    return get_code_str(process.returncode)
-
-def judge_py(problem, file, user_id):
-    print(problem, file, user_id)
-    process = subprocess.run('bash judge_py.sh {} {} {}'.format(problem, file, user_id), shell=True)
-    return get_code_str(process.returncode)
-
-def judge_java(problem, file, user_id):
-    process = subprocess.run('bash judge_java.sh {} {} {}'.format(problem, file, user_id), shell=True)
-    code = process.returncode
-    print ('code: {}' .format(code))
-    return get_code_str(process.returncode)
-
-def get_result(problem, file, user_id):
+def update(sub_id, result):
+    ''' update result in database
+    Args:
+        sub_id: submission id
+        result: judge result
     '''
-    TODO: finish judging process
-    '''
-    file_type = file.split('.')[1]
-    if file_type == 'cpp':
-        return judge_cpp(problem, file, user_id)
-    elif file_type == 'python':
-        num = file.split('.')[0]
-        file = num+".py"
-        return judge_py(problem, file, user_id)
-    elif file_type == 'java':
-        print ('file: {}'.format(file))
-        return judge_java(problem, file, user_id)
 
-    return "Unsupport file type"
-
-def update(subid, problem, file, result, user_id):
     conn = mysql.connect()
     cursor =conn.cursor()
-    result = get_result(problem, file, user_id)
-    sql_update = 'UPDATE submission SET result=\'{}\' WHERE subid={}'.format(result, subid)
+    sql_update = 'UPDATE submission SET result=\'{}\' WHERE subid={}'.format(result, sub_id)
     print (sql_update)
     cursor.execute(sql_update)
     conn.commit();
     print ("sql: {} executed, result is: {}".format(sql_update, result))
 
 @app.route('/judge', methods=['GET'])
-def judge():
+def judge_api():
+    ''' Judge API
+    Args:
+        submission_id
+    Return:
+        Judge result
+    '''
+
     conn = mysql.connect()
     cursor =conn.cursor()
-    subid = request.args.get('submission_id')
-    sql_query = 'SELECT * FROM submission WHERE subid={}'.format(subid)
+    sub_id = request.args.get('submission_id')
+    sql_query = 'SELECT * FROM submission WHERE subid={}'.format(sub_id)
     cursor.execute(sql_query)
     data = cursor.fetchone()
     if not data:
@@ -88,9 +94,9 @@ def judge():
     problem = data[2]
     user_id = str(data[3])
     file_type = data[4]
-    file = '{}.{}'.format(subid, file_type)
-    result = get_result(problem, file, user_id)
-    update(subid, problem, file, result, user_id)
+    file = '{}.{}'.format(sub_id, file_type)
+    result = judge(problem, file, user_id)
+    update(sub_id, result)
 
     print ('result: {}'.format(result))
     return result
