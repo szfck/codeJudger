@@ -22,7 +22,8 @@ class Submission extends CI_Controller {
     }
     
     public function detail($sub) {
-        $path = FCPATH.'/submissions/'.$sub;
+        $user_id = $_SESSION['user_id'];
+        $path = FCPATH.'/submissions/'.$user_id."/".$sub;
         $code = htmlspecialchars(file_get_contents($path));
 
 		$content = array('content'=> array(
