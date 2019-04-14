@@ -21,14 +21,6 @@
             </div>
             <div>
                 <pre id="code" class="ace_editor" style="min-height:500px"><textarea class="ace_text-input">
-#include<iostream>
-using namespace std;
-int main() {
-    int a, b;
-    cin >> a >> b;
-    cout << a + b << endl;
-    return 0;
-}
                 </textarea></pre>
 
                 <script>
@@ -69,7 +61,7 @@ int main() {
 </div>
 
 <script>
-
+window.onload=change_session;
 function change_session() {
     var language = document.getElementById('select_language').value;
     var lan_mode = language;
@@ -77,19 +69,28 @@ function change_session() {
     if (language == 'cpp') lan_mode = 'c_cpp';
 
     editor.session.setMode("ace/mode/" + lan_mode);
-    console.log(language);
-    if (language == 'cpp') {
-        code =
-            "#include<iostream>\nusing namespace std;\nint main() {\n\tint a, b;\n\tcin >> a >> b;\n\tcout << a + b << endl;\n\treturn 0;\n}\n";
-    } else if (language == 'python') {
-        code =
-            "def main():\n\tx = [int(x) for x in input().split(' ')]\n\tprint(x[0]+x[1])\n\treturn 0\nif __name__=='__main__':\n\tmain()";
-    } else if (language == 'java') {
-        code =
-            "import java.io.*;\nimport java.util.*;\n\npublic class Main {\n\tpublic static void main(String[] args) throws IOException {\n\t\tBufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n\t\tStringTokenizer st = new StringTokenizer(br.readLine());\n\t\tint a = Integer.parseInt(st.nextToken());\n\t\tint b = Integer.parseInt(st.nextToken());\n\t\t\n\t\tSystem.out.println(a+b);\n\t}\n}"
-    }
-    editor.setValue("");
-    editor.insert(code);
+    console.log("<?=$problem_name?>", language);
+    var code;
+    $.ajax({
+        type: "POST",
+        url: "<?=base_url('skeleton/get_skeleton_code')?>",
+        crossDomain: true,
+        data: {
+            problem: "<?=$problem_name?>",
+            type: language
+        },
+        success: function(skeleton_code) {                 
+            code = skeleton_code;
+            editor.setValue("");
+            editor.insert(code);
+            console.log(skeleton_code);
+        },
+        error: function(data) {
+            $("#loader").hide();
+            console.log(data);
+        }
+    });
+    
 }
 
 function submit() {
