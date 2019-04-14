@@ -66,7 +66,7 @@
 </div>
 
 <script>
-window.onload=change_session;
+window.onload=change_session();
 function change_session() {
     var language = document.getElementById('select_language').value;
     var lan_mode = language;
@@ -98,6 +98,16 @@ function change_session() {
     
 }
 
+function html_to_append(alert_type, data){
+    return $("#result").html("<div class=\"alert alert-"+alert_type+"\"  role=\"alert\">\
+            <p >"+data["res"]+"<p>\
+            <pre>"+"stdout : "+data["output"]+"</pre>\
+            <pre>"+"Expected : "+data["expected_output"]+"</pre>\
+            <pre>"+"stderr : "+data["error"]+"</pre>\
+            </div>\
+            ");
+}
+
 function submit() {
     $("#result").hide();
     var language = document.getElementById('select_language').value;
@@ -117,42 +127,18 @@ function submit() {
             $("#loader").hide();
             res = data["res"];
             output = data["output"];
+            expected_output = data["expected_output"];
             error = data["error"];
             if (res == "Accepted") {
-                $("#result").html("<div class=\"alert alert-success\"  role=\"alert\">\
-                    <p >"+res+"<p>\
-                    <pre>"+"stdout : "+output+"</pre>\
-                    <pre>"+"stderr : "+error+"</pre>\
-                    </div>\
-                    ")
+                html_to_append("success", data);
             } else if (res == "Compile Error") {
-                $("#result").html("<div class=\"alert alert-warning\"  role=\"alert\">\
-                    <p >"+res+"<p>\
-                    <pre>"+"stdout : "+output+"</pre>\
-                    <pre>"+"stderr : "+error+"</pre>\
-                    </div>\
-                    ")
+                html_to_append("warning", data);
             } else if (res == "Wrong Answer") {
-                $("#result").html("<div class=\"alert alert-danger\"  role=\"alert\">\
-                    <p >"+res+"<p>\
-                    <pre>"+"stdout : "+output+"</pre>\
-                    <pre>"+"stderr : "+error+"</pre>\
-                    </div>\
-                    ")
+                html_to_append("danger", data);
             } else if (res == "Time Limit Exceed") {
-                $("#result").html("<div class=\"alert alert-secondary\"  role=\"alert\">\
-                    <p >"+res+"<p>\
-                    <pre >"+"stdout : "+output+"</pre>\
-                    <pre>"+"stderr : "+error+"</pre>\
-                    </div>\
-                    ")
+                html_to_append("secondary", data);
             } else {
-                $("#result").html("<div class=\"alert alert-light\"  role=\"alert\">\
-                    <p >"+res+"<p>\
-                    <pre>"+"stdout : "+output+"</pre>\
-                    <pre>"+"stderr : "+error+"</pre>\
-                    </div>\
-                    ")
+                html_to_append("light", data);
             }
             $("#result").show();
         },
