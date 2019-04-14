@@ -66,26 +66,31 @@ float: right;
 	height: 30px;
 }
 .problem{
-	margin: 0px;
-    border: 1px black solid;
-    border-radius: 5px;
+   margin: 0px;
+   background-color: darkgray;
+   border-radius: 5px;
 }
 
 .problem-name{
 	font-weight: bold;
-	border: 0px ;
 }
 
 .problem-desc{
-	font-family: Verdana;
+   font-family: monospace;
+   border: 2px solid black;
+   background-color: #fff;
 }
 
 .problem-sample_input{
-
+   font-family: monospace;
+   border: 2px solid black;
+   background-color: #fff;
 }
 
 .problem-sample_output{
-
+   font-family: monospace;
+   border: 2px solid black;
+   background-color: #fff;
 }
 
 footer {

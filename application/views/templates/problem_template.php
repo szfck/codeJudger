@@ -3,13 +3,18 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6">
-            <p class="problem problem-name"><?php ucfirst($problem_name);?></p><br>
-            <p><strong>Problem Description</strong></p>
-            <p class="problem problem-desc"><?php echo $desc;?></p><br>
-            <p><strong>Sample Input</strong></p>
-            <p class="problem problem-sample_input"><?php echo $sample_input;?></p><br>
-            <p><strong>Sample Output</strong> </p>
-            <p class="problem problem-sample_output"><?php echo $sample_output;?></p><br>
+            <div class="d-flex flex-column"><br>
+                <div class="p-2 justify-content-start d-md-inline-flex problem problem-name"><?php echo ucfirst($problem_name);?></div><br>
+                <div class="p-2 justify-content-start d-md-inline-flex problem "><strong>Problem Description</strong></div><br>
+                <div class="p-2 justify-content-start d-md-inline-flex problem problem-desc"><?php echo $desc;?></div><br>
+                
+                <div class="p-2 justify-content-start d-md-inline-flex problem"><strong>Sample Input</strong></div><br>
+                <div class="p-2 justify-content-start d-md-inline-flex problem problem-sample_input"><?php echo $sample_input;?></div><br>
+
+                <div class="p-2 justify-content-start d-md-inline-flex problem"><strong>Sample Output</strong></div><br>
+                <div class="p-2 justify-content-start d-md-inline-flex problem problem-sample_output"><?php echo $sample_output;?></div><br>
+
+            </div>
         </div>
         <div class="col-sm-6">
             <div class="language-select" style="margin: 10px">
