@@ -1,11 +1,11 @@
 <table id="submission-table" class=" table table-striped">
 <tr>
-    <th onclick="sortTable(0)">submisson id</th>
-    <th onclick="sortTable(1)">time</th>
-    <th onclick="sortTable(2)">problem</th>
-    <th onclick="sortTable(3)">user id</th>
-    <th onclick="sortTable(4)">type</th>
-    <th onclick="sortTable(5)">result</th>
+    <th onclick="sortTable(0)">Submisson id</th>
+    <th onclick="sortTable(1)">Time</th>
+    <th onclick="sortTable(2)">Problem</th>
+    <th onclick="sortTable(3)">User id</th>
+    <th onclick="sortTable(4)">Type</th>
+    <th onclick="sortTable(5)">Result</th>
 </tr>
 <?php 
     $submissions = $this->submission_model->get_user_submission_list();
@@ -24,6 +24,7 @@
 </table>
 
 <script>
+//Source -  https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("submission-table");

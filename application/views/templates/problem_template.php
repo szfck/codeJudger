@@ -135,9 +135,19 @@ function submit() {
                     </div>\
                     ")
             } else if (res == "Time Limit Exceed") {
-                $("#result").html("<div class=\"alert alert-secondary\" role=\"alert\">" + data + "</div>")
+                $("#result").html("<div class=\"alert alert-secondary\"  role=\"alert\">\
+                    <p >"+res+"<p>\
+                    <pre >"+"stdout : "+output+"</pre>\
+                    <pre>"+"stderr : "+error+"</pre>\
+                    </div>\
+                    ")
             } else {
-                $("#result").html("<div class=\"alert alert-light\" role=\"alert\">" + data + "</div>")
+                $("#result").html("<div class=\"alert alert-light\"  role=\"alert\">\
+                    <p >"+res+"<p>\
+                    <pre>"+"stdout : "+output+"</pre>\
+                    <pre>"+"stderr : "+error+"</pre>\
+                    </div>\
+                    ")
             }
             $("#result").show();
         },
