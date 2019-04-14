@@ -12,6 +12,11 @@ else
     echo "in the problem $problem"
 fi
 
+if ! cd genData; then
+    echo 'genData dir not exsit'
+    exit 1
+fi
+
 if [ ! -f answer.cpp ]; then
     echo "File answer.cpp not found!"
     exit 1
@@ -28,8 +33,8 @@ if ! g++ -o answer answer.cpp; then
 fi
 
 for i in $( seq 1 $caseNum ); do
-    input=secret/$i.in
-    output=secret/$i.out
+    input=../secret/$i.in
+    output=../secret/$i.out
     echo "generate test case $input"
     if ! python gen.py > $input; then
         echo 'gen.py error'
