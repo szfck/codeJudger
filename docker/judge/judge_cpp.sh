@@ -19,7 +19,7 @@ if ! g++ $submissions_path/$submission -o /tmp/$compile_file 2> $submissions_pat
 fi
 echo compile finished
 
-TIME_LIMIT=5
+TIME_LIMIT=3
 TIMEOUT_CODE=124
 
 for input in $problems_path/$problem/secret/*.in; do

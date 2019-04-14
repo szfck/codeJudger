@@ -19,7 +19,7 @@ if ! javac /tmp/Main.java 2> $submissions_path/error.java; then
 fi
 echo compile finished
 
-TIME_LIMIT=5
+TIME_LIMIT=3
 TIMEOUT_CODE=124
 
 for input in $problems_path/$problem/secret/*.in; do
