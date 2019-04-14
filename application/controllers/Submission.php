@@ -41,16 +41,14 @@ class Submission extends CI_Controller {
 
         $user_id = $_SESSION['user_id'];
         $error_file = FCPATH."submissions/".$user_id."/error.".$type;
+        $output_file = FCPATH."submissions/".$user_id."/output.".$type;
         $sub_id = $this->submission_model->create_submission($problem, $user_id, $code, $type);
 
         $res = file_get_contents("http://judger-judge:3000/judge?submission_id=".$sub_id);
         $error = read_file($error_file);
-        if ($error){
-            echo $res.'-'.$error;
-        }
-        else{
-            echo $res;
-        }
+        $output = read_file($output_file);
+        $data = array("res"=>$res, "output"=>$output, "error"=>$error);
+        echo json_encode($data);
     }
 
 }

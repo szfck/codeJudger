@@ -16,7 +16,7 @@ for input in $problems_path/$problem/secret/*.in; do
 
     echo run $num
     echo begin testing
-    timeout $TIME_LIMIT python $submissions_path/$submission < $input 2> $submissions_path/error.python 1> /tmp/$num.out
+    timeout $TIME_LIMIT python $submissions_path/$submission < $input 2> $submissions_path/error.python 1> $submissions_path/output.python
     
     if [ "$(cat $submissions_path/error.python)" ]; then
         exit 2
@@ -31,7 +31,7 @@ for input in $problems_path/$problem/secret/*.in; do
     fi
 
     # wrong answer
-    if ! diff $problems_path/$problem/secret/$num.out /tmp/$num.out; then
+    if ! diff $problems_path/$problem/secret/$num.out $submissions_path/output.python; then
         exit 1
     fi
     echo finish run $num

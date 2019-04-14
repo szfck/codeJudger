@@ -94,6 +94,7 @@ function change_session() {
 }
 
 function submit() {
+    $("#result").hide();
     var language = document.getElementById('select_language').value;
     var code = editor.getValue();
     $("#loader").show();
@@ -106,24 +107,39 @@ function submit() {
             code: code,
             type: language
         },
-        success: function(data) {                 
+        dataType: "json",
+        success: function(data, status, xhr) {                 
             $("#loader").hide();
-
-            if (data == "Accepted") {
-                $("#result").html("<div class=\"alert alert-success\" role=\"alert\">" + data + "</div>")
-            } else if (data.slice(0, 13) == "Compile Error") {
-                $("#result").html("<div class=\"alert alert-warning\"  role=\"alert\">\
-                    <p >"+data.slice(0, 13)+"<p>\
-                    <pre>"+data.slice(15, -1)+"</pre>\
+            res = data["res"];
+            output = data["output"];
+            error = data["error"];
+            if (res == "Accepted") {
+                $("#result").html("<div class=\"alert alert-success\"  role=\"alert\">\
+                    <p >"+res+"<p>\
+                    <pre>"+"stdout : "+output+"</pre>\
+                    <pre>"+"stderr : "+error+"</pre>\
                     </div>\
                     ")
-            } else if (data == "Wrong Answer") {
-                $("#result").html("<div class=\"alert alert-danger\" role=\"alert\">" + data + "</div>")
-            } else if (data == "Time Limit Exceed") {
+            } else if (res == "Compile Error") {
+                $("#result").html("<div class=\"alert alert-warning\"  role=\"alert\">\
+                    <p >"+res+"<p>\
+                    <pre>"+"stdout : "+output+"</pre>\
+                    <pre>"+"stderr : "+error+"</pre>\
+                    </div>\
+                    ")
+            } else if (res == "Wrong Answer") {
+                $("#result").html("<div class=\"alert alert-danger\"  role=\"alert\">\
+                    <p >"+res+"<p>\
+                    <pre>"+"stdout : "+output+"</pre>\
+                    <pre>"+"stderr : "+error+"</pre>\
+                    </div>\
+                    ")
+            } else if (res == "Time Limit Exceed") {
                 $("#result").html("<div class=\"alert alert-secondary\" role=\"alert\">" + data + "</div>")
             } else {
                 $("#result").html("<div class=\"alert alert-light\" role=\"alert\">" + data + "</div>")
             }
+            $("#result").show();
         },
         error: function(data) {
             $("#loader").hide();
