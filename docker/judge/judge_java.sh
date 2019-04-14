@@ -26,7 +26,7 @@ for input in $problems_path/$problem/secret/*.in; do
     num=$(basename "$input" | cut -d. -f1)
 
     echo run $num
-    timeout $TIME_LIMIT java -cp /tmp Main < $input > $submissions_path/output.java
+    timeout $TIME_LIMIT java -cp /tmp Main < $input > $submissions_path/output
 
     # time limit exceed
     if [ $? -eq $TIMEOUT_CODE ]; then
@@ -34,7 +34,8 @@ for input in $problems_path/$problem/secret/*.in; do
     fi
 
     # wrong answer
-    if ! diff $problems_path/$problem/secret/$num.out $submissions_path/output.java; then
+    cp $problems_path/$problem/secret/$num.out $submissions_path/expected_output
+    if ! diff $submissions_path/expected_output $submissions_path/output; then
         exit 1
     fi
     echo finish run $num
