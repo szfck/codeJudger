@@ -1,9 +1,10 @@
 problem=$1
 submission=$2
+user_id=$3
 filename=${submission%%.java}
 
 problems_path=/judge/problems
-submissions_path=/judge/submissions
+submissions_path=/judge/submissions/$user_id
 
 rm -f /tmp/Main.java
 rm -f /tmp/Main
@@ -13,7 +14,7 @@ cp $submissions_path/$submission /tmp/Main.java
 echo start compile
 
 # compile error
-if ! javac /tmp/Main.java; then
+if ! javac /tmp/Main.java 2> $submissions_path/error.java; then
     exit 2
 fi
 echo compile finished

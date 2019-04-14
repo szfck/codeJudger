@@ -38,8 +38,9 @@ class Submission extends CI_Controller {
         $problem = $_POST['problem'];
         $code = $this->input->post('code');
         $type = $this->input->post('type');
+
         $user_id = $_SESSION['user_id'];
-        $error_file = FCPATH."submissions/".$user_id."/error";
+        $error_file = FCPATH."submissions/".$user_id."/error.".$type;
         $sub_id = $this->submission_model->create_submission($problem, $user_id, $code, $type);
 
         $res = file_get_contents("http://judger-judge:3000/judge?submission_id=".$sub_id);

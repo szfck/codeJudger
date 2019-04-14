@@ -1,9 +1,10 @@
 problem=$1
 submission=$2
+user_id=$3
 filename=${submission%%.cpp}
 
 problems_path=/judge/problems
-submissions_path=/judge/submissions
+submissions_path=/judge/submissions/$user_id
 
 compile_file=cpp${filename}.out
 
@@ -13,7 +14,7 @@ rm -f /tmp/$compile_file
 echo start compile
 
 # compile error
-if ! g++ $submissions_path/$submission -o /tmp/$compile_file; then
+if ! g++ $submissions_path/$submission -o /tmp/$compile_file 2> $submissions_path/error.cpp ; then
     exit 2
 fi
 echo compile finished

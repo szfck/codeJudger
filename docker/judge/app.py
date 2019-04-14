@@ -32,8 +32,8 @@ def get_code_str(code):
         return 'Unknown Error'
 
 import subprocess
-def judge_cpp(problem, file):
-    process = subprocess.run('bash judge_cpp.sh {} {}'.format(problem, file), shell=True)
+def judge_cpp(problem, file, user_id):
+    process = subprocess.run('bash judge_cpp.sh {} {} {}'.format(problem, file, user_id), shell=True)
     return get_code_str(process.returncode)
 
 def judge_py(problem, file, user_id):
@@ -41,8 +41,8 @@ def judge_py(problem, file, user_id):
     process = subprocess.run('bash judge_py.sh {} {} {}'.format(problem, file, user_id), shell=True)
     return get_code_str(process.returncode)
 
-def judge_java(problem, file):
-    process = subprocess.run('bash judge_java.sh {} {}'.format(problem, file), shell=True)
+def judge_java(problem, file, user_id):
+    process = subprocess.run('bash judge_java.sh {} {} {}'.format(problem, file, user_id), shell=True)
     code = process.returncode
     print ('code: {}' .format(code))
     return get_code_str(process.returncode)
@@ -53,14 +53,14 @@ def get_result(problem, file, user_id):
     '''
     file_type = file.split('.')[1]
     if file_type == 'cpp':
-        return judge_cpp(problem, file)
+        return judge_cpp(problem, file, user_id)
     elif file_type == 'python':
         num = file.split('.')[0]
         file = num+".py"
         return judge_py(problem, file, user_id)
     elif file_type == 'java':
         print ('file: {}'.format(file))
-        return judge_java(problem, file)
+        return judge_java(problem, file, user_id)
 
     return "Unsupport file type"
 
