@@ -1,13 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-string reverseInteger(string s) {
+bool isUnique(string s) {
     // Your code here
 }
 
 int main() {
     string s;
     cin >> s;
-    cout << reverseInteger(s) << endl;
+    cout << (isUnique(s) ? "True" : "False") << endl;
     return 0;
 }
