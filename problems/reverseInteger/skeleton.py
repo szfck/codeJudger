@@ -1,6 +1,7 @@
-def main():
+def add(a, b):
     # Your code here
-    pass
+    return a + b
 
 if __name__=='__main__':
-    main()
+    a, b = [int(x) for x in input().split()]
+    print (add(a, b))
