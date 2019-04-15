@@ -72,6 +72,7 @@ function change_session() {
     var lan_mode = language;
 
     if (language == 'cpp') lan_mode = 'c_cpp';
+    if (language == 'py') lan_mode = 'python';
 
     editor.session.setMode("ace/mode/" + lan_mode);
     console.log("<?=$problem_name?>", language);
