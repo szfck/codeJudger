@@ -18,7 +18,7 @@ for input in $problems_path/$problem/secret/*.in; do
     echo begin testing
     timeout $TIME_LIMIT python $submissions_path/$submission < $input 2> $submissions_path/error 1> $submissions_path/output
     
-    if [ "$(cat $submissions_path/error.python)" ]; then
+    if [ "$(cat $submissions_path/error)" ]; then
         exit 2
     fi
 
