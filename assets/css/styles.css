@@ -67,8 +67,12 @@ float: right;
 }
 .problem{
    margin: 0px;
-   background-color: darkgray;
+   background-color: #e9ecef;
    border-radius: 5px;
+}
+
+.table tr:hover{
+   background-color: #e9ecef;
 }
 
 .problem-name{

@@ -25,7 +25,7 @@
             foreach (get_problem_list() as $problem ) {
                 echo "<tr>";
                 echo "<th scope='row'>".$problem_number."</th>";
-                echo "<td> ".anchor("problem/get_problem/".$problem."/".$problem_number, ucfirst($problem), array('class' => 'problems'))."</td>";
+                echo "<td> ".anchor("problem/get_problem/".$problem."/".$problem_number, ucfirst($problem), array('class' => 'problem-list'))."</td>";
                 echo "</tr>";
                 $problem_number++;
             }
