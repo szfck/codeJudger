@@ -6,10 +6,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String s = br.readLine();
-        System.out.println(reverseInteger(s));
+        System.out.println(isUnique(s) ? "True" : "False");
     }
 
-    public static String reverseInteger(String s) {
+    public static boolean isUnique(String s) {
         // Your code here
 
     }

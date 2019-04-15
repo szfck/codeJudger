@@ -1,7 +1,7 @@
-def add(a, b):
+def reverseInteger(s):
     # Your code here
-    return a + b
+    pass
 
 if __name__=='__main__':
-    a, b = [int(x) for x in input().split()]
-    print (add(a, b))
+    s = input()
+    print (reverseInteger(s))

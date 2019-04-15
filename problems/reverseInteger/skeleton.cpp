@@ -1,16 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int add(int a, int b) {
+string reverseInteger(string s) {
     // Your code here
-    return a + b;
 }
 
-int add(int a, int b);
-
 int main() {
-    int a, b;
-    cin >> a >> b;
-    cout << add(a, b) << endl;
+    string s;
+    cin >> s;
+    cout << reverseInteger(s) << endl;
     return 0;
 }
