@@ -30,7 +30,7 @@ def read_problem_config(problem):
         except yaml.YAMLError as exc:
             print(exc)
 
-supported_file_types = ['cpp', 'py', 'java']
+supported_file_types = ['cpp', 'py3', 'py2', 'java']
 
 PENDING = 'Pending'
 ACCEPTED = 'Accepted'
@@ -49,7 +49,7 @@ def is_diff(path1, path2):
     process = subprocess.run('diff {} {}'.format(path1, path2), shell=True)
     return True if process.returncode != 0 else False
 
-def judge(user_id, sub_id, file_type, problem):
+def judge(user_id, sub_id, file_type, file_name, problem):
     ''' Judge submission file
     Args:
         user_id: user id
@@ -64,12 +64,12 @@ def judge(user_id, sub_id, file_type, problem):
     time_limit = config['timelimit']
     case_num = config['testcase']
 
-    print('judging problem: {}, sub_id: {}, user_id: {}, file_tpye: {}'.format(problem, sub_id, user_id, file_type))
+    print('judging problem: {}, sub_id: {}, user_id: {}, file_tpye: {}, file_name: {}'.format(problem, sub_id, user_id, file_type, file_name))
 
     correct_num = 0
     secret_case_path = '{}/problems/{}/secret'.format(ROOT_PATH, problem)
     user_path = '{}/submissions/{}'.format(ROOT_PATH, user_id)
-    sub_path = '{}/{}.{}'.format(user_path, sub_id, file_type)
+    sub_path = '{}/{}'.format(user_path, file_name)
     error_path = '{}/{}.error'.format(user_path, sub_id)
 
     status = PENDING
@@ -87,8 +87,10 @@ def judge(user_id, sub_id, file_type, problem):
             run_cmd = '/tmp/a.out'
         elif file_type == 'java':
             run_cmd = 'java -cp /tmp Main'
-        elif file_type == 'py':
-            run_cmd = 'python {}'.format(sub_path)
+        elif file_type == 'py2':
+            run_cmd = 'python2 {}'.format(sub_path)
+        elif file_type == 'py3':
+            run_cmd = 'python3 {}'.format(sub_path)
 
         process = subprocess.run('timeout {} {} < {} 1> {} 2> {}'.format(time_limit, run_cmd, input_path, user_output_path, error_path), shell=True)
 
@@ -140,19 +142,19 @@ def update(sub_id, result):
     conn.commit();
     print ("sql: {} executed, result is: {}".format(sql_update, result))
 
-def compile(user_id, sub_id, file_type):
+def compile(user_id, sub_id, file_type, file_name):
 
     if file_type not in supported_file_types:
         return "Unsupport file type"
 
     user_path = '{}/submissions/{}'.format(ROOT_PATH, user_id)
-    sub_path = '{}/{}.{}'.format(user_path, sub_id, file_type)
+    sub_path = '{}/{}'.format(user_path, file_name)
     ce_path = '{}/{}.ce'.format(user_path, sub_id)
     if file_type == 'cpp':
         process = subprocess.run('g++ -std=c++11 -o /tmp/a.out {} 2> {}'.format(sub_path, ce_path), shell=True) 
     elif file_type == 'java':
         process = subprocess.run('cp {} /tmp/Main.java && javac /tmp/Main.java 2> {}'.format(sub_path, ce_path), shell=True) 
-    elif file_type == 'py':
+    elif file_type == 'py2' or file_type == 'py3':
         return ''
     
     return read_file(ce_path)
@@ -175,12 +177,13 @@ def judge_api():
     if not data:
         return '[Fail] sql: {}'.format(sql_query)
     
-    problem = data[2]
+    problem = str(data[2])
     user_id = str(data[3])
-    file_type = data[4]
-    file = '{}.{}'.format(sub_id, file_type)
+    file_name = str(data[4])
+    file_type = str(data[5])
+    # file = '{}.{}'.format(sub_id, file_type)
 
-    ce = compile(user_id, sub_id, file_type)
+    ce = compile(user_id, sub_id, file_type, file_name)
     if ce != '': # compile error
         result = {
             'status': COMPILE_ERROR,
@@ -188,7 +191,7 @@ def judge_api():
         }
     else:
         config = read_problem_config(problem)
-        result = judge(user_id, sub_id, file_type, problem)
+        result = judge(user_id, sub_id, file_type, file_name, problem)
 
     update(sub_id, result['status'])
 

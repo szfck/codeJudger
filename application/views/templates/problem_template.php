@@ -19,9 +19,10 @@
         <div class="col-sm-6">
             <div class="language-select" style="margin: 10px">
                 <select onchange="change_session()" id="select_language" class="styled-select semi-square gray">
-                    <option value="cpp">Cpp</option>
-                    <option value="py">Python</option>
-                    <option value="java">Java</option>
+                    <option value="cpp">C++11</option>
+                    <option value="py2">Python2</option>
+                    <option value="py3">Python3</option>
+                    <option value="java">Java8</option>
                 </select>
             </div>
             <div>
@@ -72,7 +73,7 @@ function change_session() {
     var lan_mode = language;
 
     if (language == 'cpp') lan_mode = 'c_cpp';
-    if (language == 'py') lan_mode = 'python';
+    if (language == 'py2' || language == 'py3') lan_mode = 'python';
 
     editor.session.setMode("ace/mode/" + lan_mode);
     console.log("<?=$problem_name?>", language);
@@ -84,7 +85,7 @@ function change_session() {
         data: {
             problem: "<?=$problem_name?>",
             type: language
-        },
+            },
         success: function(skeleton_code) {                 
             code = skeleton_code;
             editor.setValue("");

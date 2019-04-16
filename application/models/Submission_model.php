@@ -4,10 +4,16 @@ class Submission_model extends CI_model{
     public function create_submission($problem_name, $user_id, $code, $type) {
         $query = $this->db->query('SELECT * FROM submission');
         $subid = $query->num_rows() + 1;
+        $file_extension = $type;
+        if ($type == 'py3' || $type == 'py2') {
+            $file_extension = 'py';
+        }
+        $filename = $subid.'.'.$file_extension;
         $submission = array(
             'time' => time(),
             'problem' => $problem_name,
             'userid' =>  $user_id,
+            'filename' => $filename, 
             'type' => $type,
             'result' => 'pending'
         );
@@ -19,7 +25,7 @@ class Submission_model extends CI_model{
             mkdir($dir, 0777, true);
             chmod($dir, 0777);
         }
-        $path = $dir.$subid.".".$type;
+        $path = $dir.$filename;
         
         if (!write_file($path, $code)) {
             die('Unable to write the file');

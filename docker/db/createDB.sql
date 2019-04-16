@@ -16,9 +16,10 @@ CREATE TABLE submission(`subid` int NOT NULL AUTO_INCREMENT,
   `time` int NOT NULL,
   `problem` varchar(100) NOT NULL,
   `userid` int NOT NULL,
+  `filename` varchar(100) NOT NULL,
   `type` varchar(100) NOT NULL,
   `result` varchar(100) NOT NULL,
   PRIMARY KEY (`subid`)
 );
-INSERT INTO `submission` (`time`, `problem`, `userid`, `type`, `result`) VALUES 
-    ('1234567', 'add', 0, 'cpp', 'pending');
+INSERT INTO `submission` (`time`, `problem`, `userid`, `filename`, `type`, `result`) VALUES 
+    ('1234567', 'add', 0, '0.cpp', 'cpp', 'pending');

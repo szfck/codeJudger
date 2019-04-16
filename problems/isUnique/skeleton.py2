@@ -1,0 +1,10 @@
+def isUnique(s):
+    # Your code here
+    pass
+
+if __name__=='__main__':
+    s = raw_input()
+    if isUnique(s):
+        print ("True")
+    else:
+        print ("False")
