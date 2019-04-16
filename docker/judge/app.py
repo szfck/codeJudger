@@ -103,7 +103,7 @@ def query_submission(sub_id):
 def query_submission_result(sub):
     user_path = '{}/submissions/{}'.format(ROOT_PATH, sub.user_id)
     result_path = '{}/{}.json'.format(user_path, sub.sub_id)
-    json_data = json.loads(read_file(result_path))
+    json_data = read_file(result_path)
     return json_data
 def update(sub_id, result):
     ''' update result in database
@@ -236,26 +236,30 @@ def judge_socket(sub_id):
 
     if sub.result in FINISH_STATES:
         result_json = query_submission_result(sub)
-        emit('judge', result_json)
+        emit('judge', json.loads(result_json))
     else:
         result_path = '{}/submissions/{}/{}.json'.format(ROOT_PATH, user_id, sub_id)
-        emit('judge', dict_to_json({
+        emit('judge', json.loads(dict_to_json({
             'status': COMPILING
-        }))
+        })))
+
+        config = read_problem_config(problem)
+
+        time_limit = config['timelimit']
+        case_num = config['testcase']
+
         ce = compile(sub)
         if ce != '': # compile error
             json_data = dict_to_json({
                 'status': COMPILE_ERROR,
+                'total_case': 0,
+                'correct_case': case_num,
                 'error': ce,
             })
             write_data(result_path, json_data)
             update(sub_id, COMPILE_ERROR)
-            emit('judge', json_data)
+            emit('judge', json.loads(json_data))
         else:
-            config = read_problem_config(problem)
-
-            time_limit = config['timelimit']
-            case_num = config['testcase']
 
             for case_id in range(1, case_num + 1):
                 result = judge(sub, case_id, case_num, time_limit)
@@ -263,10 +267,10 @@ def judge_socket(sub_id):
                 if result['status'] != JUDGING: # judge finish
                     write_data(result_path, json_data)
                     update(sub_id, result['status'])
-                    emit('judge', json_data)
+                    emit('judge', json.loads(json_data))
                     break
                 else: # still in judging
-                    emit('judge', json_data)
+                    emit('judge', json.loads(json_data))
 
 @socketio.on('connect')
 def socket_connect_client():
