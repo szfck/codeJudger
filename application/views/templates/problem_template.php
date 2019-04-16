@@ -100,13 +100,24 @@ function change_session() {
 }
 
 function html_to_append(alert_type, data){
-    return $("#result").html("<div class=\"alert alert-"+alert_type+"\"  role=\"alert\">\
-            <p >"+data["res"]+"<p>\
-            <pre>"+"stdout : "+data["output"]+"</pre>\
-            <pre>"+"Expected : "+data["expected_output"]+"</pre>\
-            <pre>"+"stderr : "+data["error"]+"</pre>\
-            </div>\
-            ");
+    if (data["status"] == "Compile Error") {
+        return $("#result").html("<div class=\"alert alert-"+alert_type+"\"  role=\"alert\">\
+                <p >"+data["status"]+"<p>\
+                <pre>"+"Error : "+data["error"]+"</pre>\
+                </div>\
+                ");
+    } else {
+        return $("#result").html("<div class=\"alert alert-"+alert_type+"\"  role=\"alert\">\
+                <p >"+data["status"]+"<p>\
+                <pre>"+"Total cases : "+data["total_case"]+"</pre>\
+                <pre>"+"Correct cases : "+data["correct_case"]+"</pre>\
+                <pre>"+"Input : "+data["input"]+"</pre>\
+                <pre>"+"Your output : "+data["user_output"]+"</pre>\
+                <pre>"+"Correct output : "+data["correct_output"]+"</pre>\
+                <pre>"+"Error : "+data["error"]+"</pre>\
+                </div>\
+                ");
+    }
 }
 
 function submit() {
@@ -126,10 +137,16 @@ function submit() {
         dataType: "json",
         success: function(data, status, xhr) {                 
             $("#loader").hide();
-            res = data["res"];
-            output = data["output"];
-            expected_output = data["expected_output"];
+            console.log(data);
+
+            res = data["status"];
+            totalcase = data["total_case"];
+            correctcase = data["correct_case"];
+            input = data["input"];
+            output = data["user_output"];
+            expected_output = data["correct_output"];
             error = data["error"];
+
             if (res == "Accepted") {
                 html_to_append("success", data);
             } else if (res == "Compile Error") {
@@ -138,6 +155,8 @@ function submit() {
                 html_to_append("danger", data);
             } else if (res == "Time Limit Exceed") {
                 html_to_append("secondary", data);
+            } else if (res == "Runtime Error") {
+                html_to_append("danger", data);
             } else {
                 html_to_append("light", data);
             }

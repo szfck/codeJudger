@@ -20,7 +20,7 @@ stop: ## stop running containers
 	cd docker; docker-compose down;
 
 rebuild-judge: ## run judger container on port 3000
-	cd docker/judge; docker-compose up --build;
+	cd docker; docker-compose up --build judge;
 
 judger-judge: ## enter the bash of judger container
 	docker exec -it judger-judge sh
