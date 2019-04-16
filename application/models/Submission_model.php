@@ -17,6 +17,7 @@ class Submission_model extends CI_model{
             'type' => $type,
             'result' => 'pending'
         );
+
         $this->db->insert('submission', $submission);
 
         $this->load->helper('file');        
@@ -42,6 +43,18 @@ class Submission_model extends CI_model{
         
         if($query=$this->db->get()) {
             return $query->result();
+        } else{
+            return [];
+        }
+    }
+
+    function get_submission($sub_id) {
+        $this->db->select('*');
+        $this->db->from('submission');
+        $this->db->where('subid',$sub_id);
+        
+        if($query=$this->db->get()) {
+            return $query->row();
         } else{
             return [];
         }

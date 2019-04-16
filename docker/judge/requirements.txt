@@ -1,4 +1,5 @@
 flask
 flask-mysql
 flask-cors
+flask_socketio
 PyYAML
