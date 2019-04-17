@@ -295,6 +295,12 @@ def judge_socket(sub_id):
             update(sub_id, COMPILE_ERROR) # update db
             emit('judge', dict_to_json(result)) # send result for {case_id}th case
         else:
+            # start judging
+            emit('judge', dict_to_json({
+                'status': JUDGING,
+                'current_case': 0,
+                'total_case': case_num,
+            }))
 
             for case_id in range(1, case_num + 1):
                 result = judge(sub, case_id, case_num, time_limit)
