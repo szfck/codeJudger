@@ -94,7 +94,11 @@ socket.on('judge', function(data) {
     current_case = data['current_case'];
 
     for (; case_id <= current_case; case_id++) {
-        addBoxStatus(case_id, data['status']);
+        if (case_id < current_case) { // for history result, current_case means last case to fail or accept
+            addBoxStatus(case_id, ACCEPTED);
+        } else {
+            addBoxStatus(case_id, data['status']);
+        }
     }
 
     addResultStatus(data);
