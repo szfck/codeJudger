@@ -27,28 +27,15 @@ class Submission extends CI_Controller {
         $file_name = $sub->filename;
         $problem = $sub->problem;
 
-        // $status = $sub->result;
-        // $time = $sub->time;
-        // $file_type = $sub->type;
-
-//   `time` int NOT NULL,
-//   `problem` varchar(100) NOT NULL,
-//   `userid` int NOT NULL,
-//   `filename` varchar(100) NOT NULL,
-//   `type` varchar(100) NOT NULL,
-//   `result` varchar(100) NOT NULL,
-
         $user_path = FCPATH.'/submissions/'.$user_id."/";
         $code_path = $user_path.$file_name;
 
         // parse problem config.yml file
         $config_yml_path = FCPATH.'/problems/'.$problem."/config.yml";
         $config_yml = file_get_contents($config_yml_path);
-        // var_dump($config_yml);
         $array = explode("\n", $config_yml);
         foreach ($array as $item) {
             $string = str_replace(' ', '', $item);
-            // var_dump($string);
             if (strcmp($string, '') == 0) continue;
             $key_value = explode(":", $string);
             if ($key_value[0] == 'timelimit') $timelimit = $key_value[1];

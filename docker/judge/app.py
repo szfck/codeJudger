@@ -75,9 +75,21 @@ def read_problem_config(problem):
             print(exc)
 
 def dict_to_json(dict_data):
+    ''' Transform python dict to json object
+    Args:
+        dict_data: python dict object
+    Return:
+        json object
+    '''
     return json.loads(dict_to_json_str(dict_data))
 
 def dict_to_json_str(dict_data):
+    ''' Transform python dict to json string
+    Args:
+        dict_data: python dict object
+    Return:
+        json string
+    '''
     return json.dumps(dict_data, indent=4)
 
 def write_data(path, data):
@@ -85,10 +97,25 @@ def write_data(path, data):
         f.write(data)
 
 def is_diff(path1, path2):
+    ''' Compare two files
+    Args:
+        path1: path for first file
+        path2: path for second file
+    Return:
+        True if two files are different, False otherwise
+    '''
+
     process = subprocess.run('diff {} {}'.format(path1, path2), shell=True)
     return True if process.returncode != 0 else False
 
 def query_submission(sub_id):
+    ''' Query submission using submission id
+    Args:
+        sub_id: submission id
+    Return:
+        Submission class
+    '''
+
     print (sub_id);
     conn = mysql.connect()
     cursor =conn.cursor()
@@ -104,15 +131,23 @@ def query_submission(sub_id):
     return sub
 
 def query_submission_result(sub):
+    ''' Fetch json result
+    Args:
+        sub: Submission class
+    Return:
+        Result json string
+    '''
+
     user_path = '{}/submissions/{}'.format(ROOT_PATH, sub.user_id)
     result_path = '{}/{}.json'.format(user_path, sub.sub_id)
     json_data = read_file(result_path)
     return json_data
+
 def update(sub_id, result):
-    ''' update result in database
+    ''' Update result in database
     Args:
         sub_id: submission id
-        result: judge result
+        result: judge status string
     '''
 
     conn = mysql.connect()
@@ -124,6 +159,12 @@ def update(sub_id, result):
     print ("sql: {} executed, result is: {}".format(sql_update, result))
 
 def compile(sub):
+    ''' Compile submission
+    Args:
+        sub: Submission class
+    Return:
+        Compile Error Output, empty string if no error
+    '''
 
     file_type = sub.file_type
     user_id = sub.user_id
@@ -182,7 +223,7 @@ def judge(sub, case_id, total_case, time_limit):
     elif file_type == 'py3':
         run_cmd = 'python3 {}'.format(sub_path)
 
-    status = JUDGING
+    status = JUDGING # initial status
 
     process = subprocess.run('timeout {} {} < {} 1> {} 2> {}'.format(time_limit, run_cmd, input_path, user_output_path, error_path), shell=True)
 
@@ -199,7 +240,7 @@ def judge(sub, case_id, total_case, time_limit):
     elif is_diff(correct_output_path, user_output_path): # wrong answer
         status = WRONG_ANSWER
     else: # accepted
-        if case_id == total_case:
+        if case_id == total_case: # all cases passed
             status = ACCEPTED
     
     result = {
@@ -235,14 +276,14 @@ def judge_socket(sub_id):
         time_limit = config['timelimit']
         case_num = config['testcase']
 
+        # compiling
         emit('judge', dict_to_json({
             'status': COMPILING,
             'current_case': 0,
             'total_case': case_num,
         }))
 
-
-        ce = compile(sub)
+        ce = compile(sub) # get compile info
         if ce != '': # compile error
             result = {
                 'status': COMPILE_ERROR,
@@ -250,22 +291,22 @@ def judge_socket(sub_id):
                 'total_case': case_num,
                 'error': ce,
             }
-            write_data(result_path, dict_to_json_str(result))
-            update(sub_id, COMPILE_ERROR)
-            emit('judge', dict_to_json(result))
+            write_data(result_path, dict_to_json_str(result)) # write to json file
+            update(sub_id, COMPILE_ERROR) # update db
+            emit('judge', dict_to_json(result)) # send result for {case_id}th case
         else:
 
             for case_id in range(1, case_num + 1):
                 result = judge(sub, case_id, case_num, time_limit)
-                emit('judge', dict_to_json(result))    
+                emit('judge', dict_to_json(result)) # send result for {case_id}th case 
                             
                 if result['status'] != JUDGING: # judge finish
-                    write_data(result_path, dict_to_json_str(result))
-                    update(sub_id, result['status'])
+                    write_data(result_path, dict_to_json_str(result)) # write to json file
+                    update(sub_id, result['status']) # update db
                     break
 
 @socketio.on('connect')
-def socket_connect_client():
+def socket_connect_client(): # connect to client
     print('connect to client')
 
 if __name__ == '__main__':
