@@ -75,7 +75,10 @@ def read_problem_config(problem):
             print(exc)
 
 def dict_to_json(dict_data):
-    return json.loads(json.dumps(dict_data, indent=4))
+    return json.loads(dict_to_json_str(dict_data))
+
+def dict_to_json_str(dict_data):
+    return json.dumps(dict_data, indent=4)
 
 def write_data(path, data):
     with open(path, 'w') as f:
@@ -232,35 +235,33 @@ def judge_socket(sub_id):
         time_limit = config['timelimit']
         case_num = config['testcase']
 
-        emit('judge', json.loads(dict_to_json({
+        emit('judge', dict_to_json({
             'status': COMPILING,
             'current_case': 0,
             'total_case': case_num,
-        })))
+        }))
 
 
         ce = compile(sub)
         if ce != '': # compile error
-            json_data = dict_to_json({
+            result = {
                 'status': COMPILE_ERROR,
                 'current_case': 1,
                 'total_case': case_num,
                 'error': ce,
-            })
-            write_data(result_path, json_data)
+            }
+            write_data(result_path, dict_to_json_str(result))
             update(sub_id, COMPILE_ERROR)
-            emit('judge', json.loads(json_data))
+            emit('judge', dict_to_json(result))
         else:
 
             for case_id in range(1, case_num + 1):
                 result = judge(sub, case_id, case_num, time_limit)
-                json_data = dict_to_json(result)
-                emit('judge', json_data)    
+                emit('judge', dict_to_json(result))    
                             
                 if result['status'] != JUDGING: # judge finish
-                    write_data(result_path, json_data)
+                    write_data(result_path, dict_to_json_str(result))
                     update(sub_id, result['status'])
-                    emit('judge', json.loads(json_data))
                     break
 
 @socketio.on('connect')
