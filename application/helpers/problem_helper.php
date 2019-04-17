@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 function get_problem_list() {
     $path = getcwd().'/problems';
     $problems = array();

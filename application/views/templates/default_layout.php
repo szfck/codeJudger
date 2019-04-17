@@ -3,7 +3,6 @@
 
 <head>
     <title> CodeJudger </title>
-</head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
@@ -15,6 +14,7 @@
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -42,6 +42,9 @@
 
         <div class="topnav-right" style="float: right;">
             <?php if (isset($_SESSION['user_name'])) { ?>
+                <?php if ($_SESSION['user_name'] == 'rajeev') { ?>
+                <a href="<?=base_url('contribute')?>">Contribute</a>
+                <?php } ?>
             <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
             <?php } else { ?>
             <a href="<?=base_url('register')?>">Register here</a>
