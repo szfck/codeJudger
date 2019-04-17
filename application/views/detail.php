@@ -159,7 +159,7 @@ socket.on('judge', function(data) {
                     </td>
 
                     <td class="runtime middle" data-type="cpu">
-                        0.06&nbsp;s
+                        0.06&nbsp;s&nbsp;(<?=$timelimit?>&nbsp;s)
                     </td>
 
                     <td class="middle" data-type="lang">
