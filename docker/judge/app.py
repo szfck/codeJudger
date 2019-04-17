@@ -6,6 +6,7 @@ from flask_socketio import SocketIO, send, emit
 import subprocess
 import yaml
 import json
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -255,6 +256,8 @@ def judge(sub, case_id, total_case, time_limit):
     
     return result
 
+current_milli_time = lambda: int(round(time.time() * 1000))
+
 @socketio.on('judge')
 def judge_socket(sub_id):
     print ('start judge, sub id: {}'.format(sub_id))
@@ -302,14 +305,22 @@ def judge_socket(sub_id):
                 'total_case': case_num,
             }))
 
+            previous_send_time = current_milli_time()
+            HALF_SECOND_MILLI_UNIT = 500 # milli unit for half second
+
             for case_id in range(1, case_num + 1):
                 result = judge(sub, case_id, case_num, time_limit)
-                emit('judge', dict_to_json(result)) # send result for {case_id}th case 
                             
                 if result['status'] != JUDGING: # judge finish
                     write_data(result_path, dict_to_json_str(result)) # write to json file
                     update(sub_id, result['status']) # update db
+                    emit('judge', dict_to_json(result)) # send result for {case_id}th case 
                     break
+                else: # still in judging
+                    current_time = current_milli_time()
+                    if current_time - previous_send_time >= HALF_SECOND_MILLI_UNIT:
+                        emit('judge', dict_to_json(result)) # send result for {case_id}th case 
+                        previous_send_time = current_time
 
 @socketio.on('connect')
 def socket_connect_client(): # connect to client
