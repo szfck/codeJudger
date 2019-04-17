@@ -35,7 +35,7 @@ ACCEPTED = 'Accepted'
 WRONG_ANSWER = 'Wrong Answer'
 COMPILE_ERROR = 'Compile Error'
 TIME_LIMIE_EXCEED = 'Time Limit Exceed'
-RUN_TIME_ERROR = 'Runtime Error'
+RUNTIME_ERROR = 'Runtime Error'
 UNKNOWN_ERROR = 'Unknown Error'
 
 TIMEOUT_CODE=124
@@ -103,7 +103,7 @@ def query_submission(sub_id):
 def query_submission_result(sub):
     user_path = '{}/submissions/{}'.format(ROOT_PATH, sub.user_id)
     result_path = '{}/{}.json'.format(user_path, sub.sub_id)
-    json_data = json.loads(read_file(result_path))
+    json_data = read_file(result_path)
     return json_data
 def update(sub_id, result):
     ''' update result in database
@@ -146,14 +146,12 @@ def judge(sub, case_id, total_case, time_limit):
     ''' Judge submission file
     Args:
         sub: submission class
-        config: config dict
+        case_id: current case id to be judged
+        total_case: total case number
+        time_limit: time limit to run
     Return:
         Judging result
     '''
-
-    # time_limit = config['timelimit']
-    # case_num = config['testcase']
-
     sub_id = sub.sub_id
     user_id = sub.user_id
     file_type = sub.file_type
@@ -168,8 +166,6 @@ def judge(sub, case_id, total_case, time_limit):
     sub_path = '{}/{}'.format(user_path, file_name)
     error_path = '{}/{}.error'.format(user_path, sub_id)
 
-
-    # for case in range(1, case_num + 1):
     input_path = '{}/{}.in'.format(secret_case_path, case_id)
     correct_output_path = '{}/{}.out'.format(secret_case_path, case_id)
     user_output_path = '/tmp/{}.out'.format(case_id)
@@ -192,29 +188,21 @@ def judge(sub, case_id, total_case, time_limit):
     case_correct_output = read_file(correct_output_path)
     error = read_file(error_path)
 
-    # error = ''
-    # case_input = ''
-    # case_user_output = ''
-    # case_correct_output = ''
-
     if process.returncode == TIMEOUT_CODE: # time limit exceed
         status = TIME_LIMIE_EXCEED
-        case_id -= 1
     elif process.returncode != 0: # runtime error
-        status = RUN_TIME_ERROR
+        status = RUNTIME_ERROR
         error = read_file(error_path)
-        case_id -= 1
     elif is_diff(correct_output_path, user_output_path): # wrong answer
         status = WRONG_ANSWER
-        case_id -= 1
     else: # accepted
         if case_id == total_case:
             status = ACCEPTED
     
     result = {
         'status': str(status),
+        'current_case': str(case_id),
         'total_case': str(total_case),
-        'correct_case': str(case_id),
         'error': str(error),
         'input': str(case_input),
         'user_output': str(case_user_output),
@@ -232,30 +220,37 @@ def judge_socket(sub_id):
     user_id = sub.user_id
     problem = sub.problem
 
-    FINISH_STATES = [COMPILE_ERROR, ACCEPTED, WRONG_ANSWER, RUN_TIME_ERROR, TIME_LIMIE_EXCEED, UNKNOWN_ERROR]
+    FINISH_STATES = [COMPILE_ERROR, ACCEPTED, WRONG_ANSWER, RUNTIME_ERROR, TIME_LIMIE_EXCEED, UNKNOWN_ERROR]
 
     if sub.result in FINISH_STATES:
         result_json = query_submission_result(sub)
-        emit('judge', result_json)
+        emit('judge', json.loads(result_json))
     else:
         result_path = '{}/submissions/{}/{}.json'.format(ROOT_PATH, user_id, sub_id)
-        emit('judge', dict_to_json({
-            'status': COMPILING
-        }))
+        config = read_problem_config(problem)
+
+        time_limit = config['timelimit']
+        case_num = config['testcase']
+
+        emit('judge', json.loads(dict_to_json({
+            'status': COMPILING,
+            'current_case': 0,
+            'total_case': case_num,
+        })))
+
+
         ce = compile(sub)
         if ce != '': # compile error
             json_data = dict_to_json({
                 'status': COMPILE_ERROR,
+                'current_case': 1,
+                'total_case': case_num,
                 'error': ce,
             })
             write_data(result_path, json_data)
             update(sub_id, COMPILE_ERROR)
-            emit('judge', json_data)
+            emit('judge', json.loads(json_data))
         else:
-            config = read_problem_config(problem)
-
-            time_limit = config['timelimit']
-            case_num = config['testcase']
 
             for case_id in range(1, case_num + 1):
                 result = judge(sub, case_id, case_num, time_limit)
@@ -265,56 +260,12 @@ def judge_socket(sub_id):
                 if result['status'] != JUDGING: # judge finish
                     write_data(result_path, json_data)
                     update(sub_id, result['status'])
-                    emit('judge', json_data)
+                    emit('judge', json.loads(json_data))
                     break
 
 @socketio.on('connect')
 def socket_connect_client():
     print('connect to client')
-    # sub_id = request.args.get('submission_id')
-    # sub = query_submission(sub_id)
-
-    # sub_id = sub.sub_id
-    # user_id = sub.user_id
-    # file_type = sub.file_tpye
-    # file_name = sub.file_name
-    # problem = sub.problem
-
-    # FINISH_STATES = [COMPILE_ERROR, ACCEPTED, WRONG_ANSWER, RUN_TIME_ERROR, TIME_LIMIE_EXCEED, UNKNOWN_ERROR]
-
-    # if sub.result in FINISH_STATES:
-    #     result_json = query_submission_result(sub)
-    #     send(result_json)
-    # else:
-    #     result_path = '{}/submissions/{}/{}.json'.format(ROOT_PATH, user_id, sub_id)
-    #     send('judge', dict_to_json({
-    #         'status': COMPILING
-    #     }))
-    #     ce = compile(sub)
-    #     if ce != '': # compile error
-    #         json_data = dict_to_json({
-    #             'status': COMPILE_ERROR,
-    #             'error': ce,
-    #         })
-    #         write_data(result_path, json_data)
-    #         update(sub_id, COMPILE_ERROR)
-    #         send('judge', json_data)
-    #     else:
-    #         config = read_problem_config(problem)
-
-    #         time_limit = config['timelimit']
-    #         case_num = config['testcase']
-
-    #         for case in range(1, case_num + 1):
-    #             result = judge(sub, case_id, case_num, time_limit)
-    #             json_data = dict_to_json(result)
-    #             if result['status'] != JUDGING: # judge finish
-    #                 write_data(result_path, json_data)
-    #                 update(sub_id, result['status'])
-    #                 send('judge', json_data)
-    #                 break
-    #             else: # still in judging
-    #                 send('judge', json_data)
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=3000)
