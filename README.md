@@ -33,6 +33,12 @@ make rebuild
 make create-db
 ```
 
+### generate testcases
+```
+cd problems
+./genTestcase.sh [problem] [case_number]
+```
+
 ### Containers
 
 #### 1. Web container [PHP]
@@ -54,32 +60,38 @@ judge server is running in <strong>judger-judge:3000</strong> inside docker cont
 | 3         |             |           |           |
 
 ### Submission
-| subid     | time          | problemname | userid  |  type    | result             |
-| ----------|:-------------:| -----------:| -------:| -----------:| ------------------:|
-| 1         | 2019/02/24    | sum         |1        |  cpp   | accepted           |
-| 2         | 2019/02/25    | sum         |1        | java  | wrong answer       |
-| 3         | 2019/02/25    | sum         |1        | cpp   | compile error      |
-| 4         | 2019/02/26    | sum         |1        | cpp   | time limit exceed  |
-| 5         | 2019/02/26    | sum         |1        | java  | pending            |
+| subid | time        | problem  |userid |filename|  type| result   |
+| -----:|------------:| --------:| -----:| ------:| ----:|-------------------:|
+| 1     | 2019/02/24  | sum      |1      |   1.cpp| cpp  | accepted           |
+| 2     | 2019/02/25  | sum      |1      |  2.java| java | wrong answer       |
+| 3     | 2019/02/25  | sum      |1      |   3.cpp| cpp  | compile error      |
+| 4     | 2019/02/26  | sum      |1      |   4.py | py2  | time limit exceed  |
+| 5     | 2019/02/26  | sum      |1      |   5.py | py3  | pending            |
 
 
 ### Problems folder structure
 
 - problems
   - sum
+    - genData
+      - gen.py
+      - answer.cpp
     - describe.txt
     - sample-input.txt
     - sample-output.txt
+    - config.yml
     - secret
-      - in01.txt
-      - out01.txt
-      - in02.txt
-      - out02.txt
+      - in1.txt
+      - out1.txt
+      - in2.txt
+      - out2.txt
       - ...
       
 ### Submissions folder 
 - submissions
-  - 1.cpp
-  - 2.java
-  - 3.cpp
-  - [subid].[type]
+  - 1
+    - 1.cpp
+    - 2.java
+    - 3.cpp
+  - [user_id]
+    - [sub_id].[type]
