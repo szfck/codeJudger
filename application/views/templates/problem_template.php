@@ -111,7 +111,7 @@ function html_to_append(alert_type, data){
         return $("#result").html("<div class=\"alert alert-"+alert_type+"\"  role=\"alert\">\
                 <p >"+data["status"]+"<p>\
                 <pre>"+"Total cases : "+data["total_case"]+"</pre>\
-                <pre>"+"Correct cases : "+data["correct_case"]+"</pre>\
+                <pre>"+"Correct cases : "+data["current_case"]+"</pre>\
                 <pre>"+"Input : "+data["input"]+"</pre>\
                 <pre>"+"Your output : "+data["user_output"]+"</pre>\
                 <pre>"+"Correct output : "+data["correct_output"]+"</pre>\
@@ -144,7 +144,7 @@ function submit() {
 
             // res = data["status"];
             // totalcase = data["total_case"];
-            // correctcase = data["correct_case"];
+            // correctcase = data["current_case"];
             // input = data["input"];
             // output = data["user_output"];
             // expected_output = data["correct_output"];
