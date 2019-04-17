@@ -260,13 +260,13 @@ def judge_socket(sub_id):
             for case_id in range(1, case_num + 1):
                 result = judge(sub, case_id, case_num, time_limit)
                 json_data = dict_to_json(result)
+                emit('judge', json_data)    
+                            
                 if result['status'] != JUDGING: # judge finish
                     write_data(result_path, json_data)
                     update(sub_id, result['status'])
                     emit('judge', json_data)
                     break
-                else: # still in judging
-                    emit('judge', json_data)
 
 @socketio.on('connect')
 def socket_connect_client():
