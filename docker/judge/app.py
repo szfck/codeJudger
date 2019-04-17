@@ -75,7 +75,7 @@ def read_problem_config(problem):
             print(exc)
 
 def dict_to_json(dict_data):
-    return json.dumps(dict_data, indent=4)
+    return json.loads(json.dumps(dict_data, indent=4))
 
 def write_data(path, data):
     with open(path, 'w') as f:
