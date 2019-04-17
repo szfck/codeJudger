@@ -78,6 +78,14 @@ class Contribute extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function get_skeleton_code(){
+		$problemName = $_POST['problem'];
+		$language = $_POST['language'];
+		
+		$code = $this->contribute_model->get_skeleton_code($problemName, $language);
+		echo json_encode($code);
+	}
+
 	public function add_skeleton_code(){
 		$problemName = $_POST['problem'];
 		$skeletonCode = $_POST['code'];

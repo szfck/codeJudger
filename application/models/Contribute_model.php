@@ -53,5 +53,10 @@ class Contribute_model extends CI_model{
         }
         return TRUE;
     }
+
+    public function get_skeleton_code($problemName, $language){
+        $skeleton_file = FCPATH."/problems/".$problemName."/skeleton.".$language;
+        return read_file($skeleton_file);
+    }
 }
 ?>

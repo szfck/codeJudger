@@ -90,6 +90,28 @@
         });
     })
 
+    $( "#language" ).change(function() {
+        problemName = document.getElementById('problem').value;
+        language = document.getElementById("language").value;
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url('contribute/get_skeleton_code')?>",
+            crossDomain: true,
+            data: {
+                problem: problemName,
+                language: language,
+            },
+            dataType: "json",
+            success: function(data, status, xhr) {
+                document.getElementById("skeletonCode").value = data;
+                console.log(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    })
+
     $("#submit-button").click(function() {
         problemName = document.getElementById("problem").value;
         skeletonCode = document.getElementById("skeletonCode").value;
