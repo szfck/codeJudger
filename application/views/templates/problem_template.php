@@ -100,27 +100,6 @@ function change_session() {
     
 }
 
-function html_to_append(alert_type, data){
-    if (data["status"] == "Compile Error") {
-        return $("#result").html("<div class=\"alert alert-"+alert_type+"\"  role=\"alert\">\
-                <p >"+data["status"]+"<p>\
-                <pre>"+"Error : "+data["error"]+"</pre>\
-                </div>\
-                ");
-    } else {
-        return $("#result").html("<div class=\"alert alert-"+alert_type+"\"  role=\"alert\">\
-                <p >"+data["status"]+"<p>\
-                <pre>"+"Total cases : "+data["total_case"]+"</pre>\
-                <pre>"+"Correct cases : "+data["current_case"]+"</pre>\
-                <pre>"+"Input : "+data["input"]+"</pre>\
-                <pre>"+"Your output : "+data["user_output"]+"</pre>\
-                <pre>"+"Correct output : "+data["correct_output"]+"</pre>\
-                <pre>"+"Error : "+data["error"]+"</pre>\
-                </div>\
-                ");
-    }
-}
-
 function submit() {
     $("#result").hide();
     var language = document.getElementById('select_language').value;
@@ -140,34 +119,12 @@ function submit() {
             $("#loader").hide();
             console.log(data);
             sub_id = data;
-            location.href = '/submission/detail/' + sub_id;
-
-            // res = data["status"];
-            // totalcase = data["total_case"];
-            // correctcase = data["current_case"];
-            // input = data["input"];
-            // output = data["user_output"];
-            // expected_output = data["correct_output"];
-            // error = data["error"];
-
-            // if (res == "Accepted") {
-            //     html_to_append("success", data);
-            // } else if (res == "Compile Error") {
-            //     html_to_append("warning", data);
-            // } else if (res == "Wrong Answer") {
-            //     html_to_append("danger", data);
-            // } else if (res == "Time Limit Exceed") {
-            //     html_to_append("secondary", data);
-            // } else if (res == "Runtime Error") {
-            //     html_to_append("danger", data);
-            // } else {
-            //     html_to_append("light", data);
-            // }
-            $("#result").show();
+            location.href = '/submission/detail/' + sub_id; // redirect to submission detail page
         },
         error: function(data) {
             $("#loader").hide();
             console.log(data);
+            location.href = '/login'; // redirec to login page
         }
     });
 }
