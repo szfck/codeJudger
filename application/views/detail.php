@@ -84,6 +84,7 @@ function addResultStatus(data) {
     $("#result_td").attr('class', result_td);
     $("#result_span").attr('class', result_span);
     $("#result_text").html(status);
+    $("#run_time").html(data['run_time']);
 }
 
 socket.on('judge', function(data) {
@@ -159,7 +160,7 @@ socket.on('judge', function(data) {
                     </td>
 
                     <td class="runtime middle" data-type="cpu">
-                        0.06&nbsp;s&nbsp;(<?=$timelimit?>&nbsp;s)
+                        <span id="run_time"></span>&nbsp;s&nbsp;(<?=$timelimit?>&nbsp;s)
                     </td>
 
                     <td class="middle" data-type="lang">

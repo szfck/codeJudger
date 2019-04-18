@@ -17,5 +17,7 @@ RUN apt-get install -y openjdk-8-jdk
 COPY ./requirements.txt /tmp/r.txt
 RUN pip3 install -r /tmp/r.txt
 
+RUN apt-get install -y bc
+
 RUN mkdir -p judge
 WORKDIR /judge
