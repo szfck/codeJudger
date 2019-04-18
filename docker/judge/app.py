@@ -180,7 +180,7 @@ def compile(sub, tmp_dir):
     if file_type == 'cpp':
         process = subprocess.run('g++ -std=c++11 -o {}/a.out {} 2> {}'.format(tmp_dir, sub_path, ce_path), shell=True) 
     elif file_type == 'java':
-        process = subprocess.run('cp {} {}/Main.java && javac {}/Main.java 2> {}'.format(tmp_dir, tmp_dir, sub_path, ce_path), shell=True) 
+        process = subprocess.run('cp {} {}/Main.java && javac {}/Main.java 2> {}'.format(sub_path, tmp_dir, tmp_dir, ce_path), shell=True) 
     elif file_type == 'py2' or file_type == 'py3':
         return ''
     
@@ -203,14 +203,12 @@ def judge(sub, case_id, total_case, time_limit, tmp_dir):
     problem = sub.problem
 
     print ('juding case : {}'.format(case_id))
-    print (tmp_dir)
     # print('judging problem: {}, sub_id: {}, user_id: {}, file_tpye: {}, file_name: {}'.format(problem, sub_id, user_id, file_type, file_name))
 
     secret_case_path = '{}/problems/{}/secret'.format(ROOT_PATH, problem)
     user_path = '{}/submissions/{}'.format(ROOT_PATH, user_id)
     sub_path = '{}/{}'.format(user_path, file_name)
-    error_path = '{}/error'.format(tmp_dir, sub_id)
-    time_output_path = '{}/{}.time'.format(tmp_dir, case_id)
+    error_path = '{}/error'.format(tmp_dir)
 
     input_path = '{}/{}.in'.format(secret_case_path, case_id)
     correct_output_path = '{}/{}.out'.format(secret_case_path, case_id)
@@ -227,29 +225,21 @@ def judge(sub, case_id, total_case, time_limit, tmp_dir):
 
     status = JUDGING # initial status
 
-    judge_time_bash_path = '{}/docker/judge/judge_time.sh'.format(ROOT_PATH)
-
-    cmd = 'timeout {} bash {} {} {} {} {} {}'.format(time_limit, judge_time_bash_path, run_cmd, input_path, user_output_path, error_path, time_output_path)
-    print (cmd)
-    process = subprocess.run('timeout {} bash {} {} {} {} {} {}'.format(time_limit, judge_time_bash_path, run_cmd, input_path, user_output_path, error_path, time_output_path), shell=True)
+    process = subprocess.run('timeout {} {} < {} 1> {} 2> {}'.format(time_limit, run_cmd, input_path, user_output_path, error_path), shell=True)
 
     case_input = read_file(input_path)
     case_user_output = read_file(user_output_path)
     case_correct_output = read_file(correct_output_path)
     error = read_file(error_path)
-    run_time = time_limit
 
     if process.returncode == TIMEOUT_CODE: # time limit exceed
         status = TIME_LIMIE_EXCEED
     elif error != '': # runtime error
         status = RUNTIME_ERROR
         error = read_file(error_path)
-        run_time = read_file(time_output_path)
     elif is_diff(correct_output_path, user_output_path): # wrong answer
         status = WRONG_ANSWER
-        run_time = read_file(time_output_path)
     else: # accepted
-        run_time = read_file(time_output_path)
         if case_id == total_case: # all cases passed
             status = ACCEPTED
     
@@ -261,7 +251,6 @@ def judge(sub, case_id, total_case, time_limit, tmp_dir):
         'input': str(case_input),
         'user_output': str(case_user_output),
         'correct_output': str(case_correct_output),
-        'run_time': str(run_time)
     }
     
     return result
@@ -283,7 +272,7 @@ def judge_socket(sub_id):
         result_json = query_submission_result(sub)
         emit('judge', json.loads(result_json))
     else:
-        tmp_dir = '/tmp/{}'.format(sub_id) # temp output directory
+        tmp_dir = '{}/tmp/{}'.format(ROOT_PATH, sub_id) # temp output directory
         if not os.path.exists(tmp_dir):
             os.makedirs(tmp_dir)
 
@@ -301,14 +290,13 @@ def judge_socket(sub_id):
         }))
 
         ce = compile(sub, tmp_dir) # get compile info
-        max_run_time = 0
         if ce != '': # compile error
             result = {
                 'status': COMPILE_ERROR,
                 'current_case': 1,
                 'total_case': case_num,
                 'error': ce,
-                'time_time': max_run_time
+                'run_time': 0
             }
             write_data(result_path, dict_to_json_str(result)) # write to json file
             update(sub_id, COMPILE_ERROR) # update db
@@ -319,17 +307,22 @@ def judge_socket(sub_id):
                 'status': JUDGING,
                 'current_case': 0,
                 'total_case': case_num,
-                'time_time': max_run_time
+                'run_time': 0
             }))
 
             previous_send_time = current_milli_time()
             HALF_SECOND_MILLI_UNIT = 500 # milli unit for half second
 
+            max_run_time = 0
+
             for case_id in range(1, case_num + 1):
+                begin_time = current_milli_time()
                 result = judge(sub, case_id, case_num, time_limit, tmp_dir)
-                case_run_time = float(result['run_time'])
-                if case_run_time > max_run_time:
-                    max_run_time = case_run_time
+                end_time = current_milli_time()
+                elapse_time = (end_time - begin_time) / 1000.0
+                if elapse_time > max_run_time:
+                    max_run_time = elapse_time
+
                 result['run_time'] = max_run_time
                             
                 if result['status'] != JUDGING: # judge finish
