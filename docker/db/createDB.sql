@@ -5,12 +5,20 @@ CREATE TABLE user(`id` int NOT NULL AUTO_INCREMENT,
   `useremail` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `role` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 );
-INSERT INTO `user` (`useremail`, `username`, `password`) VALUES 
-    ('hello@codejudger.com', 'kai', '123456');
-INSERT INTO `user` (`useremail`, `username`, `password`) VALUES 
-    ('rj1234@nyu.edu', 'rajeev', 'e10adc3949ba59abbe56e057f20f883e');
+
+-- add admins
+INSERT INTO `user` (`useremail`, `username`, `password`, `role`) VALUES 
+    ('hello@codejudger.com', 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin');
+
+INSERT INTO `user` (`useremail`, `username`, `password`, `role`) VALUES 
+    ('rj1234@nyu.edu', 'rajeev', 'e10adc3949ba59abbe56e057f20f883e', 'admin');
+
+-- add user
+INSERT INTO `user` (`useremail`, `username`, `password`, `role`) VALUES 
+    ('hello@codejudger.com', 'kai', 'e10adc3949ba59abbe56e057f20f883e', 'user');
 
 CREATE TABLE submission(`subid` int NOT NULL AUTO_INCREMENT,
   `time` int NOT NULL,

@@ -13,5 +13,4 @@
         <button type="button" class="btn-primary">Logout</button>
       </a></div>
   </div>
-  <?php $this->load->view('submission') ?>
 </div>

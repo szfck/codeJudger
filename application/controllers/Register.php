@@ -24,6 +24,7 @@ class Register extends CI_Controller {
         'useremail'=>$this->input->post('user_email'),
         'username'=>$this->input->post('user_name'),
         'password'=>md5($this->input->post('user_password')),
+        'role'=>'user',
         );
         print_r($user);
    

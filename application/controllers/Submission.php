@@ -14,10 +14,37 @@ class Submission extends CI_Controller {
 
 	public function index()
 	{
-		$content = array('content'=> array(
+		// $content = array('content'=> array(
+        //     'view' => 'submission',
+        // ));
+        // $this->load->model('submission_model');
+        // $this->load->view('/templates/default_layout', $content);
+    }
+
+    public function user_submission_list() {
+		if (!$_SESSION['user_id']){
+			redirect('login');
+		}
+        $user_id = $_SESSION['user_id'];
+        $content = array('content'=> array(
             'view' => 'submission',
+            'data' => array(
+                'submissions' => $this->submission_model->get_user_submission_list($user_id)
+            )
         ));
-        $this->load->model('submission_model');
+
+        $this->load->view('/templates/default_layout', $content);
+
+    }
+
+    public function all_submission_list() {
+        $content = array('content'=> array(
+            'view' => 'submission',
+            'data' => array(
+                'submissions' => $this->submission_model->get_user_submission_list(-1)
+            )
+        ));
+
         $this->load->view('/templates/default_layout', $content);
     }
     

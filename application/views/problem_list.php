@@ -1,7 +1,6 @@
-
 <table class="table">
     <thead class="thead-light">
-    <!-- <h1>Category <span class="badge badge-secondary"></span></h1>
+        <!-- <h1>Category <span class="badge badge-secondary"></span></h1>
     <tr>
     <a href="#" class="badge badge-primary">Array</a>
     <a href="#" class="badge badge-secondary">Sort</a>
@@ -18,14 +17,14 @@
             <th scope="col">Problem</th>
         </tr>
     </thead>
-    <tbody>         
+    <tbody>
         <?php 
             $this->load->helper('problem_helper');
             $problem_number = 1;
             foreach (get_problem_list() as $problem ) {
                 echo "<tr>";
                 echo "<th scope='row'>".$problem_number."</th>";
-                echo "<td> ".anchor("problem/get_problem/".$problem."/".$problem_number, ucfirst($problem), array('class' => 'problem-list'))."</td>";
+                echo "<td> ".anchor("problem/".$problem, ucfirst($problem), array('class' => 'problem-list'))."</td>";
                 echo "</tr>";
                 $problem_number++;
             }

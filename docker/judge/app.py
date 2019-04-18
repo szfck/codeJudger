@@ -5,8 +5,7 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, send, emit
 import subprocess
 import yaml
-import json
-import time
+import json, time, os
 
 app = Flask(__name__)
 CORS(app)
@@ -159,7 +158,7 @@ def update(sub_id, result):
     conn.commit();
     print ("sql: {} executed, result is: {}".format(sql_update, result))
 
-def compile(sub):
+def compile(sub, tmp_dir):
     ''' Compile submission
     Args:
         sub: Submission class
@@ -177,17 +176,17 @@ def compile(sub):
 
     user_path = '{}/submissions/{}'.format(ROOT_PATH, user_id)
     sub_path = '{}/{}'.format(user_path, file_name)
-    ce_path = '{}/{}.ce'.format(user_path, sub_id)
+    ce_path = '{}/ce'.format(tmp_dir)
     if file_type == 'cpp':
-        process = subprocess.run('g++ -std=c++11 -o /tmp/a.out {} 2> {}'.format(sub_path, ce_path), shell=True) 
+        process = subprocess.run('g++ -std=c++11 -o {}/a.out {} 2> {}'.format(tmp_dir, sub_path, ce_path), shell=True) 
     elif file_type == 'java':
-        process = subprocess.run('cp {} /tmp/Main.java && javac /tmp/Main.java 2> {}'.format(sub_path, ce_path), shell=True) 
+        process = subprocess.run('cp {} {}/Main.java && javac {}/Main.java 2> {}'.format(sub_path, tmp_dir, tmp_dir, ce_path), shell=True) 
     elif file_type == 'py2' or file_type == 'py3':
         return ''
     
     return read_file(ce_path)
 
-def judge(sub, case_id, total_case, time_limit):
+def judge(sub, case_id, total_case, time_limit, tmp_dir):
     ''' Judge submission file
     Args:
         sub: submission class
@@ -209,16 +208,16 @@ def judge(sub, case_id, total_case, time_limit):
     secret_case_path = '{}/problems/{}/secret'.format(ROOT_PATH, problem)
     user_path = '{}/submissions/{}'.format(ROOT_PATH, user_id)
     sub_path = '{}/{}'.format(user_path, file_name)
-    error_path = '{}/{}.error'.format(user_path, sub_id)
+    error_path = '{}/error'.format(tmp_dir)
 
     input_path = '{}/{}.in'.format(secret_case_path, case_id)
     correct_output_path = '{}/{}.out'.format(secret_case_path, case_id)
-    user_output_path = '/tmp/{}.out'.format(case_id)
+    user_output_path = '{}/{}.out'.format(tmp_dir, case_id)
 
     if file_type == 'cpp':
-        run_cmd = '/tmp/a.out'
+        run_cmd = '{}/a.out'.format(tmp_dir)
     elif file_type == 'java':
-        run_cmd = 'java -cp /tmp Main'
+        run_cmd = 'java -cp {} Main'.format(tmp_dir)
     elif file_type == 'py2':
         run_cmd = 'python2 {}'.format(sub_path)
     elif file_type == 'py3':
@@ -235,7 +234,7 @@ def judge(sub, case_id, total_case, time_limit):
 
     if process.returncode == TIMEOUT_CODE: # time limit exceed
         status = TIME_LIMIE_EXCEED
-    elif process.returncode != 0: # runtime error
+    elif error != '': # runtime error
         status = RUNTIME_ERROR
         error = read_file(error_path)
     elif is_diff(correct_output_path, user_output_path): # wrong answer
@@ -251,7 +250,7 @@ def judge(sub, case_id, total_case, time_limit):
         'error': str(error),
         'input': str(case_input),
         'user_output': str(case_user_output),
-        'correct_output': str(case_correct_output)
+        'correct_output': str(case_correct_output),
     }
     
     return result
@@ -273,7 +272,11 @@ def judge_socket(sub_id):
         result_json = query_submission_result(sub)
         emit('judge', json.loads(result_json))
     else:
-        result_path = '{}/submissions/{}/{}.json'.format(ROOT_PATH, user_id, sub_id)
+        tmp_dir = '{}/tmp/{}'.format(ROOT_PATH, sub_id) # temp output directory
+        if not os.path.exists(tmp_dir):
+            os.makedirs(tmp_dir)
+
+        result_path = '{}/submissions/{}/{}.json'.format(ROOT_PATH, user_id, sub_id) # result json file
         config = read_problem_config(problem)
 
         time_limit = config['timelimit']
@@ -283,16 +286,17 @@ def judge_socket(sub_id):
         emit('judge', dict_to_json({
             'status': COMPILING,
             'current_case': 0,
-            'total_case': case_num,
+            'total_case': case_num
         }))
 
-        ce = compile(sub) # get compile info
+        ce = compile(sub, tmp_dir) # get compile info
         if ce != '': # compile error
             result = {
                 'status': COMPILE_ERROR,
                 'current_case': 1,
                 'total_case': case_num,
                 'error': ce,
+                'run_time': 0
             }
             write_data(result_path, dict_to_json_str(result)) # write to json file
             update(sub_id, COMPILE_ERROR) # update db
@@ -303,13 +307,23 @@ def judge_socket(sub_id):
                 'status': JUDGING,
                 'current_case': 0,
                 'total_case': case_num,
+                'run_time': 0
             }))
 
             previous_send_time = current_milli_time()
             HALF_SECOND_MILLI_UNIT = 500 # milli unit for half second
 
+            max_run_time = 0
+
             for case_id in range(1, case_num + 1):
-                result = judge(sub, case_id, case_num, time_limit)
+                begin_time = current_milli_time()
+                result = judge(sub, case_id, case_num, time_limit, tmp_dir)
+                end_time = current_milli_time()
+                elapse_time = (end_time - begin_time) / 1000.0
+                if elapse_time > max_run_time:
+                    max_run_time = elapse_time
+
+                result['run_time'] = max_run_time
                             
                 if result['status'] != JUDGING: # judge finish
                     write_data(result_path, dict_to_json_str(result)) # write to json file
