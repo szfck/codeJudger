@@ -21,12 +21,12 @@
     <div id="problem-container" class="justify-content-center align-items-center">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Language</label>
+                <label class="input-group-text" for="inputGroupSelect01">Problem</label>
             </div>
-                <select class="form-control" id="problem" name="problemName">
-                    <option selected>Choose Problem ...</option>
-                    <?php include 'problem_list_for_skeleon.php'; ?>
-                </select>
+            <select class="form-control" id="problem" name="problemName">
+                <option selected>Choose Problem ...</option>
+                <?php include 'problem_list_for_skeleon.php'; ?>
+            </select>
         </div>
         <form role="form" method="post" class="col-12 justify-content-center align-items-center" style="padding-top: 20px;">
             <div class="form-group">
@@ -88,7 +88,7 @@
                 console.log(data);
             }
         });
-    })
+    });
 
     $( "#language" ).change(function() {
         problemName = document.getElementById('problem').value;
@@ -110,7 +110,7 @@
                 console.log(data);
             }
         });
-    })
+    });
 
     $("#submit-button").click(function() {
         problemName = document.getElementById("problem").value;

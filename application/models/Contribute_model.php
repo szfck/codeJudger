@@ -32,6 +32,12 @@ class Contribute_model extends CI_model{
             if (!mkdir($dir, 0777, TRUE)){
                 die ("Failed to make the problem directory");
             }
+            if (!mkdir($dir."secret/", 0777, TRUE)){
+                die ("Failed to make the secret directory in ".$problemName);
+            }
+            if (!chmod($dir."secret/", 0777)){
+                die ("Failed to change the permissions of ".$problemName."/secret directory");
+            }
             if (!chmod($dir, 0777)){
                 die ("Failed to change the permissions of ".$problemName." directory");
             }
@@ -57,6 +63,35 @@ class Contribute_model extends CI_model{
     public function get_skeleton_code($problemName, $language){
         $skeleton_file = FCPATH."/problems/".$problemName."/skeleton.".$language;
         return read_file($skeleton_file);
+    }
+
+    public function add_testcase($problemName, $testInput, $testOutput) {
+        $dir = FCPATH."/problems/".trim($problemName)."/secret/";
+        if(!$dir){
+            if (!mkdir($dir, 0775, TRUE)){
+                die ("Failed to make the secret directory for ".$problemName);
+            }
+            if (!chmod($dir, 0775)){
+                die ("Failed to change the permissions of ".$problemName." directory");
+            }
+        }
+        
+        $file_array = get_filenames($dir);
+        $temp = array();
+        foreach ($file_array as $file) {
+            $str_arr = explode (".", $file)[0];
+            array_push($temp, $str_arr);
+        }
+        rsort($temp);
+        $next_available = $temp[0] + 1;
+
+        if (!write_file($dir.$next_available.".in", trim($testInput))) {
+            return FALSE;
+        }
+        if (!write_file($dir.$next_available.".out", trim($testOutput))) {
+            return FALSE;
+        }
+        return TRUE;
     }
 }
 ?>

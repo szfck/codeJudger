@@ -58,6 +58,23 @@ class Contribute extends CI_Controller {
 		redirect('contribute/add_skeleton_code_view');
 	}
 
+	public function add_testcase(){
+		$problemName = $_POST['problem'];
+		$testInput = $_POST['input'];
+		$testOutput = $_POST['output'];
+
+		$data = $this->contribute_model->add_testcase($problemName, $testInput, $testOutput);
+		
+		echo json_encode($data);
+
+		if($data){
+			$this->session->set_flashdata('Success', 'Testcase for '.$problemName.' added successfully :)');
+		}else{
+			$this->session->set_flashdata('Failed', "Failed to add the testcase for ".$problemName);	
+		}
+		redirect('contribute/add_testcase_view');
+	}
+
 	public function add_skeleton_code_view(){
 		$data = array('content'=> array(
 			'view' => 'addSkeletonCode',
