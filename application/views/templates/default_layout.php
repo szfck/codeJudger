@@ -38,11 +38,14 @@
 <body>
     <div class="topnav">
         <a href="<?php echo base_url('home') ?>">CodeJudger</a>
+        <a href="<?=base_url('queue')?>">Judge Queue</a>
+        <a href="<?=base_url('myqueue')?>">My Submission</a>
         <a href="<?=base_url('article')?>">Articles</a>
 
         <div class="topnav-right" style="float: right;">
             <?php if (isset($_SESSION['user_name'])) { ?>
-                <?php if ($_SESSION['user_name'] == 'rajeev') { ?>
+                <!-- TODO: add admin role in db instead of hardcode -->
+                <?php if ($_SESSION['user_name'] == 'rajeev') { ?>  
                 <a href="<?=base_url('contribute')?>">Contribute</a>
                 <?php } ?>
             <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>

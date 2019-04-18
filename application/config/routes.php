@@ -53,3 +53,5 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['problem/(:any)'] = 'problem/get_problem/$1';
+$route['queue'] = 'submission/all_submission_list';
+$route['myqueue'] = 'submission/user_submission_list';

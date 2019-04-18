@@ -34,11 +34,12 @@ class Submission_model extends CI_model{
         return $subid;
     }
 
-    function get_user_submission_list() {
-        $user_id = $_SESSION['user_id'];
+    function get_user_submission_list($user_id) {
         $this->db->select('*');
         $this->db->from('submission');
-        $this->db->where('userid',$user_id);
+        if ($user_id >= 0) {
+            $this->db->where('userid',$user_id);
+        }
         $this->db->order_by('subid', 'desc');
         
         if($query=$this->db->get()) {
