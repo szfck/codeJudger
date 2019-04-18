@@ -143,7 +143,7 @@ socket.on('judge', function(data) {
                     </td>
 
                     <td class="middle" id="problem_title">
-                        <a href="/problem/get_problem/<?=$sub->problem?>">
+                        <a href="/problem/<?=$sub->problem?>">
                             <?=ucfirst($sub->problem)?>
                         </a>
                     </td>

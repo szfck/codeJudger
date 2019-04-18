@@ -14,7 +14,7 @@
         "<tr>".
             "<td>".anchor("submission/detail/".$sub->subid.".".$sub->type, $sub->subid)."</td>".
             "<td>".date("Y-m-d H:i:s", $sub->time)."</td>".
-            "<td>".anchor("problem/get_problem/".$sub->problem, ucfirst($sub->problem))."</td>".
+            "<td>".anchor("problem/".$sub->problem, ucfirst($sub->problem))."</td>".
             "<td>".$sub->userid."</td>".
             "<td>".$sub->type."</td>".
             "<td>".$sub->result."</td>".
