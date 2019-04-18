@@ -44,11 +44,10 @@
 
         <div class="topnav-right" style="float: right;">
             <?php if (isset($_SESSION['user_name'])) { ?>
-                <!-- TODO: add admin role in db instead of hardcode -->
-                <?php if ($_SESSION['user_name'] == 'rajeev') { ?>  
-                <a href="<?=base_url('contribute')?>">Contribute</a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>  
+                    <a href="<?=base_url('contribute')?>">Contribute</a>
                 <?php } ?>
-            <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
+                <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
             <?php } else { ?>
             <a href="<?=base_url('register')?>">Register here</a>
             <a href="<?=base_url('login')?>">Login here</a>

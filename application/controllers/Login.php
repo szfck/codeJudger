@@ -29,6 +29,7 @@ class Login extends CI_Controller {
         if($data) {
             $this->session->set_userdata('user_id',$data['id']);
             $this->session->set_userdata('user_name',$data['username']);
+            $this->session->set_userdata('role',$data['role']);
             redirect('home');
         } else{
             $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
