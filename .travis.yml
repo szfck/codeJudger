@@ -1,12 +1,25 @@
 services:
-- docker
+  - docker
+
 env:
-- CI_VERSION=3.1.10
+  - CI_VERSION=3.1.10
+
+addons:
+  ssh_known_hosts: 140.82.63.62
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_178b80254dc7_key -iv $encrypted_178b80254dc7_iv -in deploy_rsa.enc -out ~/.ssh/deploy_rsa -d
+
 install:
-- make run-prod
+  - make run
+
 script:
-- make lint
-- make test
+  - make lint
+  - make test
+
+after_success:
+  - ./deploy.sh
+
 notifications:
   slack:
     secure: oyKbwDpj8WDBAgq1wwkFh7wft/yYycZrxFsWdgrWoN9r6UyxY4VQkXP0hwn6iVORTSg50InrYyylR+G53M7g4Qp8MveaZnz9u1XrMIa+2wMoUoZRQgJQ6Okty4TdkdHLnFCeB0+7HWKrfyPt03UbCk6sRadsDHXSdlMAL0hJ57UedK4V2/g+NShkipoI9idiTjCJECh4V5f9J0MKVVEKuHW9T2V0BxzrEWdqf8BLBwdLdWFUkDLPOTE+jcLeMhYwdW0WogoQcQwsiwBNwXAcNsaoHcKtq5YWCex7B0AMDwSqyn+Q8Rp5JIyJ5qoxKpSbSdrpSQ60cIYrOJn4hWSTNEDniu4oPNfulfeJI+tRT1ndkIS6T7DaxVnQdFlrVqUjQJtVmq0Un8ittOYrcCvbz1+rSQUmOGseoEf/3U3VYwnQpRv/j6t3eqGM0m2fkUhXOFWGyDZlFc2mTQyWYTCfU/a+5reRNXzApdKpMwFCvSeDxfzELn8lTp9TyumwhezbrfXMEu8Tk9qvKzVkNCmF2s0bada8XIVRtcD6tkBQV9NsulWEkZrQoqqQCELj/1laENZepyRJTdquoTsRWwebZSUiuC3fmeFMzbpOHrxjktIi2LEiH/uzwrTezO0CrAFnia4D8UVMtKTC1YAkjHOFB3iOhg114TlyWYWGsWKFEFs=

@@ -1,3 +1,6 @@
+# This shell file deploys a new version to our server.
+
+# install docker
 sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -10,14 +13,13 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-
 
 sudo chmod +x /usr/local/bin/docker-compose
 
-git clone https://github.com/szfck/codeJudger.git
-cd codeJudger
-if [ ! -d "submissions" ]; then
-	mkdir submissions
-	chmod 777 submissions
-fi
+# deploy
+eval "$(ssh-agent -s)" # Start ssh-agent cache
+chmod 600 ~/.ssh/id_rsa # Allow read access to the private key
+ssh-add ~/.ssh/id_rsa # Add the private key to SSH
 
-sudo make run-dev
-
-
-
+echo "SSHing to CodeJudger."
+ssh root@140.82.63.62 << EOF
+    cd /root/codeJudger
+    make prod
+EOF
