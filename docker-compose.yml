@@ -21,8 +21,8 @@ services:
     depends_on:
       - db
   judge:
+    image: szfck/judger-judge
     container_name: judger-judge
-    build: ./docker/judge
     restart: always
     volumes:
       - .:/judge
@@ -30,6 +30,6 @@ services:
       - db
     ports:
       - 3000:3000
-    command: sh -c "cd docker/judge && FLASK_DEBUG=1 python app.py"
+    command: sh -c "cd docker/judge && python app.py"
     environment:
       - PYTHONUNBUFFERED=1
