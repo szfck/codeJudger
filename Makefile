@@ -11,9 +11,9 @@ init:
 
 # DOCKER TASKS
 run-prod: ## run in prod
-	make init
+	# make init
 	cat .env.prod > .env
-	make start-db
+	# make start-db
 	docker-compose up -d app judge;
 
 run-dev: ## run in dev
