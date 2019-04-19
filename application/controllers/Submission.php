@@ -49,10 +49,21 @@ class Submission extends CI_Controller {
     }
     
     public function detail($sub_id) {
+		if (!$_SESSION['user_id'] || !$_SESSION['role']){
+			redirect('login');
+        }
+        
+        $session_user_id = $_SESSION['user_id'];
+
         $sub = $this->submission_model->get_submission($sub_id);
         $user_id = $sub->userid;
         $file_name = $sub->filename;
         $problem = $sub->problem;
+
+		if ($_SESSION['role'] != 'admin' && $user_id != $session_user_id){
+            echo "You have no access to this submission!";
+            return;
+		}
 
         $user_path = FCPATH.'/submissions/'.$user_id."/";
         $code_path = $user_path.$file_name;
