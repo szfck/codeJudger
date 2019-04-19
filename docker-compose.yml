@@ -1,32 +1,31 @@
 version: '3'
 services:
   db:
-    image: mysql
+    image: mysql:5.7
     container_name: judger-db
     command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./docker/db/init:/docker-entrypoint-initdb.d/
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-    # build: ./db
+      MYSQL_ROOT_PASSWORD: 123456
     expose:
       - "3306"
   app:
     image: szfck/judger-php
     container_name: judger-app
-    # build: ./app
     command: bash -c "service apache2 restart && tail -f /dev/null"
     volumes:
-      - ../:/var/www/html
+      - .:/var/www/html
     ports: 
       - ${PORT}:80
     depends_on:
       - db
   judge:
-    image: szfck/judger-judge
     container_name: judger-judge
-    # build: ./judge
+    build: ./docker/judge
     restart: always
     volumes:
-      - ../:/judge
+      - .:/judge
     depends_on:
       - db
     ports:

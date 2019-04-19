@@ -2,4 +2,3 @@
 .vscode
 submissions/*
 tmp/*
-docker/.env

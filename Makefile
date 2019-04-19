@@ -5,60 +5,59 @@ help: ## This help.
 
 .DEFAULT_GOAL := help
 
-init-dev:
+init:
 	mkdir -p submissions && chmod 777 submissions
 	mkdir -p tmp && chmod 777 tmp
-	cd docker; cat .dev.env > .env
-
-init-prod:
-	mkdir -p submissions && chmod 777 submissions
-	mkdir -p tmp && chmod 777 tmp
-	cd docker; cat .prod.env > .env
 
 # DOCKER TASKS
-run-prod: init-prod start-db ## run in pord
-	cd docker; docker-compose up -d app judge;
+run-prod: ## run in pord
+	make init
+	cat .env.prod > .env
+	make start-db
+	docker-compose up -d app judge;
 
-run-dev: init-dev start-db ## run in dev
-	cd docker; docker-compose up app judge;
+run-dev: ## run in dev
+	make init
+	make start-db
+	docker-compose up app judge;
 
 stop: ## stop running containers
-	cd docker; docker-compose down;
+	docker-compose down;
 
 # Database
 start-db: ## start db
-	cd docker; docker-compose up -d db; 
-	cd docker; bash wait-for-mysql.sh;
-	make create-db;
+	docker-compose up -d db; 
+	bash docker/wait-for-mysql.sh;
+	# make create-db;
 
 stop-db : ## stop db
-	cd docker; docker-compose down db;
+	docker-compose down db;
 
 container-db: ## enter the bash of db container
 	docker exec -it judger-db bash
 
 create-db: ## create database and tables using createDB.sql dump
-	cat docker/db/createDB.sql | docker exec -i judger-db mysql -uroot -p123456
+	cat docker/db/init/createDB.sql | docker exec -i judger-db mysql -uroot -p123456
 
 # PHP Web App
 start-app: start-db ## start app
-	cd docker; docker-compose up app;
+	docker-compose up app;
 
 stop-app: ## stop app
-	cd docker; docker-compose down app;
+	docker-compose down app;
 
 container-app: ## enter the bash of app container
 	docker exec -it judger-app bash
 
 # Judge
 start-judge-prod: start-db ## start judge in prodd
-	cd docker; docker-compose up -d judge;
+	docker-compose up -d judge;
 
 start-judge-dev: start-db ## start judge in dev 
-	cd docker; docker-compose up judge;
+	docker-compose up judge;
 
 stop-judge: # stop judge
-	cd docker; docker-compose down judge;
+	docker-compose down judge;
 
 container-judge: ## enter the bash of judge container
 	docker exec -it judger-judge sh
@@ -85,7 +84,7 @@ test: ## run unit tests
 # rebuild: stop move-images ## rebuild new images and run
 # 	make run-dev
 
-move-images: ## remove images
+rm-images: ## remove images
 	docker image rm docker_app
 	docker image rm docker_db
 	docker image rm docker_judge
