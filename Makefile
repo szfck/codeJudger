@@ -92,4 +92,5 @@ rm-images: ## remove images
 clean: ## clear tmp dir and files
 	rm -rf submissions
 	rm -rf tmp
+	make init
 	make create-db

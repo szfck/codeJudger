@@ -49,10 +49,14 @@ class Submission extends CI_Controller {
     }
     
     public function detail($sub_id) {
-		if (!$_SESSION['user_id'] || !$_SESSION['role']){
+        if (!$_SESSION['user_id']) {
+            echo "no user id";
 			redirect('login');
         }
-        
+        if (!$_SESSION['role']) {
+            echo "no role";
+			redirect('login');
+        }
         $session_user_id = $_SESSION['user_id'];
 
         $sub = $this->submission_model->get_submission($sub_id);
