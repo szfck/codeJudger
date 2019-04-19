@@ -1,13 +1,15 @@
 version: '3'
 services:
   db:
-      container_name: judger-db
-      build: ./db
-      expose:
-        - "3306"
+    image: szfck/judger-db
+    container_name: judger-db
+    # build: ./db
+    expose:
+      - "3306"
   app:
+    image: szfck/judger-php
     container_name: judger-app
-    build: ./app
+    # build: ./app
     command: bash -c "service apache2 restart && tail -f /dev/null"
     volumes:
       - ../:/var/www/html
@@ -16,8 +18,9 @@ services:
     depends_on:
       - db
   judge:
+    image: szfck/judger-judge
     container_name: judger-judge
-    build: ./judge
+    # build: ./judge
     restart: always
     volumes:
       - ../:/judge
@@ -25,6 +28,6 @@ services:
       - db
     ports:
       - 3000:3000
-    command: sh -c "chmod a+w /judge/submissions && cd docker/judge && FLASK_DEBUG=1 python app.py"
+    command: sh -c "cd docker/judge && FLASK_DEBUG=1 python app.py"
     environment:
       - PYTHONUNBUFFERED=1

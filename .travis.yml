@@ -3,7 +3,7 @@ services:
 env:
 - CI_VERSION=3.1.10
 install:
-- make run
+- make run-prod
 script:
 - make lint
 - make test
