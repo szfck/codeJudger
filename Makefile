@@ -10,13 +10,13 @@ init:
 	mkdir -p tmp && chmod 777 tmp
 
 # DOCKER TASKS
-prod: ## run in pord
+run-prod: ## run in prod
 	make init
 	cat .env.prod > .env
 	make start-db
 	docker-compose up -d app judge;
 
-run: ## run in dev
+run-dev: ## run in dev
 	make init
 	make start-db
 	docker-compose up app judge;

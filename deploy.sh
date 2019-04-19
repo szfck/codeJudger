@@ -21,5 +21,5 @@ ssh-add ~/.ssh/id_rsa # Add the private key to SSH
 echo "SSHing to CodeJudger."
 ssh root@140.82.63.62 << EOF
     cd /root/codeJudger
-    make prod
+    make run-prod
 EOF
