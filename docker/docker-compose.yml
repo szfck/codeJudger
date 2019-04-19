@@ -1,8 +1,11 @@
 version: '3'
 services:
   db:
-    image: szfck/judger-db
+    image: mysql
     container_name: judger-db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     # build: ./db
     expose:
       - "3306"
