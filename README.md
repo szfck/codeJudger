@@ -25,8 +25,10 @@ clean                          clear tmp dir and files
 
 #### 1. Web container [PHP]
 CodeJudger web server is running in <strong>judger-app</strong>. 
+
 local server [http://localhost:8888](http://localhost:8888). 
-prod server [140.82.63.62](140.82.63.62).
+
+prod server [140.82.63.62](http://140.82.63.62).
 
 #### 2. Database container [Mysql]
 mysql is running in <strong>judger-db:3306</strong> inside docker container.
