@@ -47,6 +47,7 @@
                     <a href="<?=base_url('contribute')?>">Contribute</a>
                 <?php } ?>
                 <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
+                <a href="<?php echo base_url('user/user_logout');?>">Log out</a>
             <?php } else { ?>
             <a href="<?=base_url('register')?>">Register here</a>
             <a href="<?=base_url('login')?>">Login here</a>
