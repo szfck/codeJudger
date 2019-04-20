@@ -32,7 +32,6 @@
 <!-- ace editor -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
-
 </head>
 
 <body>
@@ -63,9 +62,9 @@
         <?php } ?>
     </div>
 
-    <footer class="footer">
+    <!-- <footer class="footer">
         <small>&copy; Copyright 2019 Code Judger</small>
-    </footer>
+    </footer> -->
 
 </body>
 </html>

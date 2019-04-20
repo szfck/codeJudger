@@ -14,13 +14,27 @@ class Problem extends CI_Controller {
 		$sample_input = read_file(FCPATH."/problems/".$problem."/sample-input.txt");
 		$sample_output = read_file(FCPATH."/problems/".$problem."/sample-output.txt");
 
+        // parse problem config.yml file
+        $config_yml_path = FCPATH.'/problems/'.$problem."/config.yml";
+        $config_yml = file_get_contents($config_yml_path);
+        $array = explode("\n", $config_yml);
+        foreach ($array as $item) {
+            $string = str_replace(' ', '', $item);
+            if (strcmp($string, '') == 0) continue;
+            $key_value = explode(":", $string);
+            if ($key_value[0] == 'timelimit') $timelimit = $key_value[1];
+            if ($key_value[0] == 'testcase') $testcase = $key_value[1];
+        }
+
 		$content = array('content'=> array(
             'view' => 'templates/problem_template',
             'data' => array(
                 'problem_name'=>$problem_name,
                 'desc'=>$desc,
                 'sample_input'=>$sample_input,
-                'sample_output'=>$sample_output
+                'sample_output'=>$sample_output,
+                'time_limit'=>$timelimit,
+                'test_case'=>$testcase,
             )
         ));
         $this->load->view('/templates/default_layout', $content);
