@@ -1,0 +1,12 @@
+Design and implement a program to solve SUDOKU puzzles. More detail in NYU Classes assignment.
+
+The game board consists of 9 x 9 cells divided into smaller blocks of 3 x 3 cells.
+
+The goal is to find assignments (1 though 9) for the empty cells such that every row, every column,
+and every 3 x 3 block contains each of the digits from 1 to 9.
+
+Input: 
+Initial cell values (0 means blank cell)
+
+Output:
+Your Solution

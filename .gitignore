@@ -4,3 +4,4 @@ submissions/*
 tmp/*
 .rsa
 connect.sh
+problems/AI_Project_2_SUDOKU/genData
