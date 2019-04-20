@@ -10,7 +10,7 @@
             </div>
         </div>
         <div>
-            <p><?=$desc?></p>
+            <pre><?=$desc?></pre>
         </div>
 
         <div class="sample-tests">
