@@ -41,7 +41,8 @@ function addBoxStatus(case_id, status) {
     } else if (status == JUDGING) { // currently correct
         box_span = 'accepted';
         box_icon = 'glyphicon glyphicon-ok';
-    } else if (status == WRONG_ANSWER || status == COMPILE_ERROR || status == TIME_LIMIE_EXCEED || status == RUNTIME_ERROR || status == UNKNOWN_ERROR) { // wrong
+    } else if (status == WRONG_ANSWER || status == COMPILE_ERROR || status == TIME_LIMIE_EXCEED || status ==
+        RUNTIME_ERROR || status == UNKNOWN_ERROR) { // wrong
         box_span = 'rejected';
         box_icon = 'glyphicon glyphicon-remove';
     }
@@ -62,7 +63,8 @@ function addResultStatus(data) {
         result_span = 'glyphicon glyphicon-ok';
     } else if (status == JUDGING) { // currently correct
         result_td = 'status middle';
-    } else if (status == WRONG_ANSWER || status == COMPILE_ERROR || status == TIME_LIMIE_EXCEED || status == RUNTIME_ERROR || status == UNKNOWN_ERROR) { // wrong
+    } else if (status == WRONG_ANSWER || status == COMPILE_ERROR || status == TIME_LIMIE_EXCEED || status ==
+        RUNTIME_ERROR || status == UNKNOWN_ERROR) { // wrong
         result_td = 'status rejected middle';
         result_span = 'glyphicon glyphicon-remove';
 
@@ -204,17 +206,25 @@ socket.on('judge', function(data) {
         <div id='wa_div' style="display: none" class="extrainfo">
             <h3>Failed Case</h3>
 
-            <h4>Input</h4> <pre id='wa_text_input'></pre>
+            <h4>Input</h4>
+            <pre id='wa_text_input'></pre>
 
-            <h4>Your Output</h4> <pre id='wa_text_user_output'></pre>
+            <h4>Your Output</h4>
+            <pre id='wa_text_user_output'></pre>
 
-            <h4>Correct Output</h4> <pre id='wa_text_correct_output'></pre>
+            <h4>Correct Output</h4>
+            <pre id='wa_text_correct_output'></pre>
         </div>
 
-        <div class="border p-3">
-            <h4>Code</h4>
-            <pre><code><?=$code?></code></pre>
-        </div>
+        <?php 
+            $content = array(
+                'problem_name' => $sub->problem,
+                'type' => $sub->type,
+                'code' => $code
+            );
+            $this->load->view('/templates/submit_code', $content);
+        ?>
+
     </section>
 
 </div>
