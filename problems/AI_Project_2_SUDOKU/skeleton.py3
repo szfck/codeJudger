@@ -1,7 +1,12 @@
-def add(a, b):
+def sudoku(board):
     # Your code here
-    return a + b
+    pass
 
 if __name__=='__main__':
-    a, b = [int(x) for x in input().split()]
-    print (add(a, b))
+    board = []
+    for i in range(9):
+        board.append([int(x) for x in input().split()])
+        
+    answer = sudoku(board)
+    for row in answer:
+        print (' '.join(str(x) for x in row))
