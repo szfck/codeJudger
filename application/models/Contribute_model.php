@@ -47,7 +47,11 @@ class Contribute_model extends CI_model{
         $desc_path = $dir."desc.txt";
         $sample_input_path = $dir."sample-input.txt";
         $sample_output_path = $dir."sample-output.txt";
-        
+        $config_file_path = $dir."config.yml";
+
+        if (!write_file($config_file_path, "timelimit: 10\ntestcase: 0\n")) {
+            return FALSE;
+        }
         if (!write_file($desc_path, trim($problemDesc))) {
             return FALSE;
         }
@@ -77,6 +81,12 @@ class Contribute_model extends CI_model{
         }
         
         $file_array = get_filenames($dir);
+        $config_file_path = FCPATH."/problems/".trim($problemName)."/config.yml";
+        // Update the config.yml
+        if (!write_file($config_file_path, "timelimit: 10\ntestcase: ".(string)(count($file_array)/2 + 1)."\n")) {
+            return FALSE;
+        }
+
         $temp = array();
         foreach ($file_array as $file) {
             $str_arr = explode (".", $file)[0];

@@ -43,11 +43,6 @@ class Contribute extends CI_Controller {
 	}
 
 	public function add_problem(){
-		$language = $this->input->post('language');
-
-		if ($language == 'py2' || 'py3'){
-			$language = 'py';
-		}
 		$problem = array("problemName"=>$this->input->post('problemName'),
 		"problemDesc"=>$this->input->post('problemDesc'),
 		"sampleInput"=>$this->input->post('sampleInput'),
@@ -58,12 +53,11 @@ class Contribute extends CI_Controller {
 												$problem["sampleInput"],
 												$problem["sampleOutput"]);
 		if($data){
-			$this->session->set_flashdata('Success', $problem["problemName"].' added successfullt :)\n Please also add the Skeleton code for this Problem.');
-			$this->session->set_flashdata('message',  'Please also add the Skeleton code for this Problem.');
+			$this->session->set_flashdata('Success', $problem["problemName"].' added successfullt :) Please also add the test cases for this Problem.');
 		}else{
 			$this->session->set_flashdata('Failed', "Failed to add the ".$problem["problemName"]);	
 		}
-		redirect('contribute/add_skeleton_code_view');
+		redirect('contribute/add_testcase_view');
 	}
 
 	public function add_testcase(){
