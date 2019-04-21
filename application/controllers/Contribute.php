@@ -15,7 +15,7 @@ class Contribute extends CI_Controller {
 	public function index()
 	{
 		$data = array('content'=> array(
-            'view' => 'contribute',
+            'view' => 'addProblem',
         ));
 		$this->load->view('/templates/default_layout',$data);
 	}
@@ -30,6 +30,14 @@ class Contribute extends CI_Controller {
 	public function add_testcase_view(){
 		$data = array('content'=> array(
             'view' => 'addTestcase',
+        ));
+		$this->load->view('/templates/default_layout',$data);
+
+	}
+
+	public function add_skeleton_code_view(){
+		$data = array('content'=> array(
+			'view' => 'addSkeletonCode',
         ));
 		$this->load->view('/templates/default_layout',$data);
 	}
@@ -73,13 +81,6 @@ class Contribute extends CI_Controller {
 			$this->session->set_flashdata('Failed', "Failed to add the testcase for ".$problemName);	
 		}
 		redirect('contribute/add_testcase_view');
-	}
-
-	public function add_skeleton_code_view(){
-		$data = array('content'=> array(
-			'view' => 'addSkeletonCode',
-        ));
-		$this->load->view('/templates/default_layout',$data);
 	}
 
 	function get_problem_details() {
