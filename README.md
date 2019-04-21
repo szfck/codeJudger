@@ -36,6 +36,39 @@ mysql is running in <strong>judger-db:3306</strong> inside docker container.
 #### 3. Judge container [Flask]
 judge server is running in <strong>judger-judge:3000</strong>.
 
+### Continuous Deployment
+
+1. Generate a dedicated SSH key
+```
+ssh-keygen -t rsa -b 4096 -C 'build@travis-ci.org' -f ./deploy_rsa
+```
+
+2. Encrypt the private key to make it readable only by Travis CI
+```
+travis encrypt-file deploy_rsa --add
+```
+
+3. Copy the public key onto the remote SSH host
+```
+ssh-copy-id -i deploy_rsa.pub <ssh-user>@<deploy-host>
+```
+
+4. Stage the modified files into Git
+```
+git add deploy_rsa.enc .travis.yml
+```
+
+5. add code below to .travis.yml
+```
+addons:
+  ssh_known_hosts: 140.82.63.62
+
+after_success:
+  - ./deploy.sh
+```
+
+6. Install docker and clone github project on server
+
 ## Tables
 
 ### User
