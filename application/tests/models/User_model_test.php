@@ -11,10 +11,10 @@ class User_model_test extends TestCase
 
     public function test_login_user_pass()
     {
-        $expected = ['1', 'hello@codejudger.com', 'kai', '123456'];
+        $expected = ['1', 'hello@codejudger.com', 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin'];
 
-        $name = 'kai';
-        $pass = '123456';
+        $name = 'admin';
+        $pass = 'e10adc3949ba59abbe56e057f20f883e';
         $list = $this->obj->login_user($name,$pass);
         $i = 0;
         foreach ($list as $value) {
