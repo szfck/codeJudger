@@ -4,6 +4,7 @@ class Contribute_model extends CI_model{
     public function __construct(){
         parent::__construct();
         $this->load->helper('file');
+        $this->load->library('yaml'); // to load the problem configuration file
     }
     
     public function validate($problemName, $problemDesc, $problemsampleInput, $problemsampleOutput){
@@ -67,6 +68,21 @@ class Contribute_model extends CI_model{
     public function get_skeleton_code($problemName, $language){
         $skeleton_file = FCPATH."/problems/".$problemName."/skeleton.".$language;
         return read_file($skeleton_file);
+    }
+
+    public function get_problem_config($problemName){
+        $config_file = FCPATH."/problems/".$problemName."/config.yml";
+        $content = $this->yaml->load($config_file);
+        $config = $this->yaml->dump($content);
+        return $content;
+    }
+
+    public function update_config_file($problemName, $config_array){
+        $config_file = FCPATH."/problems/".$problemName."/config.yml";
+        if (!write_file($config_file, "timelimit: ".$config_array['timelimit']."\ntestcase: ".$config_array['testcase']."\n")) {
+            return FALSE;
+        }
+        return TRUE;
     }
 
     public function add_testcase($problemName, $testInput, $testOutput) {

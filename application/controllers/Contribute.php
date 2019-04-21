@@ -41,6 +41,13 @@ class Contribute extends CI_Controller {
         ));
 		$this->load->view('/templates/default_layout',$data);
 	}
+	
+	public function modify_problem_config_view(){
+		$data = array('content'=> array(
+			'view' => 'modifyProblemConfig',
+        ));
+		$this->load->view('/templates/default_layout',$data);
+	}
 
 	public function add_problem(){
 		$problem = array("problemName"=>$this->input->post('problemName'),
@@ -109,6 +116,26 @@ class Contribute extends CI_Controller {
 			$this->session->set_flashdata('Success', 'Skeleton code for '.$problemName.' added successfully :)');	
 		}else{
 			$this->session->set_flashdata('Failed', "Failed to add the skeleton code for ".$problemName);	
+		}
+	}
+
+	public function get_problem_config(){
+		$problemName = $_POST['problem'];
+		$config = $this->contribute_model->get_problem_config($problemName);
+		echo json_encode($config);
+	}
+
+	public function update_config_file(){
+		$problemName = $_POST['problem'];
+		$timelimit = $_POST['timelimit'];
+		$testcase = $_POST['testcase'];
+		$config = array('timelimit'=>$timelimit , 'testcase'=>$testcase);
+		$data = $this->contribute_model->update_config_file($problemName, $config);
+		echo json_encode($data);
+		if($data){
+			$this->session->set_flashdata('Success', 'Configuration file for '.$problemName.' updated successfully :)');	
+		}else{
+			$this->session->set_flashdata('Failed', "Failed to update the configuration for ".$problemName);	
 		}
 	}
 }
