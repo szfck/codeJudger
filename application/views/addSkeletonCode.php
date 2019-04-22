@@ -67,7 +67,10 @@
 
 
 <script>
-    $( "#problem" ).change(function() {
+
+    function problem_change(){
+        // Reset the language to choose
+        $('#language').prop('selectedIndex',0);
         var problem_name = document.getElementById('problem').value;
         $.ajax({
             type: "POST",
@@ -87,34 +90,38 @@
                 document.querySelectorAll("#problemDesc ,#sampleInput ,#sampleOutput").readOnly = true;
             },
             error: function(data) {
-                console.log(data);
+                console.log("Failed to fetch the Problem data");
             }
         });
-    });
+    }
 
-    $( "#language" ).change(function() {
-        problemName = document.getElementById('problem').value;
-        language = document.getElementById("language").value;
-        $.ajax({
-            type: "POST",
-            url: "<?=base_url('contribute/get_skeleton_code')?>",
-            crossDomain: true,
-            data: {
-                problem: problemName,
-                language: language,
-            },
-            dataType: "json",
-            success: function(data, status, xhr) {
-                document.getElementById("skeletonCode").value = data;
-                console.log(data);
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    });
+    function language_change(){
+        if ($("#problem").val() == "Choose Problem ...") {
+            alert("Please select the problem first!");
+            $('#language').prop('selectedIndex',0);
+        }else{
+            problemName = document.getElementById('problem').value;
+            language = document.getElementById("language").value;
+            $.ajax({
+                type: "POST",
+                url: "<?=base_url('contribute/get_skeleton_code')?>",
+                crossDomain: true,
+                data: {
+                    problem: problemName,
+                    language: language,
+                },
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    document.getElementById("skeletonCode").value = data;
+                },
+                error: function(data) {
+                    console.log("Failed to fetch the skeleton code for : "+problemName);
+                }
+            });
+        }
+    }
 
-    $("#submit-button").click(function() {
+    function submit(){
         problemName = document.getElementById("problem").value;
         skeletonCode = document.getElementById("skeletonCode").value;
         language = document.getElementById("language").value;
@@ -140,5 +147,11 @@
                 console.log(data);
             }
         });
+    }
+
+    $(document).ready(function() {
+        $('#problem').change(problem_change);
+        $( "#language" ).change(language_change);
+        $("#submit-button").click(submit);
     });
 </script>
