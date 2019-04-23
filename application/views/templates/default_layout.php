@@ -8,7 +8,7 @@
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/styles.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -35,26 +35,30 @@
 </head>
 
 <body>
-    <div class="topnav">
-        <a href="<?php echo base_url('home') ?>">CodeJudger</a>
-        <a href="<?=base_url('queue')?>">Judge Queue</a>
-        <a href="<?=base_url('myqueue')?>">My Submission</a>
-        <a href="<?=base_url('article')?>">Articles</a>
+    <div id="myTopnav" >
+        <div class="topnav" >
+            <a href="<?php echo base_url('home') ?>">CodeJudger</a>
+            <a href="<?=base_url('queue')?>">Judge Queue</a>
+            <a href="<?=base_url('myqueue')?>">My Submission</a>
+            <a href="<?=base_url('article')?>">Articles</a>
 
-        <div class="topnav-right" style="float: right;">
-            <?php if (isset($_SESSION['user_name'])) { ?>
-                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>  
-                    <a href="<?=base_url('contribute')?>">Contribute</a>
+            <div class="topnav-right" style="float: right;">
+                <?php if (isset($_SESSION['user_name'])) { ?>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>  
+                        <a href="<?php echo base_url('contribute')?>">Contribute</a>
+                    <?php } ?>
+                    <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
+                    <a href="<?php echo base_url('user/user_logout');?>">Log out</a>
+                <?php } else { ?>
+                <a href="<?=base_url('register')?>">Register here</a>
+                <a href="<?=base_url('login')?>">Login here</a>
                 <?php } ?>
-                <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
-                <a href="<?php echo base_url('user/user_logout');?>">Log out</a>
-            <?php } else { ?>
-            <a href="<?=base_url('register')?>">Register here</a>
-            <a href="<?=base_url('login')?>">Login here</a>
-            <?php } ?>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
         </div>
-    </div>
-
+                </div>
     <div id="main">
         <?php if (isset($content['data'])) { ?>
         <?php $this->load->view($content['view'], $content['data']); ?>
@@ -66,6 +70,15 @@
     <!-- <footer class="footer">
         <small>&copy; Copyright 2019 Code Judger</small>
     </footer> -->
-
+    <script>
+        function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav" ) {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+        }
+    </script>
 </body>
 </html>
