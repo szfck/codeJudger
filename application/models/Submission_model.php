@@ -1,5 +1,7 @@
 <?php
 class Submission_model extends CI_model{
+
+    protected $table = 'submission';
     
     public function create_submission($problem_name, $user_id, $code, $type) {
         $query = $this->db->query('SELECT * FROM submission');
@@ -34,25 +36,31 @@ class Submission_model extends CI_model{
         return $subid;
     }
 
-    function get_user_submission_list($user_id) {
+    public function get_count($user_id) {
+        if ($user_id != 'all') {
+            $this->db->where('userid', $user_id);
+        }
+        return $this->db->count_all_results($this->table);
+    }
+
+    public function get_submissions($user_id, $limit, $start) {
+        if ($user_id != 'all') {
+            $this->db->where('userid', $user_id);
+        }
+
         $this->db->select('*');
-        $this->db->from('submission');
-        if ($user_id >= 0) {
-            $this->db->where('userid',$user_id);
-        }
+        $this->db->limit($limit, $start);
         $this->db->order_by('subid', 'desc');
-        
-        if($query=$this->db->get()) {
-            return $query->result();
-        } else{
-            return [];
-        }
+
+        $query = $this->db->get($this->table);
+
+        return $query->result();
     }
 
     function get_submission($sub_id) {
         $this->db->select('*');
         $this->db->from('submission');
-        $this->db->where('subid',$sub_id);
+        $this->db->where('subid', $sub_id);
         
         if($query=$this->db->get()) {
             return $query->row();
