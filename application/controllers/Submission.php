@@ -9,6 +9,7 @@ class Submission extends CI_Controller {
         $this->load->helper('url', 'file');
         $this->load->model('submission_model');
         $this->load->library('session');
+        $this->load->library("pagination");
     
     }
 
@@ -21,33 +22,64 @@ class Submission extends CI_Controller {
         // $this->load->view('/templates/default_layout', $content);
     }
 
-    public function user_submission_list() {
-		if (!$_SESSION['user_id']){
-			redirect('login');
-		}
-        $user_id = $_SESSION['user_id'];
-        $content = array('content'=> array(
-            'view' => 'submission',
-            'data' => array(
-                'submissions' => $this->submission_model->get_user_submission_list($user_id)
-            )
-        ));
-
-        $this->load->view('/templates/default_layout', $content);
-
+    public function my_submission_list() {
+        return $this->_submission_list(false);
     }
 
     public function all_submission_list() {
+        return $this->_submission_list(true);
+    }
+
+    function _submission_list($is_all) {
+        $config = array();
+        if ($is_all) {
+            $user_id = 'all';
+            $config["base_url"] = base_url() . "all_submission";
+            $config["total_rows"] = $this->submission_model->get_count('all');
+        } else {
+            if (!$_SESSION['user_id']){
+                redirect('login');
+            }
+            $user_id = $_SESSION['user_id'];
+            $config["base_url"] = base_url() . "my_submission";
+            $config["total_rows"] = $this->submission_model->get_count($user_id);
+        }
+
+        $config["per_page"] = 20;
+        $config["uri_segment"] = 2;
+
+        /* This Application Must Be Used With BootStrap 3 *  */
+        $config['full_tag_open'] = "<ul class='pagination'>";
+        $config['full_tag_close'] ="</ul>";
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+        $config['next_tag_open'] = "<li>";
+        $config['next_tagl_close'] = "</li>";
+        $config['prev_tag_open'] = "<li>";
+        $config['prev_tagl_close'] = "</li>";
+        $config['first_tag_open'] = "<li>";
+        $config['first_tagl_close'] = "</li>";
+        $config['last_tag_open'] = "<li>";
+        $config['last_tagl_close'] = "</li>";
+
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+
+        $data["links"] = $this->pagination->create_links();
+        
+        $data['submissions'] = $this->submission_model->get_submissions($user_id, $config["per_page"], $page);
+
         $content = array('content'=> array(
             'view' => 'submission',
-            'data' => array(
-                'submissions' => $this->submission_model->get_user_submission_list(-1)
-            )
+            'data' => $data
         ));
 
         $this->load->view('/templates/default_layout', $content);
     }
-    
+
     public function detail($sub_id) {
         if (!$_SESSION['user_id']) {
             echo "no user id";
