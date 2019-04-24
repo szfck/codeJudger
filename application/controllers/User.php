@@ -28,5 +28,20 @@ class User extends CI_Controller {
         redirect('home', 'refresh');
     }
 
+    public function get_user_details(){
+		$user = $_POST['user'];
+        $data = $this->user_model->get_user_details($user);
+
+        $username = $data['username'];
+        $useremail = $data['useremail'];
+        $role = $data['role'];
+        $response = array("username"=>$username, "useremail"=>$useremail, "role"=>$role);
+		echo json_encode($response);
+        if($data){
+			$this->session->set_flashdata('Success', 'Successfully retieved the '.$user.' data :)');	
+		}else{
+			$this->session->set_flashdata('Failed', "Failed to retieved the ".$user." data");	
+		}
+    }
 }
 ?>

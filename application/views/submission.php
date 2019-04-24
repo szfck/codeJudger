@@ -1,31 +1,34 @@
-<div class=container>
-    <table id="submission-table" class=" table table-striped">
-        <tr>
-            <th onclick="sortTable(0)">Submisson id</th>
-            <th onclick="sortTable(1)">Time</th>
-            <th onclick="sortTable(2)">Problem</th>
-            <th onclick="sortTable(3)">User id</th>
-            <th onclick="sortTable(4)">Type</th>
-            <th onclick="sortTable(5)">Result</th>
-        </tr>
-    <?php 
-        foreach ($submissions as $sub) {
-            echo 
-            "<tr>".
-                "<td>".anchor("submission/detail/".$sub->subid.".".$sub->type, $sub->subid)."</td>".
-                "<td>".date("Y-m-d H:i:s", $sub->time)."</td>".
-                "<td>".anchor("problem/".$sub->problem, ucfirst($sub->problem))."</td>".
-                "<td>".$sub->userid."</td>".
-                "<td>".$sub->type."</td>".
-                "<td>".$sub->result."</td>".
-            "</tr>";
-        }
-    ?>
-    </table>
-    <p><?php echo $links; ?></p>
+<?php include "userSidebar.php"; ?>
 
+<div class="content">
+    <div class=container>
+        <table id="submission-table" class=" table table-striped">
+            <tr>
+                <th onclick="sortTable(0)">Submisson id</th>
+                <th onclick="sortTable(1)">Time</th>
+                <th onclick="sortTable(2)">Problem</th>
+                <th onclick="sortTable(3)">User id</th>
+                <th onclick="sortTable(4)">Type</th>
+                <th onclick="sortTable(5)">Result</th>
+            </tr>
+        <?php 
+            foreach ($submissions as $sub) {
+                echo 
+                "<tr>".
+                    "<td>".anchor("submission/detail/".$sub->subid.".".$sub->type, $sub->subid)."</td>".
+                    "<td>".date("Y-m-d H:i:s", $sub->time)."</td>".
+                    "<td>".anchor("problem/".$sub->problem, ucfirst($sub->problem))."</td>".
+                    "<td>".$sub->userid."</td>".
+                    "<td>".$sub->type."</td>".
+                    "<td>".$sub->result."</td>".
+                "</tr>";
+            }
+        ?>
+        </table>
+        <p><?php echo $links; ?></p>
+
+    </div>
 </div>
-
 <script>
 //Source -  https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc
 function sortTable(n) {

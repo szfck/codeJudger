@@ -110,6 +110,8 @@ float: right;
    position: fixed;
    height: 100%;
    overflow: auto;
+   position: relative;
+   float: left;
  }
  
  .sidebar a {
@@ -129,10 +131,11 @@ float: right;
    color: white;
  }
  
- div.content {
+ .content {
    margin-left: 200px;
    padding: 1px 16px;
    height: 1000px;
+   position: relative;
  }
  
  @media screen and (max-width: 800px) {

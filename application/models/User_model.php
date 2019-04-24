@@ -34,7 +34,20 @@ class User_model extends CI_model{
         }
 
     }
+    public function get_user_details($user){
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('username',$user);
+        $query=$this->db->get();
 
+        $user_array = $query->row_array();
+        
+        if(!$user_array){
+            return false;
+        }else{
+            return $user_array;
+        }
+    }
 }
 
 
