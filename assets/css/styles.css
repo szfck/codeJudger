@@ -167,6 +167,7 @@ float: right;
      width: 100%;
      height: auto;
      position: relative;
+     float: unset;
    }
 
    .sidebar a {float: left;}
