@@ -41,7 +41,7 @@
 </head>
 
 <body>
-    <div id="myTopnav">
+    <div id="myTopnav" class="topnav">
         <div class="topnav">
             <a href="<?php echo base_url('home') ?>">CodeJudger</a>
             <a href="<?=base_url('all_submission')?>">Judge Queue</a>
