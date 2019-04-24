@@ -44,10 +44,10 @@
 
             <div class="topnav-right" style="float: right;">
                 <?php if (isset($_SESSION['user_name'])) { ?>
+                    <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>  
                         <a href="<?php echo base_url('contribute')?>">Contribute</a>
                     <?php } ?>
-                    <a href="<?=base_url('user')?>"><?=$_SESSION['user_name']?></a>
                     <a href="<?php echo base_url('user/user_logout');?>">Log out</a>
                 <?php } else { ?>
                 <a href="<?=base_url('register')?>">Register here</a>
