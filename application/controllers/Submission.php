@@ -31,15 +31,15 @@ class Submission extends CI_Controller {
     }
 
     function _submission_list($is_all) {
+        if (!$_SESSION['user_id']){
+            redirect('login');
+        }
         $config = array();
         if ($is_all) {
             $user_id = 'all';
             $config["base_url"] = base_url() . "all_submission";
             $config["total_rows"] = $this->submission_model->get_count('all');
         } else {
-            if (!$_SESSION['user_id']){
-                redirect('login');
-            }
             $user_id = $_SESSION['user_id'];
             $config["base_url"] = base_url() . "my_submission";
             $config["total_rows"] = $this->submission_model->get_count($user_id);
