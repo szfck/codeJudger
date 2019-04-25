@@ -21,6 +21,7 @@ ssh-add ~/.ssh/deploy_rsa # Add the private key to SSH
 echo "SSHing to CodeJudger."
 ssh root@140.82.63.62 << EOF
     cd /root/codeJudger
+    chown -R www-data:www-data .
     git pull origin master
     make run-prod
 EOF
