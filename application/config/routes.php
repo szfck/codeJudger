@@ -57,3 +57,4 @@ $route['my_submission/(:num)'] = 'submission/my_submission_list';
 $route['all_submission/(:num)'] = 'submission/all_submission_list';
 $route['my_submission'] = 'submission/my_submission_list/0';
 $route['all_submission'] = 'submission/all_submission_list/0';
+$route['article/(:any)'] = 'article/detail/$1';

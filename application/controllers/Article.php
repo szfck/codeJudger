@@ -21,5 +21,15 @@ class Article extends CI_Controller {
             )
         ));
 		$this->load->view('/templates/default_layout', $data);
-	}
+    }
+    
+    public function detail($problem) {
+		$data = array('content'=> array(
+            'view' => 'article_detail',
+            'data' => array (
+                'sol' => get_problem_solution($problem)
+            )
+        ));
+		$this->load->view('/templates/default_layout', $data);
+    }
 }
