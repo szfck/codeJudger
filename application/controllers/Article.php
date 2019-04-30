@@ -6,7 +6,7 @@ class Article extends CI_Controller {
 	public function __construct(){
     
         parent::__construct();
-        $this->load->helper('url');
+        $this->load->helper(array('url', 'problem_helper'));
         $this->load->model('user_model');
         $this->load->library('session');
     
@@ -16,7 +16,10 @@ class Article extends CI_Controller {
 	{
 		$data = array('content'=> array(
             'view' => 'article',
+            'data' => array (
+                'sols' => get_problem_solution_list()
+            )
         ));
-		$this->load->view('/templates/default_layout',$data);
+		$this->load->view('/templates/default_layout', $data);
 	}
 }
