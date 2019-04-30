@@ -1,0 +1,7 @@
+{
+    "title": "IsUnique",
+    "star": 3,
+    "abstract": "Implement an algorithm to determine if a string has all unique characters.
+    ",
+    "text": "Approach 1 – Brute Force technique: Run 2 loops with variable i and j. Compare str[i] and str[j]. If they become equal at any point, return false. Approach 2 – Sorting: Using sorting based on ASCII values of characters. Approach 3 – Use of Extra Data Structure: This approach assumes ASCII char set(8 bits). The idea is to maintain a boolean array for the characters. The 256 indices represent 256 characters. All the array elements are initially set to false. As we iterate over the string, set true at the index equal to the int value of the character. If at any time, we encounter that the array value is already true, it means the character with that int value is repeated."
+}
