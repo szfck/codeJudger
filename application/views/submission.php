@@ -1,5 +1,3 @@
-<?php include "userSidebar.php"; ?>
-
 <div class="content">
     <div class=container>
         <table id="submission-table" class=" table table-striped">

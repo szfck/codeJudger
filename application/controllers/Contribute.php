@@ -50,21 +50,25 @@ class Contribute extends CI_Controller {
 	}
 
 	public function add_problem(){
-		$problem = array("problemName"=>$this->input->post('problemName'),
-		"problemDesc"=>$this->input->post('problemDesc'),
-		"sampleInput"=>$this->input->post('sampleInput'),
-		"sampleOutput"=>$this->input->post('sampleOutput'));
-		// Set flash data 
-		$data=$this->contribute_model->add_problem($problem["problemName"],
-												$problem["problemDesc"],
-												$problem["sampleInput"],
-												$problem["sampleOutput"]);
-		if($data){
-			$this->session->set_flashdata('Success', $problem["problemName"].' added successfullt :) Please also add the test cases for this Problem.');
-		}else{
-			$this->session->set_flashdata('Failed', "Failed to add the ".$problem["problemName"]);	
-		}
-		redirect('contribute/add_testcase_view');
+
+		// echo json_encode("ok");
+		$problemName = $_POST['name'];
+		$problemDesc = $_POST['desc'];
+		$sampleInput = $_POST['input'];
+		$sampleOutput = $_POST['output'];
+
+
+		$data = $this->contribute_model->add_problem($problemName, $problemDesc, $sampleInput, $sampleOutput);
+		
+		echo json_encode(var_dump($data));
+
+		// if($data["value"]){
+		// 	$this->session->set_flashdata('Success', $problem["problemName"].' Added successfully, Please also add the test cases for this Problem.');
+		// 	redirect('contribute/add_testcase_view');
+		// }else{
+		// 	$this->session->set_flashdata('Failed', "Failed to add the ".$problem["problemName"]);	
+		// }
+		
 	}
 
 	public function add_testcase(){

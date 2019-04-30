@@ -8,14 +8,23 @@ class Contribute_model extends CI_model{
     }
     
     public function validate($problemName, $problemDesc, $problemsampleInput, $problemsampleOutput){
+        $response = array('value' => 'FALSE', 'message' => '');
         if (!$problemName || !$problemDesc || !$problemsampleInput || !$problemsampleOutput){
-            return FALSE;
+            $response['value'] = FALSE;
+            $response['message'] = 'Missing one of the required values for adding the problem';
+            return $response;
         }
         $dir = FCPATH."/problems/".trim($problemName)."/";
         if(is_dir($dir)){
-           return FALSE; 
+            $response['value'] = FALSE;
+            $response['message'] = 'Failed to create the '.$problemName.' directory';
+            return $response; 
         }
-        return TRUE;
+
+        
+        $response['value'] = TRUE;
+        $response['message'] = 'Validation Successful';
+        return $response;
     }
 
     public function add_skeleton_code($problemName, $skeletonCode, $language){
@@ -43,26 +52,37 @@ class Contribute_model extends CI_model{
                 die ("Failed to change the permissions of ".$problemName." directory");
             }
         }else{
-            return FALSE;
+            return "Failed to validate the problem.";
         }
         $desc_path = $dir."desc.txt";
         $sample_input_path = $dir."sample-input.txt";
         $sample_output_path = $dir."sample-output.txt";
         $config_file_path = $dir."config.yml";
 
+        $data = array('value' => FALSE, 'message' => '');
         if (!write_file($config_file_path, "timelimit: 10\ntestcase: 0\n")) {
-            return FALSE;
+            $data['value'] = FALSE;
+            $data['message'] = "Failed to create the config file !";
+            return $data;
         }
         if (!write_file($desc_path, trim($problemDesc))) {
-            return FALSE;
+            $data['value'] = FALSE;
+            $data['message'] = "Failed to create the problem desc file !";
+            return $data;
         }
         if (!write_file($sample_input_path, trim($problemsampleInput))) {
-            return FALSE;
+            $data['value'] = FALSE;
+            $data['message'] = "Failed to create the sample input file !";
+            return $data;
         }
         if (!write_file($sample_output_path, trim($problemsampleOutput))) {
-            return FALSE;
+            $data['value'] = FALSE;
+            $data['message'] = "Failed to create the sample outout file !";
+            return $data;
         }
-        return TRUE;
+        $data['value'] = TRUE;
+        $data['message'] = "Successfully added the problem";
+        return $data;
     }
 
     public function get_skeleton_code($problemName, $language){

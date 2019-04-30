@@ -136,8 +136,42 @@ float: right;
    padding: 1px 16px;
    height: 1000px;
    position: relative;
+   display: flex;
+   justify-content: start;
+   align-items: flex-start;
  }
- 
+
+
+.card {
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  margin: 1rem;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.user-card{
+  height: 30vh;
+  float: left;
+  padding: 10px;
+}
+
+.submission-card{
+  height: 90vh;
+  float: right;
+}
+
+.card-container{
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+}
  @media screen and (max-width: 800px) {
   .topnav a:not(:first-child) {display: none;}
   .topnav a.icon {
