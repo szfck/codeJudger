@@ -40,4 +40,25 @@ class Problem extends CI_Controller {
         $this->load->view('/templates/default_layout', $content);
     }
 
+    public function get_problem_detail(){
+		if (!$_SESSION['user_id']){
+			redirect('login');
+        }
+        
+        $problem = $_POST['problem'];
+        $value = $_POST['value'];
+
+        if ($value == "desc.txt") {
+            // # code...
+        }elseif ($value == "sample-input.txt") {
+            // # code...
+        }elseif ($value == "sample-output.txt") {
+            // # code...
+        }elseif ($value == "config.yml") {
+            // # code...
+        }
+
+        echo json_encode("hello");
+    }
+
 }

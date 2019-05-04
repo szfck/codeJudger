@@ -101,6 +101,18 @@ float: right;
    background-color: #fff;
 }
 
+.document {
+  cursor: pointer;
+}
+
+.clicked {
+  border: solid;
+}
+
+.information {
+  text-align: center;
+}
+
 /* SIdeBar For contribute page */
 .sidebar {
    margin: 0;

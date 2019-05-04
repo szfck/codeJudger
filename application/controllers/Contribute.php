@@ -49,6 +49,13 @@ class Contribute extends CI_Controller {
 		$this->load->view('/templates/default_layout',$data);
 	}
 
+	public function manage_problems(){
+		$data = array('content'=> array(
+			'view' => 'manageProblems',
+        ));
+		$this->load->view('/templates/default_layout',$data);
+	}
+
 	public function add_problem(){
 		$problemName = $this->input->post('problemName');
 		$problemDesc = $this->input->post('problemDesc');
