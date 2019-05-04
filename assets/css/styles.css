@@ -110,7 +110,14 @@ float: right;
 }
 
 .information {
-  text-align: center;
+  text-align: left;
+  white-space: pre;
+  display: none;
+  padding: 10%;
+}
+
+.information-textarea{
+  width: -webkit-fill-available;
 }
 
 /* SIdeBar For contribute page */

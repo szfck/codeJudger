@@ -31,7 +31,12 @@
                                     echo "<td> <span class='glyphicon glyphicon-file document' data-problem='{&quot;problemName&quot;: &quot;".$problem."&quot; , &quot;value&quot; : &quot;output&quot;}' aria-hidden='true'></span></td>";
                                     echo "<td> <span class='glyphicon glyphicon-file document' data-problem='{&quot;problemName&quot;: &quot;".$problem."&quot; , &quot;value&quot; : &quot;config&quot;}' aria-hidden='true'></span></td>";
                                     echo "</tr>";
-                                    echo "<td class='information information-".$problem."' style='display : none' colspan='6'></td>";
+                                    echo "<div class='information panel panel-default' >";
+                                    echo "<td class='information information-td-".$problem."'  colspan='6'>";
+                                    echo "<textarea class='panel-body information-textarea information-".$problem."' cols='6'>";
+                                    echo "</textarea>";
+                                    echo "</td>";
+                                    echo "</div>";
                                     $problem_number++;
                                 }
                             ?>
@@ -44,10 +49,16 @@
 </div>
 
 <script>
-    function show_data(element, data, problem){
+    function hide_data(element){
         $(".information").hide();
-        $(".information-"+problem).html(data);
+    };
+
+    function show_data(data, problem){
+        $(".information-textarea").hide();
+        $(".information-"+problem).text(data);
         $(".information-"+problem).show();
+        $(".information-td-"+problem).show();
+        textAreaAdjust($(".information-"+problem));
     };
 
     function show_document(element){
@@ -71,16 +82,29 @@
                 },
                 dataType: "json",
                 success: function(data, status, xhr) {
-                    show_data(element, data, problem);
+                    console.log(data);
+                    show_data(data, problem);
                 },
                 error: function(data) {
                     console.log("Failed to fetch the Problem data");
                 }
             });
+        }else{
+            hide_data(element);
         }
     };
 
+    function textAreaAdjust(element) {
+        console.log(element[0].style);
+        element[0].style.height = "1px";
+        element[0].style.height = (2+element[0].scrollHeight+"px");
+    }
+
     $(".document").click(function(){
         show_document($(this));
+    });
+
+    $('.information-textarea').click(function(){
+        textAreaAdjust($(this));
     });
 </script>
