@@ -5,13 +5,11 @@
         <div class="justify-content-center align-items-center">
             <?php
                 $success_msg= $this->session->flashdata('Success');
-                $message = $this->session->flashdata('message');
                 $error_msg= $this->session->flashdata('Failed');
                 if($success_msg){
                 ?>
                 <div class="alert alert-success">
                     <?php echo $success_msg; ?>
-                    <?php echo $message; ?>
                 </div>
                 <?php
                 }

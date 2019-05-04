@@ -6,7 +6,7 @@ class Contribute extends CI_Controller {
 	public function __construct(){
     
         parent::__construct();
-        $this->load->helper('url', 'file');
+        $this->load->helper('file');
         $this->load->model('contribute_model');
         $this->load->library('session');
     
@@ -50,21 +50,22 @@ class Contribute extends CI_Controller {
 	}
 
 	public function add_problem(){
-		$problem = array("problemName"=>$this->input->post('problemName'),
-		"problemDesc"=>$this->input->post('problemDesc'),
-		"sampleInput"=>$this->input->post('sampleInput'),
-		"sampleOutput"=>$this->input->post('sampleOutput'));
-		// Set flash data 
-		$data=$this->contribute_model->add_problem($problem["problemName"],
-												$problem["problemDesc"],
-												$problem["sampleInput"],
-												$problem["sampleOutput"]);
-		if($data){
-			$this->session->set_flashdata('Success', $problem["problemName"].' added successfullt :) Please also add the test cases for this Problem.');
+		$problemName = $this->input->post('problemName');
+		$problemDesc = $this->input->post('problemDesc');
+		$sampleInput = $this->input->post('sampleInput');
+		$sampleOutput = $this->input->post('sampleOutput');
+
+		$data = $this->contribute_model->add_problem($problemName, $problemDesc, $sampleInput, $sampleOutput);
+		
+		if($data['value']){
+			$this->session->set_flashdata('Success', $problemName.' ').$data['message'];
+			$this->session->set_flashdata('Message', "Added successfully, Please also add the test cases for this Problem.");
+			redirect('contribute/add_testcase_view');
 		}else{
-			$this->session->set_flashdata('Failed', "Failed to add the ".$problem["problemName"]);	
-		}
-		redirect('contribute/add_testcase_view');
+			$this->session->set_flashdata('Failed', "Failed to add the problem => ".$problemName);
+			$this->session->set_flashdata('Message', "Error occurred => ".$data['message']);
+			redirect('contribute/add_problem_view');
+		}	
 	}
 
 	public function add_testcase(){
@@ -92,8 +93,8 @@ class Contribute extends CI_Controller {
 		$problem_sample_input = read_file($problem_dir."sample-input.txt");
 		$problem_sample_output = read_file($problem_dir."sample-output.txt");
 		$data = array("problem_desc" => $problem_desc,
-						"problem_input" => $problem_sample_input,
-						"problem_output" => $problem_sample_output);
+					  "problem_input" => $problem_sample_input,
+					  "problem_output" => $problem_sample_output);
 		echo json_encode($data);
 	}
 
