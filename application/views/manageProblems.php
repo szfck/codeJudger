@@ -16,6 +16,7 @@
                                 <th scope="col">Sample Input</th>
                                 <th scope="col">Sample Output</th>
                                 <th scope="col">Configuration</th>
+                                <th scope="col" style="width:5%;">Remove</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,10 +31,11 @@
                                     echo "<td> <span class='glyphicon glyphicon-file document' data-problem='{&quot;problemName&quot;: &quot;".$problem."&quot; , &quot;value&quot; : &quot;input&quot;}' aria-hidden='true'></span></td>";
                                     echo "<td> <span class='glyphicon glyphicon-file document' data-problem='{&quot;problemName&quot;: &quot;".$problem."&quot; , &quot;value&quot; : &quot;output&quot;}' aria-hidden='true'></span></td>";
                                     echo "<td> <span class='glyphicon glyphicon-file document' data-problem='{&quot;problemName&quot;: &quot;".$problem."&quot; , &quot;value&quot; : &quot;config&quot;}' aria-hidden='true'></span></td>";
+                                    echo "<td scope='col' style='width:5%;'><span class='glyphicon glyphicon-remove document-remove remove-problem-glyph' data-toggle='modal' data-target='#removeProblemModal' data-problem='{&quot;problemName&quot;: &quot;".$problem."&quot; , &quot;value&quot; : &quot;remove&quot;}' aria-hidden='true'></span></td>";
                                     echo "</tr>";
                                     echo "<div class='information panel panel-default' >";
-                                    echo "<td class='information information-td-".$problem."'  colspan='6'>";
-                                    echo "<textarea class='panel-body information-textarea information-".$problem."' cols='6'>";
+                                    echo "<td class='information information-td-".$problem."'  colspan='7'>";
+                                    echo "<textarea class='panel-body information-textarea information-".$problem."' >";
                                     echo "</textarea>";
                                     echo "</td>";
                                     echo "</div>";
@@ -42,6 +44,28 @@
                             ?>
                         </tbody>
                     </table>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="removeProblemModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title"><strong>Enter the problem name to confirm</strong></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="text" id="delete-problem-name" class="form-control " placeholder="Problem Name">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" id="delete-problem-button"  class="btn btn-danger" >Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,6 +73,9 @@
 </div>
 
 <script>
+    var problem = '';
+    var value = '';
+
     function hide_data(element){
         $(".information").hide();
     };
@@ -100,11 +127,52 @@
         element[0].style.height = (2+element[0].scrollHeight+"px");
     }
 
+    function capitalizeFirstLetter(string) {
+       return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    // to toggle the selected problem details
     $(".document").click(function(){
         show_document($(this));
     });
 
-    $('.information-textarea').click(function(){
-        textAreaAdjust($(this));
+    // to trigger problem delete
+    $(".document-remove").click(function(){
+        problem = capitalizeFirstLetter($(this).data("problem").problemName);
+        value = $(this).data("problem").value;
+        $('#removeProblemModal').modal('show');
+        
     });
+
+    $(document).on('click', '#delete-problem-button', function(){
+        var user_input = $("#delete-problem-name").val();
+        if (problem == user_input) {
+            // Validation successfull delete the problem
+            $.ajax({
+                type: "POST",
+                url: "<?=base_url('problemdata/get_problem_details')?>",
+                crossDomain: true,
+                data: {
+                    problem: problem,
+                    value: value,
+                },
+                dataType: "json",
+                success: function(data, status, xhr) {
+                    if (data) {
+                        console.log("Success");
+                        location.reload();
+                    } else {
+                        console.log("Failed to delete the Problem data");
+                    } 
+                },
+                error: function(data) {
+                    console.log("Error Occurred in the controller");
+                }
+            });
+        } else {
+            $("#delete-problem-name").css("border-color", "red");                    
+        }
+    });
+
+
 </script>

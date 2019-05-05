@@ -36,8 +36,4 @@ function get_problem_solution($problem) {
     return null;
 }
 
-function fetch_problem_directory(){
-    $path = getcwd().'/problems';
-}
-
 ?>

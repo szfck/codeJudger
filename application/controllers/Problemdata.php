@@ -29,6 +29,13 @@ class Problemdata extends CI_Controller {
         echo json_encode($config_yml);
     }
 
+    public function remove_problem($problem){
+        $problem_dir = FCPATH.'/problems/'.$problem."/";
+        $deleted = delete_files($problem_dir, TRUE);
+        rmdir($problem_dir);
+        echo json_encode($deleted);
+    }
+
     public function get_problem_details(){
         $problem = $_POST['problem'];
         $value = $_POST['value'];
@@ -41,6 +48,8 @@ class Problemdata extends CI_Controller {
             redirect('problemdata/get_problem_sample_output/'.$problem);            
         }elseif ($value == "config") {
             redirect('problemdata/get_problem_config/'.$problem);            
+        }elseif ($value == "remove") {
+            redirect('problemdata/remove_problem/'.$problem);
         }
 
         echo json_encode("hello");

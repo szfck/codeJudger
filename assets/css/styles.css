@@ -103,6 +103,12 @@ float: right;
 
 .document {
   cursor: pointer;
+  text-align: center;
+}
+
+.document-remove{
+  cursor: pointer;
+  text-align: center;
 }
 
 .clicked {
@@ -120,6 +126,9 @@ float: right;
   width: -webkit-fill-available;
 }
 
+.remove-problem-glyph{
+  color: red;
+}
 /* SIdeBar For contribute page */
 .sidebar {
    margin: 0;
