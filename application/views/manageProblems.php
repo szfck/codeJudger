@@ -160,6 +160,7 @@
                 success: function(data, status, xhr) {
                     if (data) {
                         console.log("Success");
+                        console.log(data);
                         location.reload();
                     } else {
                         console.log("Failed to delete the Problem data");

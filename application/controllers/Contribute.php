@@ -12,8 +12,11 @@ class Contribute extends CI_Controller {
     
 	}
 	
-	public function index()
-	{
+	public function index(){
+		if (!$_SESSION['user_id']){
+			redirect('login');
+		}
+		
 		$data = array('content'=> array(
             'view' => 'addProblem',
         ));

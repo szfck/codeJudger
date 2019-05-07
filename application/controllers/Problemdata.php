@@ -37,8 +37,8 @@ class Problemdata extends CI_Controller {
     }
 
     public function get_problem_details(){
-        $problem = $_POST['problem'];
-        $value = $_POST['value'];
+        $problem = $this->input->post('problem');
+        $value = $this->input->post('value');
 
         if ($value == "description") {
             redirect('problemdata/get_problem_desc/'.$problem);
@@ -51,8 +51,6 @@ class Problemdata extends CI_Controller {
         }elseif ($value == "remove") {
             redirect('problemdata/remove_problem/'.$problem);
         }
-
-        echo json_encode("hello");
     }
 
 }
